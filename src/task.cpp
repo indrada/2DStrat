@@ -24,6 +24,7 @@ moveTask::moveTask(int timeToComplete, person* assignedPerson, direction directi
 
 int moveTask::doTask()
 {
+	if(assignedPerson->attributes->stamina < 1) return 0;
     switch (directionToMove)
     {
     case NORTH:

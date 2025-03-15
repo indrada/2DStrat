@@ -35,7 +35,7 @@ worldMap::worldMap(sf::RenderWindow& window, int horizontalSize, int verticalSiz
 void worldMap::getRectangles(sf::RenderWindow& win, mapMode& mode) {
     auto size = win.getView().getSize();
     float rowH = size.y / verticalSize;
-    float colW = size.x / horizontalSize;
+    float colW = size.y / horizontalSize;
     rectangles = (sf::RectangleShape*)malloc(horizontalSize * verticalSize * sizeof(sf::RectangleShape));
     for (int i = 0; i < verticalSize; i++)
     {
@@ -161,4 +161,10 @@ void worldMap::doTasks(int time)
 	}
 }
 
-
+void worldMap::updateAttributes()
+{
+	for(person * toUpdate : allPersons)
+	{
+		toUpdate->updateAttributes();
+	}
+}

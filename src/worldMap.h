@@ -37,6 +37,7 @@ public:
     float generateResourceQuantity(float abundance, bool isClustered);
 	void doTasks(int time);
     float maxResourceValue(int resourceIndex);
+	void updateAttributes();
 };
 
 class elevationMap : virtual public mapMode

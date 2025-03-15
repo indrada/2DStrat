@@ -9,6 +9,7 @@ person::person(int xPos, int yPos, worldMap * attachedMap, std::string name)
     this->xPos = xPos;
     this->yPos = yPos;
 	this->name = name;
+	this->attributes = new attribute();
 }
 void person::addTask(task * toAdd)
 {
@@ -48,4 +49,20 @@ void person::addPerson()
     attachedMap->tileAt(xPos, yPos)->personHere = this;
     attachedMap->updateRectangle(xPos, yPos);
 	attachedMap->allPersons.push_back(this);
+}
+
+void person::updateAttributes()
+{
+	attributes->stamina+=8;
+	attributes->health+=10;
+	attributes->mana+=10;
+	attributes->food-=1;
+}
+
+attribute::attribute(int health, int food, int stamina, int mana)
+{
+	this->health = health;
+	this->food = food;
+	this->stamina = stamina;
+	this->mana = mana;
 }
