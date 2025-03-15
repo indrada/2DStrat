@@ -35,6 +35,7 @@ int moveTask::doTask()
         assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
         assignedPerson->yPos--;
         assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+		assignedPerson->attributes->stamina--;
         return 1;
         break;
     case SOUTH:
@@ -45,6 +46,7 @@ int moveTask::doTask()
         assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
         assignedPerson->yPos++;
         assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+		assignedPerson->attributes->stamina--;
         return 1;
         break;
     case WEST:
@@ -55,6 +57,7 @@ int moveTask::doTask()
         assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
         assignedPerson->xPos--;
         assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+		assignedPerson->attributes->stamina--;
         return 1;
         break;
     case EAST:
@@ -65,6 +68,7 @@ int moveTask::doTask()
         assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
         assignedPerson->xPos++;
         assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+		assignedPerson->attributes->stamina--;
         return 1;
         break;
     default:

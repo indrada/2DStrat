@@ -48,7 +48,7 @@ std::string getTileString(worldMap map, tile * currentTile)
 
 std::string getInfoString(worldMap map, tile * currentTile)
 {
-	return "Hovered Tile: " + getTileString(map,currentTile);
+	return "Hovered Tile: \n" + getTileString(map,currentTile);
 }
 
 std::string getSelectedTileString(worldMap map, tile * currentTile)
@@ -87,7 +87,6 @@ int main()
     newPerson->addPerson();
 	person * person2 = new person(30,30,&myMap, "Jane Doe");
 	person2->addPerson();
-	printf("Here1");
     auto size = window.getView().getSize();
     sf::Font font("Assets/arial.ttf");
     sf::Text infoOverlay(font);
@@ -100,7 +99,6 @@ int main()
     infoOverlay.setScale({0.25f,0.25f});
     std::string infoString = "";
     infoOverlay.setString(infoString);
-	printf("Here3");
 	
     sf::Text selectedTileOverlay(font);
     selectedTileOverlay.setCharacterSize(120);
@@ -112,7 +110,6 @@ int main()
     selectedTileOverlay.setScale({0.25f,0.25f});
     std::string selectedTileString = "";
     selectedTileOverlay.setString(selectedTileString);
-	printf("Here4");
 	
 	sf::Text selectedPersonOverlay(font);
     selectedPersonOverlay.setCharacterSize(120);
@@ -124,7 +121,6 @@ int main()
     selectedPersonOverlay.setScale({0.25f,0.25f});
     std::string selectedPersonString = "";
     selectedPersonOverlay.setString(selectedPersonString);
-	printf("Here5");
 	
     tile * hoveredTile = getTileAtMousePosition(myMap, size);
     tile * selectedTile = NULL;
@@ -133,7 +129,6 @@ int main()
 	bool endingTurn = false;
     while (window.isOpen())
     {
-		printf("Here6");
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -156,7 +151,6 @@ int main()
             }
 
         }
-		printf("Here7");
         if (selectedPerson != NULL)
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
@@ -183,7 +177,7 @@ int main()
 			{
 				if(!endingTurn){
 					printf("Turn Ended, Doing Tasks...\n");
-					myMap.doTasks(5);	
+					endTurn(myMap);
 				}
 				endingTurn = true;
 			}
@@ -193,14 +187,11 @@ int main()
 			}
         }
 
-		printf("Here8");
         drawRectangles(window, myMap);
         hoveredTile = getTileAtMousePosition(myMap, size);
         infoString = getInfoString(myMap,hoveredTile);
         infoOverlay.setString(infoString);
-		printf("Here9");
 		std::string selectedTileString = getSelectedTileString(myMap,selectedTile);
-		printf("Here10");
 		selectedTileOverlay.setString(selectedTileString);
 		std::string selectedPersonString = getSelectedPersonString(selectedPerson);
 		selectedPersonOverlay.setString(selectedPersonString);

@@ -53,10 +53,10 @@ void person::addPerson()
 
 void person::updateAttributes()
 {
-	attributes->stamina+=8;
-	attributes->health+=10;
-	attributes->mana+=10;
-	attributes->food-=1;
+	attributes->stamina=std::min(attributes->stamina+8, 100);
+	attributes->health=std::min(attributes->health+10, 100);
+	attributes->mana=std::min(attributes->mana+10, 100);
+	attributes->food=std::max(attributes->food-1,0);
 }
 
 attribute::attribute(int health, int food, int stamina, int mana)
