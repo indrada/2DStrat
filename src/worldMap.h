@@ -6,6 +6,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "tile.h"
+#include <memory>
 
 class worldMap;
 
@@ -18,6 +19,7 @@ class mapMode
 
 
 class worldMap {
+
 public:
     tile* mapTiles;
     int horizontalSize;
@@ -39,6 +41,7 @@ public:
 	void doTasks(int time);
     float maxResourceValue(int resourceIndex);
 	void updateAttributes();
+
 };
 
 class elevationMap : virtual public mapMode

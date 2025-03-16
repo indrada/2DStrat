@@ -3,6 +3,10 @@
 #include <vector>
 
 
+person::person()
+{
+}
+
 person::person(int xPos, int yPos, worldMap * attachedMap, std::string name)
 {
     this->attachedMap = attachedMap;
@@ -62,7 +66,12 @@ void person::updateAttributes()
 attribute::attribute(int health, int food, int stamina, int mana)
 {
 	this->health = health;
+	maxHealth = this->health;
 	this->food = food;
 	this->stamina = stamina;
 	this->mana = mana;
+}
+
+void creature::doTurn(person* enemy, person* friendly)
+{
 }
