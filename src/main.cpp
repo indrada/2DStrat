@@ -4,6 +4,7 @@
 #include "person.h"
 #include "water.hpp"
 #include "resource.h"
+#include "buttons.h"
 #include <ctime>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
@@ -78,7 +79,7 @@ int main()
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing",sf::Style::None);
     window.setFramerateLimit(144);
     mapMode* myMapMode = new defaultMap();
-    worldMap myMap(window, 100, 100, myMapMode, 10.0f);
+    worldMap myMap(&window, 100, 100, myMapMode, 10.0f);
     rain(myMap, 0.5f);
     myMap.getRectangles(window, *myMapMode);
     Resource iron("iron", 1.0f);
@@ -88,7 +89,7 @@ int main()
 	person * person2 = new person(30,30,&myMap, "Jane Doe");
 	person2->addPerson();
     auto size = window.getView().getSize();
-    sf::Font font("Assets/arial.ttf");
+    sf::Font font("Assets/Fonts/arial.ttf");
     sf::Text infoOverlay(font);
     infoOverlay.setCharacterSize(120);
     infoOverlay.setFillColor(sf::Color::White);
@@ -121,6 +122,9 @@ int main()
     selectedPersonOverlay.setScale({0.25f,0.25f});
     std::string selectedPersonString = "";
     selectedPersonOverlay.setString(selectedPersonString);
+	
+	ButtonPanel * buttonPanel = new ButtonPanel({size.x-100,0.0f});
+	buttonPanel->addButton(new ResourceMapButton("ore.png", &window, &myMap,0));
 	
     tile * hoveredTile = getTileAtMousePosition(myMap, size);
     tile * selectedTile = NULL;
@@ -195,10 +199,10 @@ int main()
 		selectedTileOverlay.setString(selectedTileString);
 		std::string selectedPersonString = getSelectedPersonString(selectedPerson);
 		selectedPersonOverlay.setString(selectedPersonString);
-		
         window.draw(infoOverlay);
 		window.draw(selectedTileOverlay);
 		window.draw(selectedPersonOverlay);
+		buttonPanel->processButtons();
 		
         window.display();
         window.clear();

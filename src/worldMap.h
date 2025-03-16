@@ -27,8 +27,9 @@ public:
     std::vector<int> shuffledIndices;
 	std::vector<person *> allPersons;
     sf::RectangleShape* rectangles;
-	
-    worldMap(sf::RenderWindow& window, int horizontalSize, int verticalSize, mapMode* mode, float terrainElevation);
+	sf::RenderWindow *window;
+	void updateMapMode(mapMode * mode);
+    worldMap(sf::RenderWindow* window, int horizontalSize, int verticalSize, mapMode* mode, float terrainElevation);
     void generateTerrain(float terrainHeight);
     void getRectangles(sf::RenderWindow& win, mapMode& mode);
     void updateRectangle(int xPos, int yPos);
@@ -65,17 +66,17 @@ public:
 
 class resourceMap : virtual public mapMode
 {
-public:
-    int resourceIndex;
-    sf::Color getTileColor(int x, int y, worldMap toDisplay) override
-    {
-        unsigned int colorScale = (unsigned int)(127 * (1 - toDisplay.mapTiles[y * toDisplay.horizontalSize + x].resourceQuantity.at(resourceIndex) / (1 + toDisplay.maxResourceValue(resourceIndex))));
-        return sf::Color(colorScale, colorScale, colorScale);
-    }
-    resourceMap(int resourceIndex)
-    {
-        this->resourceIndex = resourceIndex;
-    }
+	public:
+		int resourceIndex;
+		sf::Color getTileColor(int x, int y, worldMap toDisplay) override
+		{
+			unsigned int colorScale = (unsigned int)(127 * (1 - toDisplay.mapTiles[y * toDisplay.horizontalSize + x].resourceQuantity.at(resourceIndex) / (1 + toDisplay.maxResourceValue(resourceIndex))));
+			return sf::Color(colorScale, colorScale, colorScale);
+		}
+		resourceMap(int resourceIndex)
+		{
+			this->resourceIndex = resourceIndex;
+		}
 };
 
 #endif

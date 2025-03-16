@@ -10,8 +10,9 @@
 #include "util.h"
 #include "person.h"
 
-worldMap::worldMap(sf::RenderWindow& window, int horizontalSize, int verticalSize,  mapMode* mode,float terrainElevation = 5.0f)
+worldMap::worldMap(sf::RenderWindow* window, int horizontalSize, int verticalSize,  mapMode* mode,float terrainElevation = 5.0f)
 {
+	this->window = window;
     this->mode = mode;
     this->mapTiles = (tile*)malloc(horizontalSize * verticalSize * sizeof(tile));
     for (int i = 0; i < verticalSize * horizontalSize; i++)
@@ -27,7 +28,7 @@ worldMap::worldMap(sf::RenderWindow& window, int horizontalSize, int verticalSiz
         mapTiles[i].waterLevel = mapTiles[i].elevation;
         shuffledIndices.push_back(i);
     }
-    getRectangles(window, *mode);
+    getRectangles(*window, *mode);
 	auto cmp = [](person * left, person * right) { if(left->tasks.empty()) return true; if(right->tasks.empty()) return false; return (left->tasks.front()->timeToComplete) > (right->tasks.front()->timeToComplete); };
     std::priority_queue<person *, std::vector<person *>, decltype(cmp)> allPersons(cmp);
 }
@@ -167,4 +168,10 @@ void worldMap::updateAttributes()
 	{
 		toUpdate->updateAttributes();
 	}
+}
+
+void worldMap::updateMapMode(mapMode * mode)
+{
+	this->mode = mode;
+	getRectangles(*window,*mode);
 }
