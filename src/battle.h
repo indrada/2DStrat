@@ -1,0 +1,1 @@
+int doBattle(worldMap map, person * person1, person * person2);
