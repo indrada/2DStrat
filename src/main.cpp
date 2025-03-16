@@ -54,7 +54,7 @@ std::string getInfoString(worldMap map, tile * currentTile)
 
 std::string getSelectedTileString(worldMap map, tile * currentTile)
 {
-	if(currentTile == NULL) return std::string("No Tile Selected");
+	if(currentTile == nullptr) return std::string("No Tile Selected");
 	return "Selected Tile: \n" + getTileString(map,currentTile);
 }
 
@@ -63,7 +63,7 @@ std::string getSelectedTileString(worldMap map, tile * currentTile)
 
 std::string getSelectedPersonString(person * selectedPerson)
 {
-	if(selectedPerson == NULL) return (std::string) "No Person Selected";
+	if(selectedPerson == nullptr) return (std::string) "No Person Selected";
 	return "Selected Person:\nName: " + selectedPerson->name + "\nHealth: " + std::to_string(selectedPerson->attributes->health)+ "\nMana: " + std::to_string(selectedPerson->attributes->mana)+ "\nStamina: " + std::to_string(selectedPerson->attributes->stamina)+ "\nFood: " + std::to_string(selectedPerson->attributes->food);
 }
 
@@ -127,9 +127,9 @@ int main()
 	buttonPanel->addButton(new ResourceMapButton("ore.png", &window, &myMap,0));
 	
     tile * hoveredTile = getTileAtMousePosition(myMap, size);
-    tile * selectedTile = NULL;
-    person* selectedPerson = NULL;
-    moveTask * taskToAdd=NULL;
+    tile * selectedTile = nullptr;
+    person* selectedPerson = nullptr;
+    moveTask * taskToAdd=nullptr;
 	bool endingTurn = false;
     while (window.isOpen())
     {
@@ -143,7 +143,7 @@ int main()
                 if (event->getIf< sf::Event::MouseButtonPressed>()->button == sf::Mouse::Button::Left) {
                     selectedTile = getTileAtMousePosition(myMap, size);
                     selectedPerson = selectedTile->personHere;
-					if(selectedPerson == NULL)
+					if(selectedPerson == nullptr)
 					{
 						printf("Selected Tile at %d, %d\n", selectedTile->xPos, selectedTile->yPos);  
 					}
@@ -155,7 +155,7 @@ int main()
             }
 
         }
-        if (selectedPerson != NULL)
+        if (selectedPerson != nullptr)
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
             {
