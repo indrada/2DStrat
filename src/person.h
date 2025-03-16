@@ -8,11 +8,11 @@
 
 
 
-
 class attribute
 {
     public:
         int health;
+        int maxHealth;
 		int food;
 		int stamina;
 		int mana;
