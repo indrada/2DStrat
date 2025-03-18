@@ -6,6 +6,8 @@
 #include <random>
 #include <algorithm>
 #include <SFML/graphics.hpp>
+#include <SFML/Graphics/PrimitiveType.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
 #include "worldMap.h"
 #include "util.h"
 #include "person.h"
@@ -21,6 +23,7 @@ worldMap::worldMap(sf::RenderWindow* window, int horizontalSize, int verticalSiz
     }
     this->horizontalSize = horizontalSize;
     this->verticalSize = verticalSize;
+	(this->triangles) = sf::VertexArray(sf::PrimitiveType::Triangles, 6*verticalSize*horizontalSize);
     generateTerrain(terrainElevation);
     resourceNames = {};
     for (int i = 0; i < verticalSize * horizontalSize; i++)
@@ -174,4 +177,30 @@ void worldMap::updateMapMode(mapMode * mode)
 {
 	this->mode = mode;
 	getRectangles(*window,*mode);
+}
+
+void worldMap::generateVertexArray()
+{
+	
+    auto size = window->getView().getSize();
+    float rowH = size.y / verticalSize;
+    float colW = size.y / horizontalSize;
+	for(int i = 0; i < verticalSize; i++)
+	{
+		for(int j = 0; j < horizontalSize; j++)
+		{
+			triangles[6*(horizontalSize*i+j)].position=sf::Vector2f({colW*j,rowH*i});
+			triangles[6*(horizontalSize*i+j)+1].position=sf::Vector2f({colW*j+colW,rowH*i});
+			triangles[6*(horizontalSize*i+j)+2].position=sf::Vector2f({colW*j,rowH*i+rowH});
+			triangles[6*(horizontalSize*i+j)+3].position=sf::Vector2f({colW*j+colW,rowH*i});
+			triangles[6*(horizontalSize*i+j)+4].position=sf::Vector2f({colW*j,rowH*i+rowH});
+			triangles[6*(horizontalSize*i+j)+5].position=sf::Vector2f({colW*j+colW,rowH*i+rowH});
+			triangles[6*(horizontalSize*i+j)].color=triangles[6*(horizontalSize*i+j)+1].color=triangles[6*(horizontalSize*i+j)+2].color=triangles[6*(horizontalSize*i+j)+3].color=triangles[6*(horizontalSize*i+j)+4].color=triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);
+		}
+	}
+}
+
+void worldMap::updateTileRender(int j, int i)
+{
+	triangles[6*(horizontalSize*i+j)].color=triangles[6*(horizontalSize*i+j)+1].color=triangles[6*(horizontalSize*i+j)+2].color=triangles[6*(horizontalSize*i+j)+3].color=triangles[6*(horizontalSize*i+j)+4].color=triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);	
 }

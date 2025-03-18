@@ -28,6 +28,9 @@ public:
 	std::vector<person *> allPersons;
     sf::RectangleShape* rectangles;
 	sf::RenderWindow *window;
+	sf::VertexArray triangles;
+	void generateVertexArray();
+	void updateTileRender(int x, int y);
 	void updateMapMode(mapMode * mode);
     worldMap(sf::RenderWindow* window, int horizontalSize, int verticalSize, mapMode* mode, float terrainElevation);
     void generateTerrain(float terrainHeight);

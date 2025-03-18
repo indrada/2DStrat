@@ -79,15 +79,15 @@ int main()
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing",sf::Style::None);
     window.setFramerateLimit(144);
     mapMode* myMapMode = new defaultMap();
-    worldMap myMap(&window, 100, 100, myMapMode, 10.0f);
+    worldMap myMap(&window, 100, 120, myMapMode, 10.0f);
     rain(myMap, 0.5f);
-    myMap.getRectangles(window, *myMapMode);
     Resource iron("iron", 1.0f);
     iron.registerResource(&myMap);
-    person * newPerson= new person(20, 20, &myMap);
+    person * newPerson= new person(5, 5, &myMap);
     newPerson->addPerson();
-	person * person2 = new person(30,30,&myMap, "Jane Doe");
+	person * person2 = new person(5,5,&myMap, "Jane Doe");
 	person2->addPerson();
+    myMap.generateVertexArray();
     auto size = window.getView().getSize();
     sf::Font font("Assets/Fonts/arial.ttf");
     sf::Text infoOverlay(font);
@@ -191,7 +191,6 @@ int main()
 			}
         }
 
-        drawRectangles(window, myMap);
         hoveredTile = getTileAtMousePosition(myMap, size);
         infoString = getInfoString(myMap,hoveredTile);
         infoOverlay.setString(infoString);
@@ -202,6 +201,7 @@ int main()
         window.draw(infoOverlay);
 		window.draw(selectedTileOverlay);
 		window.draw(selectedPersonOverlay);
+		window.draw(myMap.triangles);
 		buttonPanel->processButtons();
 		
         window.display();

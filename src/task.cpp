@@ -32,9 +32,9 @@ int moveTask::doTask()
         if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere != NULL) return 0;
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere = assignedPerson;
-        assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
         assignedPerson->yPos--;
-        assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
 		assignedPerson->attributes->stamina--;
         return 1;
         break;
@@ -43,9 +43,9 @@ int moveTask::doTask()
         if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere != NULL) return 0;
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere = assignedPerson;
-        assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
         assignedPerson->yPos++;
-        assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
 		assignedPerson->attributes->stamina--;
         return 1;
         break;
@@ -54,9 +54,9 @@ int moveTask::doTask()
         if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere != NULL) return 0;
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere = assignedPerson;
-        assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
         assignedPerson->xPos--;
-        assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
 		assignedPerson->attributes->stamina--;
         return 1;
         break;
@@ -65,9 +65,9 @@ int moveTask::doTask()
         if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere != NULL) return 0;
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere = assignedPerson;
-        assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
         assignedPerson->xPos++;
-        assignedPerson->attachedMap->updateRectangle(assignedPerson->xPos, assignedPerson->yPos);
+        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
 		assignedPerson->attributes->stamina--;
         return 1;
         break;

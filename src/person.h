@@ -34,6 +34,7 @@ class person {
     public:
         int xPos;
         int yPos;
+		bool isFriendly;
         std::deque<task*> tasks;
         worldMap* attachedMap;
 		std::string name;
