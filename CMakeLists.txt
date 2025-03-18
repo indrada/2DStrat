@@ -13,7 +13,23 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp src/tile.cpp src/worldMap.cpp src/task.cpp src/person.cpp src/resource.cpp src/util.cpp src/buttons.cpp src/battle.cpp)
+set (SOURCE
+
+    src/main.cpp         
+    src/tile.cpp
+    src/worldMap.cpp
+    src/task.cpp
+    src/person.cpp
+    src/resource.cpp
+    src/util.cpp
+    src/buttons.cpp
+    src/battle.cpp
+
+    src/components.h
+
+)
+
+add_executable(main ${SOURCE})
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
 
