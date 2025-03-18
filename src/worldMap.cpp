@@ -176,7 +176,7 @@ void worldMap::updateAttributes()
 void worldMap::updateMapMode(mapMode * mode)
 {
 	this->mode = mode;
-	getRectangles(*window,*mode);
+	generateVertexArray();
 }
 
 void worldMap::generateVertexArray()
