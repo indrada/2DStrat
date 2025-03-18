@@ -5,6 +5,8 @@
 #include "water.hpp"
 #include "resource.h"
 #include "buttons.h"
+#include "battle.h"
+
 #include <ctime>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
@@ -54,7 +56,7 @@ std::string getInfoString(worldMap map, tile * currentTile)
 
 std::string getSelectedTileString(worldMap map, tile * currentTile)
 {
-	if(currentTile == NULL) return std::string("No Tile Selected");
+	if(currentTile == nullptr) return std::string("No Tile Selected");
 	return "Selected Tile: \n" + getTileString(map,currentTile);
 }
 
@@ -63,7 +65,7 @@ std::string getSelectedTileString(worldMap map, tile * currentTile)
 
 std::string getSelectedPersonString(person * selectedPerson)
 {
-	if(selectedPerson == NULL) return (std::string) "No Person Selected";
+	if(selectedPerson == nullptr) return (std::string) "No Person Selected";
 	return "Selected Person:\nName: " + selectedPerson->name + "\nHealth: " + std::to_string(selectedPerson->attributes->health)+ "\nMana: " + std::to_string(selectedPerson->attributes->mana)+ "\nStamina: " + std::to_string(selectedPerson->attributes->stamina)+ "\nFood: " + std::to_string(selectedPerson->attributes->food);
 }
 
@@ -76,7 +78,7 @@ void endTurn(worldMap map)
 int main()
 {
     srand(time(0));
-    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing",sf::Style::None);
+    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing",sf::State::Windowed);
     window.setFramerateLimit(144);
     mapMode* myMapMode = new defaultMap();
     worldMap myMap(&window, 100, 120, myMapMode, 10.0f);
@@ -127,10 +129,11 @@ int main()
 	buttonPanel->addButton(new ResourceMapButton("ore.png", &window, &myMap,0));
 	
     tile * hoveredTile = getTileAtMousePosition(myMap, size);
-    tile * selectedTile = NULL;
-    person* selectedPerson = NULL;
-    moveTask * taskToAdd=NULL;
+    tile * selectedTile = nullptr;
+    person* selectedPerson = nullptr;
+    moveTask * taskToAdd=nullptr;
 	bool endingTurn = false;
+
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -139,23 +142,34 @@ int main()
             {
                 window.close();
             }
-            if (event->is<sf::Event::MouseButtonPressed>()) {
-                if (event->getIf< sf::Event::MouseButtonPressed>()->button == sf::Mouse::Button::Left) {
+            if (event->is<sf::Event::MouseButtonPressed>())
+            {
+                if (event->getIf< sf::Event::MouseButtonPressed>()->button == sf::Mouse::Button::Left)
+                {
                     selectedTile = getTileAtMousePosition(myMap, size);
                     selectedPerson = selectedTile->personHere;
-					if(selectedPerson == NULL)
-					{
-						printf("Selected Tile at %d, %d\n", selectedTile->xPos, selectedTile->yPos);  
-					}
-					else
-					{
-						printf(("Selected " + selectedPerson->name + "\n").c_str());
-					}
+                    if (selectedPerson == nullptr)
+                    {
+                        printf("Selected Tile at %d, %d\n", selectedTile->xPos, selectedTile->yPos);
+                    }
+                    else
+                    {
+                        printf(("Selected " + selectedPerson->name + "\n").c_str());
+                    }
                 }
             }
 
+            else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+            {
+                if (keyPressed->scancode == sf::Keyboard::Scancode::F)
+                {
+
+                    BattleWindow BattleWindow{newPerson, person2};
+                    
+                }
+            }
         }
-        if (selectedPerson != NULL)
+        if (selectedPerson != nullptr)
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
             {
@@ -179,7 +193,8 @@ int main()
             }
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
 			{
-				if(!endingTurn){
+				if(!endingTurn)
+                {
 					printf("Turn Ended, Doing Tasks...\n");
 					endTurn(myMap);
 				}
