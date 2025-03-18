@@ -55,6 +55,15 @@ void person::addPerson()
 	attachedMap->allPersons.push_back(this);
 }
 
+//for testing
+void person::addCreature()
+{
+	auto creature = std::make_shared<Vampire>("Vampire");
+	creature->addComponent<CStats>(100, 15, 25);
+
+	creatureList.push_back(creature);
+}
+
 void person::updateAttributes()
 {
 	attributes->stamina=std::min(attributes->stamina+8, 100);
@@ -72,6 +81,12 @@ attribute::attribute(int health, int food, int stamina, int mana)
 	this->mana = mana;
 }
 
-void creature::doTurn(person* enemy, person* friendly)
+
+Vampire::Vampire(std::string name)
+	:Creature(name)
+{}
+
+void Vampire::doTurn(person * enemy, person * friendly)
 {
+	//do stuff
 }

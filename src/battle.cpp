@@ -5,7 +5,7 @@ void BattleWindow::initWindow()
 	m_vidMode = sf::VideoMode::getFullscreenModes()[0];
 	m_window = std::make_shared<sf::RenderWindow>(m_vidMode, "Battle window", sf::State::Windowed);
 
-	m_window->setFramerateLimit(15);
+	m_window->setFramerateLimit(60);
 }
 
 void BattleWindow::initBaseScene()
@@ -67,16 +67,20 @@ void BattleWindow::initText()
 	}
 
 	playerInfoText = std::make_shared<sf::Text>(mainFont);
-	info = "PLayer creature info:\n\nHP: " + std::to_string(entity1->attributes->health) +
-		"\n\nMana: " + std::to_string(entity1->attributes->mana);
+	info = entity1->creatureList[0]->m_name + ", Level " +
+		std::to_string(entity1->creatureList[0]->getComponent<CStats>().m_level) + "\n\nHP: " +
+		std::to_string(entity1->creatureList[0]->getComponent<CStats>().m_hp) +
+		"\n\nMana: " + std::to_string(entity1->creatureList[0]->getComponent<CStats>().m_mana);
 	playerInfoText->setString(info);
 	playerInfoText->setCharacterSize(36);
 
 	textHUD.push_back(playerInfoText);
 
 	enemyInfoText = std::make_shared<sf::Text>(mainFont);
-	info = "Enemy creature info:\n\nHP: " + std::to_string(entity2->attributes->health) +
-		"\n\nMana: " + std::to_string(entity2->attributes->mana);
+	info = entity2->creatureList[0]->m_name + ", Level " +
+		std::to_string(entity2->creatureList[0]->getComponent<CStats>().m_level) + "\n\nHP: " +
+		std::to_string(entity2->creatureList[0]->getComponent<CStats>().m_hp) +
+		"\n\nMana: " + std::to_string(entity2->creatureList[0]->getComponent<CStats>().m_mana);
 	enemyInfoText->setString(info);
 	enemyInfoText->setCharacterSize(36);
 
@@ -124,13 +128,14 @@ void BattleWindow::update()
 void BattleWindow::updateHp()
 {
 	
-	entity1->attributes->health -= 1;
-	if (entity1->attributes->health <= 0)
+	entity1->creatureList[0]->getComponent<CStats>().m_hp -= 1;
+	if (entity1->creatureList[0]->getComponent<CStats>().m_hp <= 0)
 	{
-		entity1->attributes->health = 0;
+		entity1->creatureList[0]->getComponent<CStats>().m_hp = 0;
 	}
 
-	playerHpRect->setSize(sf::Vector2f{ maxHpRectXSize * static_cast<float>(entity1->attributes->health) / static_cast<float>(entity1->attributes->maxHealth),
+	playerHpRect->setSize(sf::Vector2f{ maxHpRectXSize * static_cast<float>(entity1->creatureList[0]->getComponent<CStats>().m_hp)/
+		static_cast<float>(entity1->creatureList[0]->getComponent<CStats>().maxHp),
 		playerHpRect->getSize().y });
 
 }

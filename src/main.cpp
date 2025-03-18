@@ -85,10 +85,15 @@ int main()
     rain(myMap, 0.5f);
     Resource iron("iron", 1.0f);
     iron.registerResource(&myMap);
+
     person * newPerson= new person(5, 5, &myMap);
     newPerson->addPerson();
+    newPerson->addCreature();
+
 	person * person2 = new person(5,5,&myMap, "Jane Doe");
 	person2->addPerson();
+    person2->addCreature();
+
     myMap.generateVertexArray();
     auto size = window.getView().getSize();
     sf::Font font("Assets/Fonts/arial.ttf");
