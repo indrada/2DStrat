@@ -78,7 +78,7 @@ void endTurn(worldMap map)
 int main()
 {
     srand(time(0));
-    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing",sf::State::Windowed);
+    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing",sf::State::Fullscreen);
     window.setFramerateLimit(144);
     mapMode* myMapMode = new defaultMap();
     worldMap myMap(&window, 100, 120, myMapMode, 10.0f);
