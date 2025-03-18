@@ -167,44 +167,47 @@ int main()
                     BattleWindow BattleWindow{newPerson, person2};
                     
                 }
-            }
-        }
-        if (selectedPerson != nullptr)
-        {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
-            {
-				taskToAdd = new moveTask(1, selectedPerson, WEST);
-                selectedPerson->addTask(taskToAdd);
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-            {
-				taskToAdd = new moveTask(1, selectedPerson, EAST);
-                selectedPerson->addTask(taskToAdd);
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-            {
-				taskToAdd = new moveTask(1, selectedPerson, NORTH);
-                selectedPerson->addTask(taskToAdd);
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-            {
-				taskToAdd = new moveTask(1, selectedPerson, SOUTH);
-                selectedPerson->addTask(taskToAdd);
-            }
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
-			{
-				if(!endingTurn)
-                {
-					printf("Turn Ended, Doing Tasks...\n");
-					endTurn(myMap);
+				if (selectedPerson != nullptr)
+				{
+					if (keyPressed->scancode == sf::Keyboard::Scancode::Left)
+					{
+						taskToAdd = new moveTask(1, selectedPerson, WEST);
+						selectedPerson->addTask(taskToAdd);
+					}
+					if (keyPressed->scancode == sf::Keyboard::Scancode::Right)
+					{
+						taskToAdd = new moveTask(1, selectedPerson, EAST);
+						selectedPerson->addTask(taskToAdd);
+					}
+					if (keyPressed->scancode == sf::Keyboard::Scancode::Up)
+					{
+						taskToAdd = new moveTask(1, selectedPerson, NORTH);
+						selectedPerson->addTask(taskToAdd);
+					}
+					if (keyPressed->scancode == sf::Keyboard::Scancode::Down)
+					{
+						taskToAdd = new moveTask(1, selectedPerson, SOUTH);
+						selectedPerson->addTask(taskToAdd);
+					}
 				}
-				endingTurn = true;
-			}
-			else
-			{
-				endingTurn = false;
-			}
+            }
+			
         }
+        
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
+		{
+			if(!endingTurn)
+			{
+				printf("Turn Ended, Doing Tasks...\n");
+				endTurn(myMap);
+			}
+			endingTurn = true;
+		}
+		else
+		{
+			endingTurn = false;
+		}
+        
 
         hoveredTile = getTileAtMousePosition(myMap, size);
         infoString = getInfoString(myMap,hoveredTile);
