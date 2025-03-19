@@ -54,8 +54,6 @@ std::string worldMapScene::getSelectedTileString(worldMap map, tile * currentTil
 }
 
 
-
-
 std::string worldMapScene::getSelectedPersonString(person * selectedPerson)
 {
 	if(selectedPerson == nullptr) return (std::string) "No Person Selected";
@@ -220,7 +218,33 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
 	endingTurn = false;
 	printf("Here4");
 }
-        
-		
+    
 
 
+// Battle scene 
+
+BattleScene::BattleScene(sf::RenderWindow* window, person* entity1, person* entity2 )
+{
+
+	m_window = window;
+
+	m_BattleCore = std::make_shared<BattleCore>(window, entity1, entity2);
+
+}
+
+void BattleScene::handleEvent(sf::Event evt)
+{
+	// need to create handle function in battle core
+	m_BattleCore->handleEvents(evt);
+}
+
+void BattleScene::renderFrame()
+{
+	m_BattleCore->render();
+
+}
+
+void BattleScene::updateScene()
+{
+
+}

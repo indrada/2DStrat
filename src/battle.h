@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-class BattleWindow
+class BattleCore
 {
 private:
 
@@ -16,12 +16,11 @@ private:
 	std::shared_ptr<sf::RectangleShape> enemyHero;
 	std::shared_ptr<sf::RectangleShape> enemyInfoPanel;
 
+	sf::RenderWindow* m_window;
+
 	sf::Font mainFont;
 	std::shared_ptr<sf::Text> playerInfoText;
 	std::shared_ptr<sf::Text> enemyInfoText;
-
-	std::shared_ptr<sf::RenderWindow> m_window;
-	sf::VideoMode m_vidMode;
 
 	std::vector<std::shared_ptr<sf::RectangleShape>> battleHUD;
 	std::vector<std::shared_ptr<sf::Text>> textHUD;
@@ -29,18 +28,18 @@ private:
 	person* entity1;
 	person* entity2;
 
-	void initWindow();
 	void initBaseScene();
 	void initText();
 
-	void update();
 	void updateHp();
-
-	void render();
 
 public:
 
-	BattleWindow(person* person1, person* person2);
+	BattleCore(sf::RenderWindow* window, person* person1, person* person2);
 
+	void update();
 
+	void render();
+
+	void handleEvents(sf::Event evt);
 };
