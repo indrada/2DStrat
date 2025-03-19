@@ -13,26 +13,34 @@ ButtonPanel::ButtonPanel(sf::Vector2<float> position) : position(position)
 	
 }
 
-void ButtonPanel::processButtons()
+void ButtonPanel::processButtons(sf::Vector2i mouse_pos)
 {
+	printf("ButtonList Size in processButtons = %d",buttonList.size());
 	for(Button * button : buttonList)
 	{
-		auto mouse_pos = sf::Mouse::getPosition(*(button->window));
 		if(button->sprite->getGlobalBounds().contains(sf::Vector2<float>((float)mouse_pos.x,(float)mouse_pos.y)))
 		{
 			printf("Here");
 			button->process();
 		}
+	}
+}
+
+void ButtonPanel::renderButtons()
+{
+	for(Button * button : buttonList)
+	{
 		button->window->draw(*(button->sprite));
 	}
 }
 
 void ButtonPanel::addButton(Button * button)
 {
+	printf("ButtonList Size = %d\n", buttonList.size());
 	button->position = {position.x,position.y+100*buttonList.size()};
-	buttonList.push_back(button);
 	button->sprite->setPosition(button->position);
-	printf("Button Position is %f, %f\n",buttonList.front()->sprite->getPosition().x,buttonList.front()->sprite->getPosition().y);
+	buttonList.push_back(button);
+	printf("Button Position is %f, %f\n",buttonList.back()->sprite->getPosition().x,buttonList.back()->sprite->getPosition().y);
 }
 
 
@@ -48,21 +56,15 @@ Button::Button(std::string fileName, sf::RenderWindow * window)
 	sprite = new sf::Sprite(*texture);
 }
 
-ElevationMapButton::ElevationMapButton(std::string fileName, sf::RenderWindow * window, worldMap * map) : Button(fileName, window)
-{
-	this->map = map;
-}
-void ElevationMapButton::process()
-{
-	map->updateMapMode(new defaultMap());
-}
 
-ResourceMapButton::ResourceMapButton(std::string fileName, sf::RenderWindow * window, worldMap * map, int resourceIndex) : Button(fileName, window)
+
+MapButton::MapButton(std::string fileName, sf::RenderWindow * window, worldMap * map, mapMode * mode) : Button(fileName, window)
 {
 	this->map = map;
 	this->resourceIndex = resourceIndex;
+	this->mode = mode;
 }
-void ResourceMapButton::process()
+void MapButton::process()
 {
-	map->updateMapMode(new resourceMap(resourceIndex));
+	map->updateMapMode(mode);
 }

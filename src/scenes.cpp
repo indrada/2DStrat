@@ -70,6 +70,13 @@ void worldMapScene::endTurn(worldMap *map)
 
 void worldMapScene::handleEvent(sf::Event event)
 {
+	if (const auto* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>())
+	{
+		if (mouseButtonPressed->button == sf::Mouse::Button::Left)
+		{
+			buttonPanel->processButtons(mouseButtonPressed->position);
+		}
+	}
 	if (event.is<sf::Event::Closed>())
 	{
 		window->close();
@@ -143,27 +150,31 @@ void worldMapScene::renderFrame()
 	window->draw(*infoOverlay);
 	window->draw(*selectedTileOverlay);
 	window->draw(*selectedPersonOverlay);
-	window->draw(map->triangles);
-	buttonPanel->processButtons();
-	
+	window->draw(map->mode->triangles);
+	buttonPanel->renderButtons();
 	window->display();
 	window->clear();
 }
 
 worldMapScene::worldMapScene(sf::RenderWindow * window)
 {	
+	printf("Here0");
     srand(time(0));	
 	this->window = window;
-    mapMode* myMapMode = new defaultMap();
-    map = new worldMap(window, 100, 120, myMapMode, 10.0f);	
+    mapMode* defaultMapMode = new defaultMap();
+    map = new worldMap(window, 100, 120, defaultMapMode, 10.0f);
     rain(*map, 0.5f);
     Resource iron("iron", 1.0f);
     iron.registerResource(map);	
     person * newPerson= new person(5, 5, map);
     newPerson->addPerson();
 	person * person2 = new person(5,5,map, "Jane Doe");
-	person2->addPerson();	
-    map->generateVertexArray();
+	person2->addPerson();
+	printf("Here2");
+	mapMode * resourceMapMode = new resourceMap(map,0);
+	printf("Here3");
+	defaultMapMode->generateVertexArray();
+	resourceMapMode->generateVertexArray();	
     size = window->getView().getSize();	
     font = new sf::Font("Assets/Fonts/arial.ttf");
     infoOverlay = new sf::Text(*font);
@@ -200,12 +211,14 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
     selectedPersonOverlay->setString(selectedPersonString);	
 	
 	buttonPanel = new ButtonPanel({size.x-100,0.0f});
-	buttonPanel->addButton(new ResourceMapButton("ore.png", window, map,0));
+	buttonPanel->addButton(new MapButton("ore.png", window, map,resourceMapMode));
+	buttonPanel->addButton(new MapButton("move.png", window, map,defaultMapMode));
 	hoveredTile = getTileAtMousePosition(*map, size);
     selectedTile = nullptr;
     selectedPerson = nullptr;
     taskToAdd=nullptr;
 	endingTurn = false;
+	printf("Here4");
 }
         
 		

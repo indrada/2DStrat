@@ -25,23 +25,18 @@ class ButtonPanel
 		ButtonPanel();
 		ButtonPanel(sf::Vector2<float> position);
 		void addButton(Button * button);
-		void processButtons();
+		void processButtons(sf::Vector2i mouse_pos);
+		void renderButtons();
 };
 
-class ElevationMapButton : virtual public Button
+
+class MapButton : virtual public Button
 {
 	public:
 		worldMap * map;
-		ElevationMapButton(std::string fileName, sf::RenderWindow * window, worldMap * map);
-		void process() override;
-};
-
-class ResourceMapButton : virtual public Button
-{
-	public:
-		worldMap * map;
+		mapMode * mode;
 		int resourceIndex;
-		ResourceMapButton(std::string fileName, sf::RenderWindow * window, worldMap * map, int resourceIndex);
+		MapButton(std::string fileName, sf::RenderWindow * window, worldMap * map, mapMode * mode);
 		void process() override;
 };
 

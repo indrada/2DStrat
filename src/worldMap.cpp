@@ -23,7 +23,8 @@ worldMap::worldMap(sf::RenderWindow* window, int horizontalSize, int verticalSiz
     }
     this->horizontalSize = horizontalSize;
     this->verticalSize = verticalSize;
-	(this->triangles) = sf::VertexArray(sf::PrimitiveType::Triangles, 6*verticalSize*horizontalSize);
+	(this->mode->map) = this;
+	this->mode->triangles = sf::VertexArray(sf::PrimitiveType::Triangles, 6*verticalSize*horizontalSize);
     generateTerrain(terrainElevation);
     resourceNames = {};
     for (int i = 0; i < verticalSize * horizontalSize; i++)
@@ -176,31 +177,31 @@ void worldMap::updateAttributes()
 void worldMap::updateMapMode(mapMode * mode)
 {
 	this->mode = mode;
-	generateVertexArray();
+	mode->generateVertexArray();
 }
 
-void worldMap::generateVertexArray()
+void mapMode::generateVertexArray()
 {
 	
-    auto size = window->getView().getSize();
-    float rowH = size.y / verticalSize;
-    float colW = size.y / horizontalSize;
-	for(int i = 0; i < verticalSize; i++)
+    auto size = map->window->getView().getSize();
+    float rowH = size.y / map->verticalSize;
+    float colW = size.y / map->horizontalSize;
+	for(int i = 0; i < map->verticalSize; i++)
 	{
-		for(int j = 0; j < horizontalSize; j++)
+		for(int j = 0; j < map->horizontalSize; j++)
 		{
-			triangles[6*(horizontalSize*i+j)].position=sf::Vector2f({colW*j,rowH*i});
-			triangles[6*(horizontalSize*i+j)+1].position=sf::Vector2f({colW*j+colW,rowH*i});
-			triangles[6*(horizontalSize*i+j)+2].position=sf::Vector2f({colW*j,rowH*i+rowH});
-			triangles[6*(horizontalSize*i+j)+3].position=sf::Vector2f({colW*j+colW,rowH*i});
-			triangles[6*(horizontalSize*i+j)+4].position=sf::Vector2f({colW*j,rowH*i+rowH});
-			triangles[6*(horizontalSize*i+j)+5].position=sf::Vector2f({colW*j+colW,rowH*i+rowH});
-			triangles[6*(horizontalSize*i+j)].color=triangles[6*(horizontalSize*i+j)+1].color=triangles[6*(horizontalSize*i+j)+2].color=triangles[6*(horizontalSize*i+j)+3].color=triangles[6*(horizontalSize*i+j)+4].color=triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);
+			triangles[6*(map->horizontalSize*i+j)].position=sf::Vector2f({colW*j,rowH*i});
+			triangles[6*(map->horizontalSize*i+j)+1].position=sf::Vector2f({colW*j+colW,rowH*i});
+			triangles[6*(map->horizontalSize*i+j)+2].position=sf::Vector2f({colW*j,rowH*i+rowH});
+			triangles[6*(map->horizontalSize*i+j)+3].position=sf::Vector2f({colW*j+colW,rowH*i});
+			triangles[6*(map->horizontalSize*i+j)+4].position=sf::Vector2f({colW*j,rowH*i+rowH});
+			triangles[6*(map->horizontalSize*i+j)+5].position=sf::Vector2f({colW*j+colW,rowH*i+rowH});
+			triangles[6*(map->horizontalSize*i+j)].color=triangles[6*(map->horizontalSize*i+j)+1].color=triangles[6*(map->horizontalSize*i+j)+2].color=triangles[6*(map->horizontalSize*i+j)+3].color=triangles[6*(map->horizontalSize*i+j)+4].color=triangles[6*(map->horizontalSize*i+j)+5].color = getTileColor(j,i,*map);
 		}
 	}
 }
 
 void worldMap::updateTileRender(int j, int i)
 {
-	triangles[6*(horizontalSize*i+j)].color=triangles[6*(horizontalSize*i+j)+1].color=triangles[6*(horizontalSize*i+j)+2].color=triangles[6*(horizontalSize*i+j)+3].color=triangles[6*(horizontalSize*i+j)+4].color=triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);	
+	mode->triangles[6*(horizontalSize*i+j)].color=mode->triangles[6*(horizontalSize*i+j)+1].color=mode->triangles[6*(horizontalSize*i+j)+2].color=mode->triangles[6*(horizontalSize*i+j)+3].color=mode->triangles[6*(horizontalSize*i+j)+4].color=mode->triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);	
 }

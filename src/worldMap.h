@@ -15,6 +15,9 @@ class mapMode
 {
     public:
         virtual sf::Color getTileColor(int x, int y, worldMap toDisplay) = 0;
+		void generateVertexArray();
+		worldMap * map;
+		sf::VertexArray triangles;
 };
 
 
@@ -30,8 +33,6 @@ public:
 	std::vector<person *> allPersons;
     sf::RectangleShape* rectangles;
 	sf::RenderWindow *window;
-	sf::VertexArray triangles;
-	void generateVertexArray();
 	void updateTileRender(int x, int y);
 	void updateMapMode(mapMode * mode);
     worldMap(sf::RenderWindow* window, int horizontalSize, int verticalSize, mapMode* mode, float terrainElevation);
@@ -79,9 +80,11 @@ class resourceMap : virtual public mapMode
 			unsigned int colorScale = (unsigned int)(127 * (1 - toDisplay.mapTiles[y * toDisplay.horizontalSize + x].resourceQuantity.at(resourceIndex) / (1 + toDisplay.maxResourceValue(resourceIndex))));
 			return sf::Color(colorScale, colorScale, colorScale);
 		}
-		resourceMap(int resourceIndex)
+		resourceMap(worldMap * map, int resourceIndex)
 		{
 			this->resourceIndex = resourceIndex;
+			this->map = map;
+			triangles = sf::VertexArray(sf::PrimitiveType::Triangles, 6*map->verticalSize*map->horizontalSize);
 		}
 };
 
