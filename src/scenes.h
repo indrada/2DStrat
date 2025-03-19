@@ -52,4 +52,24 @@ class worldMapScene : virtual public Scene
 		void endTurn(worldMap *map);
 };
 
+class BattleScene
+{
+
+private:
+
+	sf::RenderWindow* m_window;
+
+	std::shared_ptr<BattleCore> m_BattleCore;
+
+public:
+
+	BattleScene(sf::RenderWindow* window, person*, person*);
+
+	void handleEvent(sf::Event);
+
+	void renderFrame();
+	void updateScene();
+};
+
+
 #endif

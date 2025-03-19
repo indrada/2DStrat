@@ -1,14 +1,6 @@
 #include "battle.h"
 
-void BattleWindow::initWindow()
-{
-	m_vidMode = sf::VideoMode::getFullscreenModes()[0];
-	m_window = std::make_shared<sf::RenderWindow>(m_vidMode, "Battle window", sf::State::Windowed);
-
-	m_window->setFramerateLimit(60);
-}
-
-void BattleWindow::initBaseScene()
+void BattleCore::initBaseScene()
 {
 	
 	//change it to player and enemy sprites then
@@ -57,7 +49,7 @@ void BattleWindow::initBaseScene()
 
 }
 
-void BattleWindow::initText()
+void BattleCore::initText()
 {
 	std::string info;
 
@@ -88,7 +80,7 @@ void BattleWindow::initText()
 
 }
 
-void BattleWindow::render()
+void BattleCore::render()
 {
 
 	m_window->clear();
@@ -107,25 +99,19 @@ void BattleWindow::render()
 
 }
 
-void BattleWindow::update()
+void BattleCore::handleEvents(sf::Event evt)
 {
-	while (m_window->isOpen())
-	{
-		while (const std::optional event = m_window->pollEvent())
-		{
-			if (event->is<sf::Event::Closed>())
-			{
-				m_window->close();
-			}
-		}
-		updateHp();
-
-
-		render();
-	}
+	// maybe create like list of possible moves or smth
 }
 
-void BattleWindow::updateHp()
+void BattleCore::update()
+{
+	updateHp();
+
+}
+
+//example function
+void BattleCore::updateHp()
 {
 	
 	entity1->creatureList[0]->getComponent<CStats>().m_hp -= 1;
@@ -142,13 +128,14 @@ void BattleWindow::updateHp()
 
 
 
-BattleWindow::BattleWindow(person* person1, person* person2)
+BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person2)
 {
 
 	entity1 = person1;
 	entity2 = person2;
 
-	initWindow();
+	m_window = window;
+
 	initText();
 	initBaseScene();
 
