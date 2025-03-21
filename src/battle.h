@@ -36,6 +36,8 @@ private:
 	void initBaseScene();
 	void initText();
 
+	void updateInfoText();
+
 	// create some creature choose mechanincs
 
 

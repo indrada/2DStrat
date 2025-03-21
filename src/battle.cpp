@@ -59,24 +59,42 @@ void BattleCore::initText()
 	}
 
 	playerInfoText = std::make_shared<sf::Text>(mainFont);
-	info = entity1->creatureList[0]->m_name + ", Level " +
-		std::to_string(entity1->creatureList[0]->getComponent<CStats>().m_level) + "\n\nHP: " +
-		std::to_string(entity1->creatureList[0]->getComponent<CStats>().m_hp) +
-		"\n\nMana: " + std::to_string(entity1->creatureList[0]->getComponent<CStats>().m_mana);
+	info = friendlyCreature->m_name + ", Level " +
+		std::to_string(friendlyCreature->getComponent<CStats>().m_level) + "\n\nHP: " +
+		std::to_string(friendlyCreature->getComponent<CStats>().m_hp) +
+		"\n\nMana: " + std::to_string(friendlyCreature->getComponent<CStats>().m_mana);
 	playerInfoText->setString(info);
 	playerInfoText->setCharacterSize(36);
 
 	textHUD.push_back(playerInfoText);
 
 	enemyInfoText = std::make_shared<sf::Text>(mainFont);
-	info = entity2->creatureList[0]->m_name + ", Level " +
-		std::to_string(entity2->creatureList[0]->getComponent<CStats>().m_level) + "\n\nHP: " +
-		std::to_string(entity2->creatureList[0]->getComponent<CStats>().m_hp) +
-		"\n\nMana: " + std::to_string(entity2->creatureList[0]->getComponent<CStats>().m_mana);
+	info = enemyCreature->m_name + ", Level " +
+		std::to_string(enemyCreature->getComponent<CStats>().m_level) + "\n\nHP: " +
+		std::to_string(enemyCreature->getComponent<CStats>().m_hp) +
+		"\n\nMana: " + std::to_string(enemyCreature->getComponent<CStats>().m_mana);
 	enemyInfoText->setString(info);
 	enemyInfoText->setCharacterSize(36);
 
 	textHUD.push_back(enemyInfoText);
+
+}
+
+void BattleCore::updateInfoText()
+{
+	// player info
+	std::string info = friendlyCreature->m_name + ", Level " +
+		std::to_string(friendlyCreature->getComponent<CStats>().m_level) + "\n\nHP: " +
+		std::to_string(friendlyCreature->getComponent<CStats>().m_hp) +
+		"\n\nMana: " + std::to_string(friendlyCreature->getComponent<CStats>().m_mana);
+	playerInfoText->setString(info);
+
+	//enemy info
+	info = enemyCreature->m_name + ", Level " +
+		std::to_string(enemyCreature->getComponent<CStats>().m_level) + "\n\nHP: " +
+		std::to_string(enemyCreature->getComponent<CStats>().m_hp) +
+		"\n\nMana: " + std::to_string(enemyCreature->getComponent<CStats>().m_mana);
+	enemyInfoText->setString(info);
 
 }
 
@@ -114,7 +132,20 @@ void BattleCore::update()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
 		{
 			friendlyCreature->attack(enemyCreature);
+			playerTurn = false;
+
+			updateInfoText();
+			sf::sleep(sf::milliseconds(500));
 		}
+		
+	}
+	else 
+	{
+		enemyCreature->attack(friendlyCreature);
+		playerTurn = true;
+
+		sf::sleep(sf::milliseconds(500));
+		updateInfoText();
 	}
 
 }

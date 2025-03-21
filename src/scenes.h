@@ -20,6 +20,7 @@ class Scene
 		Scene();
 		virtual void handleEvent(sf::Event event)=0;
 		virtual void renderFrame()=0;
+	
 };
 
 class worldMapScene : virtual public Scene

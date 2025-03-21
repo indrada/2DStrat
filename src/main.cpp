@@ -50,10 +50,11 @@ int main()
         
         switch (currentScene)
         {
-        case SCENES::WORLD:
+        case SCENES::WORLD:         
             scene.renderFrame();
             break;
         case SCENES::BATTLE:
+            scene2.updateScene();
             scene2.renderFrame();
             break;
         default:

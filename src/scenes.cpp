@@ -266,5 +266,5 @@ void BattleScene::renderFrame()
 
 void BattleScene::updateScene()
 {
-
+	m_BattleCore->update();
 }
