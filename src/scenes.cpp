@@ -260,6 +260,7 @@ void BattleScene::handleEvent(sf::Event evt)
 
 void BattleScene::renderFrame()
 {
+	updateScene();
 	m_BattleCore->render();
 
 }

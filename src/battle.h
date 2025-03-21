@@ -4,6 +4,9 @@
 
 #include <iostream>
 
+//returns true if player loses
+bool initBattle(person * player, person * enemy);
+
 class BattleCore
 {
 private:

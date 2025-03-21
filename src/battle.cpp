@@ -169,3 +169,8 @@ BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person
 	update();
 
 }
+
+bool initBattle(person * player, person * enemy)
+{
+	return false;
+}
