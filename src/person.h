@@ -82,23 +82,27 @@ class person {
     public:
         int xPos;
         int yPos;
-		bool isFriendly;
         std::deque<task*> tasks;
         worldMap* attachedMap;
 		std::string name;
 		std::vector<std::shared_ptr<Creature>> creatureList;
 		attribute * attributes;
-
+        
         person();
-        person(int xPos, int yPos, worldMap* attachedMap,std::string name = "John Doe");
+        person(int xPos, int yPos, worldMap* attachedMap,std::string name = "John Doe", bool isFriendly = true);
 
-        void addTask(task* toAdd);
+        void addTask(task *toAdd);
         bool doTasks(int Time);
         void addPerson();
         void addCreature();
 		void updateAttributes();
-
-
-};
+        void setIsFriendly(bool value);
+        bool getIsFriendly();
+        
+    private:
+        bool isFriendly;
+        
+        
+    };
 
 #endif

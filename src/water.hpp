@@ -2,6 +2,7 @@
 #define water_h
 #include "worldMap.h"
 #include <random>
+#include <algorithm>
 
 inline void equalize(tile* tile1, tile* tile2, float flowAmount)
 {

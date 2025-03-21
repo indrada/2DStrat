@@ -51,41 +51,24 @@ public:
 class elevationMap : virtual public mapMode
 {
 public:
-    sf::Color getTileColor(int x, int y, worldMap toDisplay) override
-    {
-        unsigned int colorScale = (unsigned int)(127 * (1 + toDisplay.mapTiles[y * toDisplay.horizontalSize + x].elevation / (1 + toDisplay.maxElevation())));
-        return sf::Color(colorScale, colorScale, colorScale);
-    }
+    sf::Color getTileColor(int x, int y, worldMap toDisplay) override;
 };
 
 class defaultMap : virtual public mapMode
 {
 public:
-    sf::Color getTileColor(int x, int y, worldMap toDisplay) override
-    {
-        if (toDisplay.tileAt(x, y)->personHere != NULL) return sf::Color(0, 255, 0);
-        if (toDisplay.mapTiles[y * toDisplay.horizontalSize + x].waterDepth() > 0.0f) return sf::Color(62, 164, 240);
-        unsigned int colorScale = (unsigned int)(127 * (1 - toDisplay.mapTiles[y * toDisplay.horizontalSize + x].elevation / (1 + toDisplay.maxElevation())));
-        return sf::Color(colorScale, colorScale, colorScale);
-    }
+    sf::Color getTileColor(int x, int y, worldMap toDisplay) override;
 
 };
 
 class resourceMap : virtual public mapMode
 {
-	public:
-		int resourceIndex;
-		sf::Color getTileColor(int x, int y, worldMap toDisplay) override
-		{
-			unsigned int colorScale = (unsigned int)(127 * (1 - toDisplay.mapTiles[y * toDisplay.horizontalSize + x].resourceQuantity.at(resourceIndex) / (1 + toDisplay.maxResourceValue(resourceIndex))));
-			return sf::Color(colorScale, colorScale, colorScale);
-		}
-		resourceMap(worldMap * map, int resourceIndex)
-		{
-			this->resourceIndex = resourceIndex;
-			this->map = map;
-			triangles = sf::VertexArray(sf::PrimitiveType::Triangles, 6*map->verticalSize*map->horizontalSize);
-		}
+public:
+    sf::Color getTileColor(int x, int y, worldMap toDisplay) override;
+    resourceMap(worldMap * map, int resourceIndex);
+
+private:
+    int resourceIndex;
 };
 
 #endif

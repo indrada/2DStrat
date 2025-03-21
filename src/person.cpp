@@ -7,18 +7,21 @@ person::person()
 {
 }
 
-person::person(int xPos, int yPos, worldMap * attachedMap, std::string name)
+person::person(int xPos, int yPos, worldMap * attachedMap, std::string name, bool isFriendly)
 {
-    this->attachedMap = attachedMap;
-    this->xPos = xPos;
-    this->yPos = yPos;
+	this->attachedMap = attachedMap;
+	this->xPos = xPos;
+	this->yPos = yPos;
 	this->name = name;
 	this->attributes = new attribute();
+	this->isFriendly = isFriendly;
 }
-void person::addTask(task * toAdd)
+
+void person::addTask(task* toAdd)
 {
     tasks.push_back(toAdd);
 }
+
 bool person::doTasks(int Time)
 {
 	bool didTask = false;
@@ -89,4 +92,14 @@ Vampire::Vampire(std::string name)
 void Vampire::doTurn(person * enemy, person * friendly)
 {
 	//do stuff
+}
+
+void person::setIsFriendly(bool value)
+{
+	this->isFriendly = value;
+}
+
+bool person::getIsFriendly()
+{
+	return this->isFriendly;
 }
