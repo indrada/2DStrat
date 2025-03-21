@@ -168,15 +168,23 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
     iron.registerResource(map);	
     person * newPerson= new person(5, 5, map);
     newPerson->addPerson();
-	person * person2 = new person(5,5,map, "Jane Doe");
+	person * person2 = new person(10, 10, map, "Jane Doe");
 	person2->addPerson();
 	printf("Here2");
 	mapMode * resourceMapMode = new resourceMap(map,0);
 	printf("Here3");
+
+
+	//enemies
+	person *oneEnemy = new person(20, 20, map, "Bad Person One", false);
+	oneEnemy->addPerson();
+	person *twoEnemy = new person(20, 30, map, "Bad Person Two", false);
+	twoEnemy->addPerson();
+
 	defaultMapMode->generateVertexArray();
 	resourceMapMode->generateVertexArray();	
     size = window->getView().getSize();	
-    font = new sf::Font("Assets/Fonts/arial.ttf");
+    font = new sf::Font("Assets/Fonts/Arial.ttf");
     infoOverlay = new sf::Text(*font);
 	infoOverlay->setCharacterSize(120);
     infoOverlay->setFillColor(sf::Color::White);

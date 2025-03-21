@@ -13,17 +13,9 @@
 #include <SFML/Graphics.hpp>
 #include <inttypes.h>
 
-
-
-
-
-
-
-
-
 int main()
 {
-	sf::RenderWindow * window = new sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing",sf::State::Fullscreen);
+	sf::RenderWindow * window = new sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing", sf::State::Fullscreen);
     window->setFramerateLimit(144);	
     worldMapScene scene(window);
     while (window->isOpen())
@@ -33,11 +25,7 @@ int main()
 			scene.handleEvent(event.value());
 		}
 		scene.renderFrame();
-        
-        
-
-
-
+     
     }
 }
 
