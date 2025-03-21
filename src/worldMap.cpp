@@ -5,7 +5,7 @@
 #include <math.h>
 #include <random>
 #include <algorithm>
-#include <SFML/graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include "worldMap.h"
@@ -204,4 +204,38 @@ void mapMode::generateVertexArray()
 void worldMap::updateTileRender(int j, int i)
 {
 	mode->triangles[6*(horizontalSize*i+j)].color=mode->triangles[6*(horizontalSize*i+j)+1].color=mode->triangles[6*(horizontalSize*i+j)+2].color=mode->triangles[6*(horizontalSize*i+j)+3].color=mode->triangles[6*(horizontalSize*i+j)+4].color=mode->triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);	
+}
+
+sf::Color elevationMap::getTileColor(int x, int y, worldMap toDisplay)
+{
+    unsigned int colorScale = (unsigned int)(127 * (1 + toDisplay.mapTiles[y * toDisplay.horizontalSize + x].elevation / (1 + toDisplay.maxElevation())));
+    return sf::Color(colorScale, colorScale, colorScale);
+}
+
+sf::Color defaultMap::getTileColor(int x, int y, worldMap toDisplay)
+{
+    if (toDisplay.tileAt(x, y)->personHere != NULL)
+    {
+        if (toDisplay.tileAt(x, y)->personHere->getIsFriendly())
+            return sf::Color(0, 255, 0);
+        else
+            return sf::Color(255, 0, 0);
+    }
+    if (toDisplay.mapTiles[y * toDisplay.horizontalSize + x].waterDepth() > 0.0f)
+        return sf::Color(62, 164, 240);
+    unsigned int colorScale = (unsigned int)(127 * (1 - toDisplay.mapTiles[y * toDisplay.horizontalSize + x].elevation / (1 + toDisplay.maxElevation())));
+    return sf::Color(colorScale, colorScale, colorScale);
+}
+
+sf::Color resourceMap::getTileColor(int x, int y, worldMap toDisplay)
+{
+    unsigned int colorScale = (unsigned int)(127 * (1 - toDisplay.mapTiles[y * toDisplay.horizontalSize + x].resourceQuantity.at(resourceIndex) / (1 + toDisplay.maxResourceValue(resourceIndex))));
+    return sf::Color(colorScale, colorScale, colorScale);
+}
+
+resourceMap::resourceMap(worldMap *map, int resourceIndex)
+{
+    this->resourceIndex = resourceIndex;
+    this->map = map;
+    triangles = sf::VertexArray(sf::PrimitiveType::Triangles, 6 * map->verticalSize * map->horizontalSize);
 }
