@@ -34,21 +34,32 @@ class worldMapScene : virtual public Scene
 		sf::Text *selectedTileOverlay;
 		tile * hoveredTile;
 		tile * selectedTile;
+
 		person* selectedPerson;
+
+		person* newPerson;
+		person* oneEnemy;
+
 		moveTask * taskToAdd;
 		ButtonPanel * buttonPanel;
 		bool endingTurn;
 		worldMap * map;
 		sf::RenderWindow * window;
 		sf::Vector2f size;
+
 		worldMapScene(sf::RenderWindow * window);
+
 		void handleEvent(sf::Event event);
 		void renderFrame();
+
 		tile * getTileAtMousePosition(worldMap map, sf::Vector2f size);		
 		std::string getTileString(worldMap map, tile * currentTile);
 		std::string getInfoString(worldMap map, tile * currentTile);
 		std::string getSelectedTileString(worldMap map, tile * currentTile);
 		std::string getSelectedPersonString(person * selectedPerson);
+
+		std::pair<person*, person*> getBattleOponents();
+
 		void endTurn(worldMap *map);
 };
 
