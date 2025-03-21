@@ -64,7 +64,7 @@ class worldMapScene : virtual public Scene
 		void endTurn(worldMap *map);
 };
 
-class BattleScene
+class BattleScene : Scene
 {
 
 private:
