@@ -9,7 +9,7 @@
 #include <tuple>
 
 // also CSprite, CActions and etc
-typedef std::tuple<CStats> componetsTuple;
+typedef std::tuple<CStats, CBattleStats> componetsTuple;
 
 class attribute
 {
@@ -63,6 +63,15 @@ public:
 
     }
 
+    void attack(std::shared_ptr<Creature> enemy)
+    {
+        enemy->takeDamage(this->getComponent<CBattleStats>().m_damage);
+    }
+    
+    void takeDamage(int damage)
+    {
+        this->getComponent<CStats>().m_hp -= damage;
+    }
 
 };
 

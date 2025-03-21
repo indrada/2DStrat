@@ -63,6 +63,7 @@ void person::addCreature()
 {
 	auto creature = std::make_shared<Vampire>("Vampire");
 	creature->addComponent<CStats>(100, 15, 25);
+	creature->addComponent<CBattleStats>();
 
 	creatureList.push_back(creature);
 }

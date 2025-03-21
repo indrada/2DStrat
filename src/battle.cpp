@@ -101,31 +101,23 @@ void BattleCore::render()
 
 void BattleCore::handleEvents(sf::Event evt)
 {
-	// maybe create like list of possible moves or smth
+	if (evt.is<sf::Event::Closed>())
+	{
+		m_window->close();
+	}
 }
 
 void BattleCore::update()
 {
-	updateHp();
-
-}
-
-//example function
-void BattleCore::updateHp()
-{
-	
-	entity1->creatureList[0]->getComponent<CStats>().m_hp -= 1;
-	if (entity1->creatureList[0]->getComponent<CStats>().m_hp <= 0)
+	if (playerTurn)
 	{
-		entity1->creatureList[0]->getComponent<CStats>().m_hp = 0;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
+		{
+			friendlyCreature->attack(enemyCreature);
+		}
 	}
 
-	playerHpRect->setSize(sf::Vector2f{ maxHpRectXSize * static_cast<float>(entity1->creatureList[0]->getComponent<CStats>().m_hp)/
-		static_cast<float>(entity1->creatureList[0]->getComponent<CStats>().maxHp),
-		playerHpRect->getSize().y });
-
 }
-
 
 
 BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person2)
@@ -133,6 +125,10 @@ BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person
 
 	entity1 = person1;
 	entity2 = person2;
+
+	friendlyCreature = entity1->creatureList[0];
+	enemyCreature = entity2->creatureList[0];
+	playerTurn = true;
 
 	m_window = window;
 
