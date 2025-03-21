@@ -62,7 +62,8 @@ void person::addPerson()
 void person::addCreature()
 {
 	auto creature = std::make_shared<Vampire>("Vampire");
-	creature->addComponent<CStats>(100, 15, 25);
+	creature->addComponent<CStats>(120, 15, 25);
+	creature->addComponent<CBattleStats>(5, 5, ELEMENT::NONE);
 
 	creatureList.push_back(creature);
 }

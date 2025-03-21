@@ -60,6 +60,11 @@ std::string worldMapScene::getSelectedPersonString(person * selectedPerson)
 	return "Selected Person:\nName: " + selectedPerson->name + "\nHealth: " + std::to_string(selectedPerson->attributes->health)+ "\nMana: " + std::to_string(selectedPerson->attributes->mana)+ "\nStamina: " + std::to_string(selectedPerson->attributes->stamina)+ "\nFood: " + std::to_string(selectedPerson->attributes->food);
 }
 
+std::pair<person*, person*> worldMapScene::getBattleOponents()
+{
+	return std::pair<person*, person*>(newPerson, oneEnemy);
+}
+
 void worldMapScene::endTurn(worldMap *map)
 {
 	map->doTasks(1000);
@@ -163,9 +168,13 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
     map = new worldMap(window, 100, 120, defaultMapMode, 10.0f);
     rain(*map, 0.5f);
     Resource iron("iron", 1.0f);
-    iron.registerResource(map);	
-    person * newPerson= new person(5, 5, map);
+    iron.registerResource(map);
+
+	// also made if as member for easier testing
+    newPerson= new person(5, 5, map);
     newPerson->addPerson();
+	newPerson->addCreature();
+
 	person * person2 = new person(10, 10, map, "Jane Doe");
 	person2->addPerson();
 	printf("Here2");
@@ -174,8 +183,11 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
 
 
 	//enemies
-	person *oneEnemy = new person(20, 20, map, "Bad Person One", false);
+	// changed one of them as members of class for battle scene tests
+	oneEnemy = new person(20, 20, map, "Bad Person One", false);
 	oneEnemy->addPerson();
+	oneEnemy->addCreature();
+
 	person *twoEnemy = new person(20, 30, map, "Bad Person Two", false);
 	twoEnemy->addPerson();
 
@@ -254,5 +266,5 @@ void BattleScene::renderFrame()
 
 void BattleScene::updateScene()
 {
-
+	m_BattleCore->update();
 }

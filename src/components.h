@@ -5,7 +5,7 @@
 // C - component
 
 
-class CStats
+struct CStats
 {
 
 public:
@@ -30,3 +30,22 @@ public:
 	}
 };
 
+enum class ELEMENT{FIRE, WATER, EARTH, AIR, NONE};
+
+struct CBattleStats
+{
+
+public:
+
+	int m_damage, m_defence;
+
+	ELEMENT m_elemnt;
+
+	bool has = false;
+
+	CBattleStats(int damage = 0, int defence = 0, ELEMENT elem = ELEMENT::NONE)
+		:m_damage(damage), m_defence(defence), m_elemnt(elem)
+	{
+		has = true;
+	}
+};

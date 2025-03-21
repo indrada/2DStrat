@@ -7,9 +7,10 @@
 #include "task.h"
 #include "components.h"
 #include <tuple>
+#include <iostream>
 
 // also CSprite, CActions and etc
-typedef std::tuple<CStats> componetsTuple;
+typedef std::tuple<CStats, CBattleStats> componetsTuple;
 
 class attribute
 {
@@ -25,7 +26,7 @@ class attribute
 class Creature
 {
 
-private:
+protected:
 
     // maybe add some tags to them
     componetsTuple components;
@@ -46,6 +47,12 @@ public:
     }
 
     template<typename T>
+    const T& getComponent() const
+    {
+        return std::get<T>(m_components);
+    }
+
+    template<typename T>
     bool hasComponent() const
     {
         return getComponent<T>().has;
@@ -54,15 +61,26 @@ public:
     //This template function is used for creating new components for our creatures
     // TArgs is just arguments for component constructor
     template<typename T, typename ... TArgs>
-    T& addComponent(TArgs&& ... mArgs)
+    T& addComponent(TArgs&&... mArgs)
     {
-        auto component = getComponent<T>();
+        auto& component = getComponent<T>();
         component = T(std::forward<TArgs>(mArgs)...);
         component.has = true;
         return component;
 
     }
 
+
+    void attack(std::shared_ptr<Creature> enemy)
+    {
+        enemy->takeDamage(this->getComponent<CBattleStats>().m_damage);
+    }
+    
+    void takeDamage(int damage)
+    {
+        std::cout << "Attacked with " << damage << '\n';
+        this->getComponent<CStats>().m_hp -= damage;
+    }
 
 };
 

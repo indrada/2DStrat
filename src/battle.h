@@ -28,10 +28,19 @@ private:
 	person* entity1;
 	person* entity2;
 
+	std::shared_ptr<Creature> friendlyCreature;
+	std::shared_ptr<Creature> enemyCreature;
+
+	bool playerTurn;
+
 	void initBaseScene();
 	void initText();
 
-	void updateHp();
+	void updateInfoText();
+
+	// create some creature choose mechanincs
+
+
 
 public:
 
