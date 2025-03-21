@@ -1,6 +1,6 @@
 #include "buttons.h"
-#include <sfml/graphics.hpp>
-#include <sfml/window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <SFML/System/Vector2.hpp>
 
 ButtonPanel::ButtonPanel()
@@ -56,14 +56,13 @@ Button::Button(std::string fileName, sf::RenderWindow * window)
 	sprite = new sf::Sprite(*texture);
 }
 
-
-
 MapButton::MapButton(std::string fileName, sf::RenderWindow * window, worldMap * map, mapMode * mode) : Button(fileName, window)
 {
 	this->map = map;
 	this->resourceIndex = resourceIndex;
 	this->mode = mode;
 }
+
 void MapButton::process()
 {
 	map->updateMapMode(mode);

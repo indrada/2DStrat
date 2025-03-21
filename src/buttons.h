@@ -1,10 +1,8 @@
 #ifndef buttons_h
 #define buttons_h
 #include "worldMap.h"
-#include <sfml/graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
-
-
 
 class Button
 {
