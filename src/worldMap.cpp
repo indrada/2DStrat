@@ -12,6 +12,11 @@
 #include "util.h"
 #include "person.h"
 
+template <class T, class A, class Predicate>
+void erase_if(std::vector<T, A>& c, Predicate pred) {
+    c.erase(remove_if(c.begin(), c.end(), pred), c.end());
+}
+
 worldMap::worldMap(sf::RenderWindow* window, int horizontalSize, int verticalSize,  mapMode* mode,float terrainElevation = 5.0f)
 {
 	this->window = window;
@@ -112,6 +117,7 @@ void worldMap::generateTerrain(float terrainHeight = 5.0f)
 
 tile* worldMap::tileAt(int x, int y)
 {
+    if(y >= verticalSize || x > horizontalSize) return NULL;
     return mapTiles + (y * horizontalSize + x);
 }
 
@@ -164,6 +170,7 @@ void worldMap::doTasks(int time)
 		}
 		time-=nextTaskLength;
 	}
+    removeDead();
 }
 
 void worldMap::updateAttributes()
@@ -204,6 +211,23 @@ void mapMode::generateVertexArray()
 void worldMap::updateTileRender(int j, int i)
 {
 	mode->triangles[6*(horizontalSize*i+j)].color=mode->triangles[6*(horizontalSize*i+j)+1].color=mode->triangles[6*(horizontalSize*i+j)+2].color=mode->triangles[6*(horizontalSize*i+j)+3].color=mode->triangles[6*(horizontalSize*i+j)+4].color=mode->triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);	
+}
+
+void worldMap::removeDead()
+{
+    int i = 0;
+    for(person * toRemove : allPersons)
+    {
+        if(!toRemove->isAlive())
+        {
+            if(tileAt(toRemove->xPos,toRemove->yPos)->personHere == toRemove)
+            {
+                tileAt(toRemove->xPos,toRemove->yPos)->personHere = NULL;
+            }
+            updateTileRender(toRemove->xPos,toRemove->yPos);
+        }
+    }
+    erase_if(allPersons,[](person * x){return !x->isAlive();});
 }
 
 sf::Color elevationMap::getTileColor(int x, int y, worldMap toDisplay)

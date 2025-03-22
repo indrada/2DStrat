@@ -45,6 +45,7 @@ public:
 	void doTasks(int time);
     float maxResourceValue(int resourceIndex);
 	void updateAttributes();
+    void removeDead();
 
 };
 

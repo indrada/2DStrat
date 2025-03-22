@@ -174,9 +174,11 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
     newPerson= new person(5, 5, map);
     newPerson->addPerson();
 	newPerson->addCreature();
+	newPerson->addCreature();
 
 	person * person2 = new person(10, 10, map, "Jane Doe");
 	person2->addPerson();
+	person2->addCreature();
 	printf("Here2");
 	mapMode * resourceMapMode = new resourceMap(map,0);
 	printf("Here3");
@@ -187,12 +189,12 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
 	oneEnemy = new person(20, 20, map, "Bad Person One", false);
 	oneEnemy->addPerson();
 	oneEnemy->addCreature();
-	oneEnemy->isAlive();
+	oneEnemy->addCreature();
 	printf("\n%d",oneEnemy);
 
 	person *twoEnemy = new person(20, 30, map, "Bad Person Two", false);
 	twoEnemy->addPerson();
-
+	twoEnemy->addCreature();
 	defaultMapMode->generateVertexArray();
 	resourceMapMode->generateVertexArray();	
     size = window->getView().getSize();	
@@ -239,6 +241,7 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
     taskToAdd=nullptr;
 	endingTurn = false;
 	printf("Here4");
+	map->removeDead();
 }
     
 

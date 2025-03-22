@@ -120,3 +120,4 @@ bool person::isAlive()
 	}
 	return !creatureList.empty();
 }
+

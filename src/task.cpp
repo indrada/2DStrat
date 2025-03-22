@@ -23,67 +23,77 @@ moveTask::moveTask(int timeToComplete, person* assignedPerson, direction directi
 
 }
 
+
+
+//returns 1 if task is to be removed
 int moveTask::doTask()
 {
-    bool battleResult = false;
-	if(assignedPerson->attributes->stamina < 1) return 0;
-    switch (directionToMove)
+    int startingXPos = assignedPerson->xPos;
+    int startingYPos = assignedPerson->yPos;
+    int landingXPos = assignedPerson->xPos;
+    int landingYPos = assignedPerson->yPos;
+    switch(directionToMove)
     {
-    case NORTH:
-        if (assignedPerson->yPos == 0) return 1;
-        if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere != NULL && assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere->getIsFriendly()) return 0;
-        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere);
-        assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
-        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
-        if(battleResult) return 1;
-        assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere = assignedPerson;
-        assignedPerson->yPos--;
-        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
-		assignedPerson->attributes->stamina--;
-        return 1;
-        break;
-    case SOUTH:
-        if (assignedPerson->yPos == assignedPerson->attachedMap->verticalSize - 1) return 1;
-        if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere != NULL && assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere->getIsFriendly()) return 0;
-        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere);
-        assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
-        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
-        if(battleResult) return 1;
-        assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere = assignedPerson;
-        assignedPerson->yPos++;
-        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
-		assignedPerson->attributes->stamina--;
-        return 1;
-        break;
-    case WEST:
-        if (assignedPerson->xPos == 0) return 1;
-        if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere != NULL && assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere->getIsFriendly()) return 0;
-        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere);
-        assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
-        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
-        if(battleResult) return 1;
-        assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere = assignedPerson;
-        assignedPerson->xPos--;
-        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
-		assignedPerson->attributes->stamina--;
-        return 1;
-        break;
-    case EAST:
-        if (assignedPerson->xPos == assignedPerson->attachedMap->horizontalSize-1) return 1;
-        if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere != NULL && assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere->getIsFriendly()) return 0;
-        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos+1, assignedPerson->yPos)->personHere);
-        assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
-        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
-        if(battleResult) return 1;
-        assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere = assignedPerson;
-        assignedPerson->xPos++;
-        assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
-		assignedPerson->attributes->stamina--;
-        return 1;
-        break;
-    default:
-        return 0;
+        case NORTH:
+            landingYPos--;
+            break;
+        case SOUTH:
+            landingYPos++;
+            break;
+        case EAST:
+            landingXPos++;
+            break;
+        case WEST:
+            landingXPos--;
+            break;
+        default:
+            return 1;
     }
+    tile * startingTile = assignedPerson->attachedMap->tileAt(startingXPos, startingYPos);
+    tile * landingTile = assignedPerson->attachedMap->tileAt(landingXPos,landingYPos);
+    //landingTile will be NULL if moving over edge of map
+    if(landingTile == NULL) return 1;
+    person * personAtDestination = landingTile->personHere;
+    if(personAtDestination==NULL)
+    {
+        startingTile->personHere=NULL;
+        landingTile->personHere=assignedPerson;
+        assignedPerson->xPos = landingXPos;
+        assignedPerson->yPos = landingYPos;
+        assignedPerson->attachedMap->updateTileRender(startingXPos,startingYPos);
+        assignedPerson->attachedMap->updateTileRender(landingXPos,landingYPos);
+        return 1;
+    }
+    if(personAtDestination->getIsFriendly()==assignedPerson->getIsFriendly()) return 0;
+    if(assignedPerson->getIsFriendly())
+    {
+        bool playerLoses = initBattle(assignedPerson,personAtDestination);
+        if(!playerLoses)
+        {
+            startingTile->personHere=NULL;
+            landingTile->personHere=assignedPerson;
+            assignedPerson->xPos = landingXPos;
+            assignedPerson->yPos = landingYPos;
+            assignedPerson->attachedMap->updateTileRender(startingXPos,startingYPos);
+            assignedPerson->attachedMap->updateTileRender(landingXPos,landingYPos);
+            return 1;
+        }
+    }
+    else
+    {
+        bool playerLoses = initBattle(personAtDestination,assignedPerson);
+        if(playerLoses)
+        {            
+            startingTile->personHere=NULL;
+            landingTile->personHere=assignedPerson;
+            assignedPerson->xPos = landingXPos;
+            assignedPerson->yPos = landingYPos;
+            assignedPerson->attachedMap->updateTileRender(startingXPos,startingYPos);
+            assignedPerson->attachedMap->updateTileRender(landingXPos,landingYPos);
+            return 1;
+        }
+    }
+    return 1;
 }
 
 int moveTask::getTimeRemaining()
