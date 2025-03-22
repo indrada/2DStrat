@@ -1,5 +1,7 @@
+#pragma once
+extern struct globalContext context;
 #include "battle.h"
-
+#include "context.h"
 void BattleCore::initBaseScene()
 {
 	
@@ -132,6 +134,16 @@ void BattleCore::update()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
 		{
 			friendlyCreature->attack(enemyCreature);
+			if(!(friendlyCreature->isAlive()))
+			{				
+				entity1->creatureList.pop_back();
+				if(entity1->creatureList.empty())
+				{
+					context.inBattle = false;
+					return;
+				}
+				friendlyCreature = entity1->creatureList.back();
+			}
 			playerTurn = false;
 
 			updateInfoText();
@@ -142,6 +154,18 @@ void BattleCore::update()
 	else 
 	{
 		enemyCreature->attack(friendlyCreature);
+		if(!(enemyCreature->isAlive()))
+		{				
+			printf("You did it!\n");
+			printf("%d\n",entity2->creatureList.size());
+			entity2->creatureList.pop_back();
+			if(entity2->creatureList.empty())
+			{
+				context.inBattle = false;
+				return;
+			}
+			enemyCreature = entity2->creatureList.back();
+		}
 		playerTurn = true;
 
 		sf::sleep(sf::milliseconds(500));
@@ -157,8 +181,8 @@ BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person
 	entity1 = person1;
 	entity2 = person2;
 
-	friendlyCreature = entity1->creatureList[0];
-	enemyCreature = entity2->creatureList[0];
+	friendlyCreature = entity1->creatureList.back();
+	enemyCreature = entity2->creatureList.back();
 	playerTurn = true;
 
 	m_window = window;
@@ -172,5 +196,20 @@ BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person
 
 bool initBattle(person * player, person * enemy)
 {
-	return false;
+	if(!player->isAlive()) return enemy->isAlive();
+	printf("Here1111 A");
+	if(!enemy->isAlive()) return false;
+	context.inBattle = true;
+	BattleCore battle(context.window,player,enemy);
+	BattleScene scene(context.window,player,enemy);
+	while (context.inBattle && context.window->isOpen())
+    {
+
+        while (const std::optional<sf::Event> event = context.window->pollEvent())
+		{
+            scene.handleEvent(event.value());            
+		}        
+        scene.renderFrame();           
+    }
+	return enemy->isAlive();
 }

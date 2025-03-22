@@ -187,6 +187,8 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
 	oneEnemy = new person(20, 20, map, "Bad Person One", false);
 	oneEnemy->addPerson();
 	oneEnemy->addCreature();
+	oneEnemy->isAlive();
+	printf("\n%d",oneEnemy);
 
 	person *twoEnemy = new person(20, 30, map, "Bad Person Two", false);
 	twoEnemy->addPerson();

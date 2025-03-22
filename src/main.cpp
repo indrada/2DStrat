@@ -14,6 +14,7 @@
 #include <SFML/Graphics.hpp>
 #include <inttypes.h>
 
+struct globalContext context;
 int main()
 {
     // it's not ideal solution but for testing is okey

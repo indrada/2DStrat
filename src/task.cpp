@@ -45,7 +45,7 @@ int moveTask::doTask()
     case SOUTH:
         if (assignedPerson->yPos == assignedPerson->attachedMap->verticalSize - 1) return 1;
         if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere != NULL && assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere->getIsFriendly()) return 0;
-        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere);
+        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos + 1)->personHere);
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
         assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
         if(battleResult) return 1;
@@ -58,7 +58,7 @@ int moveTask::doTask()
     case WEST:
         if (assignedPerson->xPos == 0) return 1;
         if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere != NULL && assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere->getIsFriendly()) return 0;
-        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere);
+        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos - 1, assignedPerson->yPos)->personHere);
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
         assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
         if(battleResult) return 1;
@@ -71,7 +71,7 @@ int moveTask::doTask()
     case EAST:
         if (assignedPerson->xPos == assignedPerson->attachedMap->horizontalSize-1) return 1;
         if (assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere != NULL && assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere->getIsFriendly()) return 0;
-        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos - 1)->personHere);
+        if(assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere != NULL && !assignedPerson->attachedMap->tileAt(assignedPerson->xPos + 1, assignedPerson->yPos)->personHere->getIsFriendly()) battleResult = initBattle(assignedPerson, assignedPerson->attachedMap->tileAt(assignedPerson->xPos+1, assignedPerson->yPos)->personHere);
         assignedPerson->attachedMap->tileAt(assignedPerson->xPos, assignedPerson->yPos)->personHere = NULL;
         assignedPerson->attachedMap->updateTileRender(assignedPerson->xPos, assignedPerson->yPos);
         if(battleResult) return 1;

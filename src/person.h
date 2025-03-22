@@ -82,6 +82,11 @@ public:
         this->getComponent<CStats>().m_hp -= damage;
     }
 
+    bool isAlive()
+    {
+        return this->getComponent<CStats>().m_hp > 0;
+    }
+
 };
 
 
@@ -116,6 +121,7 @@ class person {
 		void updateAttributes();
         void setIsFriendly(bool value);
         bool getIsFriendly();
+        bool isAlive();
         
     private:
         bool isFriendly;

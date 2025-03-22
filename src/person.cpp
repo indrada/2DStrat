@@ -62,7 +62,7 @@ void person::addPerson()
 void person::addCreature()
 {
 	auto creature = std::make_shared<Vampire>("Vampire");
-	creature->addComponent<CStats>(120, 15, 25);
+	creature->addComponent<CStats>(50, 15, 25);
 	creature->addComponent<CBattleStats>(5, 5, ELEMENT::NONE);
 
 	creatureList.push_back(creature);
@@ -103,4 +103,20 @@ void person::setIsFriendly(bool value)
 bool person::getIsFriendly()
 {
 	return this->isFriendly;
+}
+
+bool person::isAlive()
+{
+	printf("\nChecking aliveness");
+	
+	printf("\n%d",this);
+	if(!creatureList.empty())
+	{
+		printf("\nPerson is Alive\n");
+	}
+	else
+	{
+		printf("\nPerson is Dead\n");
+	}
+	return !creatureList.empty();
 }
