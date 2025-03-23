@@ -53,7 +53,6 @@ void BattleCore::initBaseScene()
 
 void BattleCore::initText()
 {
-	std::string info;
 
 	if (!mainFont.openFromFile("Assets/Fonts/BigShouldersStencil.ttf"))
 	{
@@ -61,23 +60,14 @@ void BattleCore::initText()
 	}
 
 	playerInfoText = std::make_shared<sf::Text>(mainFont);
-	info = friendlyCreature->m_name + ", Level " +
-		std::to_string(friendlyCreature->getComponent<CStats>().m_level) + "\n\nHP: " +
-		std::to_string(friendlyCreature->getComponent<CStats>().m_hp) +
-		"\n\nMana: " + std::to_string(friendlyCreature->getComponent<CStats>().m_mana);
-	playerInfoText->setString(info);
 	playerInfoText->setCharacterSize(36);
 
-	textHUD.push_back(playerInfoText);
-
 	enemyInfoText = std::make_shared<sf::Text>(mainFont);
-	info = enemyCreature->m_name + ", Level " +
-		std::to_string(enemyCreature->getComponent<CStats>().m_level) + "\n\nHP: " +
-		std::to_string(enemyCreature->getComponent<CStats>().m_hp) +
-		"\n\nMana: " + std::to_string(enemyCreature->getComponent<CStats>().m_mana);
-	enemyInfoText->setString(info);
 	enemyInfoText->setCharacterSize(36);
 
+	updateInfoText();
+
+	textHUD.push_back(playerInfoText);
 	textHUD.push_back(enemyInfoText);
 
 }
@@ -142,7 +132,6 @@ void BattleCore::handleEvents(sf::Event evt)
 			}
 			playerTurn = false;
 			updateInfoText();
-			sf::sleep(sf::milliseconds(500));
 		}
 	}
 }
@@ -166,7 +155,6 @@ void BattleCore::update()
 		}
 		playerTurn = true;
 
-		sf::sleep(sf::milliseconds(500));
 		updateInfoText();
 	}
 
