@@ -42,6 +42,8 @@ bool person::doTasks(int Time)
 			tasks.pop_front();
 			printf((name + " did a task that took ").c_str());
 			printf("%d units of time\n", Time);
+			sf::sleep(sf::milliseconds(250));
+			context.scene->renderFrame();
         }
         else
         {
@@ -54,8 +56,6 @@ bool person::doTasks(int Time)
         tasks.front()->timeToComplete -= Time;
     }
 	
-	sf::sleep(sf::milliseconds(250));
-	context.scene->renderFrame();
 	return didTask;
 }
 
