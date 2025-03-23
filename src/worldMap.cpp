@@ -169,8 +169,8 @@ void worldMap::doTasks(int time)
 			toDo->doTasks(nextTaskLength);			
 		}
 		time-=nextTaskLength;
+        removeDead();
 	}
-    removeDead();
 }
 
 void worldMap::updateAttributes()

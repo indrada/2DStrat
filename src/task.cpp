@@ -28,6 +28,8 @@ moveTask::moveTask(int timeToComplete, person* assignedPerson, direction directi
 //returns 1 if task is to be removed
 int moveTask::doTask()
 {
+    if(assignedPerson->attributes->stamina<=0) return 0;
+    assignedPerson->attributes->stamina--;
     int startingXPos = assignedPerson->xPos;
     int startingYPos = assignedPerson->yPos;
     int landingXPos = assignedPerson->xPos;

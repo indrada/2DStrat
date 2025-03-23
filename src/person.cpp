@@ -1,7 +1,9 @@
 #include "person.h"
 #include "task.h"
 #include <vector>
+#include "context.h"
 
+extern globalContext context;
 
 person::person()
 {
@@ -51,6 +53,9 @@ bool person::doTasks(int Time)
     {
         tasks.front()->timeToComplete -= Time;
     }
+	
+	sf::sleep(sf::milliseconds(250));
+	context.scene->renderFrame();
 	return didTask;
 }
 
