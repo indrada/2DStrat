@@ -15,6 +15,8 @@ person::person(int xPos, int yPos, worldMap * attachedMap, std::string name, boo
 	this->name = name;
 	this->attributes = new attribute();
 	this->isFriendly = isFriendly;
+	this->dstXPos = xPos;
+	this->dstYPos = yPos;
 }
 
 void person::addTask(task* toAdd)
@@ -34,6 +36,7 @@ bool person::doTasks(int Time)
 		didTask = true;
         if (tasks.front()->doTask())
         {
+			delete (tasks.front());
 			tasks.pop_front();
 			printf((name + " did a task that took ").c_str());
 			printf("%d units of time\n", Time);
@@ -121,3 +124,37 @@ bool person::isAlive()
 	return !creatureList.empty();
 }
 
+void person::clearTasks()
+{
+	for(task * toClear : tasks)
+	{
+		delete toClear;
+	}
+	tasks.clear();
+	dstXPos=xPos;
+	dstYPos=yPos;
+}
+
+void person::moveTo(int x, int y)
+{
+	while(x>dstXPos)
+	{
+		addTask(new moveTask(1,this,EAST));
+		dstXPos++;
+	}
+	while(y>dstYPos)
+	{
+		addTask(new moveTask(1,this,SOUTH));
+		dstYPos++;
+	}
+	while(x<dstXPos)
+	{
+		addTask(new moveTask(1,this,WEST));
+		dstXPos--;
+	}
+	while(y<dstYPos)
+	{
+		addTask(new moveTask(1,this,NORTH));
+		dstYPos--;
+	}
+}

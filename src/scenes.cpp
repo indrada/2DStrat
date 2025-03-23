@@ -79,6 +79,17 @@ void worldMapScene::handleEvent(sf::Event event)
 		{
 			buttonPanel->processButtons(mouseButtonPressed->position);
 		}
+		if (mouseButtonPressed->button == sf::Mouse::Button::Right)
+		{
+			if(selectedPerson != NULL)
+			{
+				if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RShift)))
+				{
+					selectedPerson->clearTasks();
+				}
+				selectedPerson->moveTo(getTileAtMousePosition(*map, size)->xPos,getTileAtMousePosition(*map, size)->yPos);
+			}
+		}
 	}
 	if (event.is<sf::Event::Closed>())
 	{
@@ -97,33 +108,6 @@ void worldMapScene::handleEvent(sf::Event event)
 			else
 			{
 				printf(("Selected " + selectedPerson->name + "\n").c_str());
-			}
-		}
-	}
-
-	else if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>())
-	{
-		if (selectedPerson != nullptr)
-		{
-			if (keyPressed->scancode == sf::Keyboard::Scancode::Left)
-			{
-				taskToAdd = new moveTask(1, selectedPerson, WEST);
-				selectedPerson->addTask(taskToAdd);
-			}
-			if (keyPressed->scancode == sf::Keyboard::Scancode::Right)
-			{
-				taskToAdd = new moveTask(1, selectedPerson, EAST);
-				selectedPerson->addTask(taskToAdd);
-			}
-			if (keyPressed->scancode == sf::Keyboard::Scancode::Up)
-			{
-				taskToAdd = new moveTask(1, selectedPerson, NORTH);
-				selectedPerson->addTask(taskToAdd);
-			}
-			if (keyPressed->scancode == sf::Keyboard::Scancode::Down)
-			{
-				taskToAdd = new moveTask(1, selectedPerson, SOUTH);
-				selectedPerson->addTask(taskToAdd);
 			}
 		}
 	}

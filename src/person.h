@@ -105,6 +105,8 @@ class person {
     public:
         int xPos;
         int yPos;
+        int dstXPos;
+        int dstYPos;
         std::deque<task*> tasks;
         worldMap* attachedMap;
 		std::string name;
@@ -122,6 +124,8 @@ class person {
         void setIsFriendly(bool value);
         bool getIsFriendly();
         bool isAlive();
+        void moveTo(int x, int y);
+        void clearTasks();
         
     private:
         bool isFriendly;

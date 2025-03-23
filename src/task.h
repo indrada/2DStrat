@@ -17,6 +17,7 @@ class task
     public:
         int timeToComplete;
         person* assignedPerson;
+        virtual ~task();
         task();
         task(int timeToComplete, person* assignedPerson);
 		virtual int getTimeRemaining();
@@ -30,6 +31,7 @@ class moveTask : virtual public task
         moveTask(int timeToComplete, person* assignedPerson, direction directionToMove);
 		int getTimeRemaining();
         int doTask();
+        ~moveTask();
 
 };
 

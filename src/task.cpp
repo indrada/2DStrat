@@ -106,6 +106,13 @@ int task::getTimeRemaining()
 	return timeToComplete;
 }
 
+task::~task()
+{
 
+}
 
+moveTask::~moveTask()
+{
+
+}
 
