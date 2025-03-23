@@ -67,30 +67,15 @@ std::pair<person*, person*> worldMapScene::getBattleOponents()
 
 void worldMapScene::endTurn(worldMap *map)
 {
+	endingTurn=true;
 	map->doTasks(1000);
 	map->updateAttributes();
+	endingTurn=false;
 }		
 
 void worldMapScene::handleEvent(sf::Event event)
 {
-	if (const auto* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>())
-	{
-		if (mouseButtonPressed->button == sf::Mouse::Button::Left)
-		{
-			buttonPanel->processButtons(mouseButtonPressed->position);
-		}
-		if (mouseButtonPressed->button == sf::Mouse::Button::Right)
-		{
-			if(selectedPerson != NULL)
-			{
-				if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RShift)))
-				{
-					selectedPerson->clearTasks();
-				}
-				selectedPerson->moveTo(getTileAtMousePosition(*map, size)->xPos,getTileAtMousePosition(*map, size)->yPos);
-			}
-		}
-	}
+	
 	if (event.is<sf::Event::Closed>())
 	{
 		window->close();
@@ -111,22 +96,39 @@ void worldMapScene::handleEvent(sf::Event event)
 			}
 		}
 	}
+	if(!endingTurn)
+	{
+		if (const auto* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>())
+		{
+			if (mouseButtonPressed->button == sf::Mouse::Button::Left)
+			{
+				buttonPanel->processButtons(mouseButtonPressed->position);
+			}
+			if (mouseButtonPressed->button == sf::Mouse::Button::Right)
+			{
+				if(selectedPerson != NULL)
+				{
+					if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RShift)))
+					{
+						selectedPerson->clearTasks();
+					}
+					selectedPerson->moveTo(getTileAtMousePosition(*map, size)->xPos,getTileAtMousePosition(*map, size)->yPos);
+				}
+			}
+		}
+		if(const auto* keyPressed = event.getIf<sf::Event::KeyPressed>())
+		{
+			if(keyPressed->code == sf::Keyboard::Key::Enter)
+			{
+				endTurn(map);
+			}
+		}
+	}
 }
 
 void worldMapScene::renderFrame()
 {
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
-	{
-		if(!endingTurn)
-		{
-			endTurn(map);
-		}
-		endingTurn = true;
-	}
-	else
-	{
-		endingTurn = false;
-	}
+	
 	hoveredTile = getTileAtMousePosition(*map, size);
 	infoString = getInfoString(*map,hoveredTile);
 	infoOverlay->setString(infoString);

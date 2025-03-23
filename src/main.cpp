@@ -22,6 +22,7 @@ int main()
     
 	sf::RenderWindow * window = new sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing", sf::State::Fullscreen);
     window->setFramerateLimit(144);	
+    window->setKeyRepeatEnabled(false);
     //change when commit
 
     Scene * scene = new worldMapScene(window);

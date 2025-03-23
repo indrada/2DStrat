@@ -125,13 +125,9 @@ void BattleCore::handleEvents(sf::Event evt)
 	{
 		m_window->close();
 	}
-}
-
-void BattleCore::update()
-{
-	if (playerTurn)
+	if(const auto* keyPressed = evt.getIf<sf::Event::KeyPressed>())
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
+		if(keyPressed->code == sf::Keyboard::Key::Enter)
 		{
 			friendlyCreature->attack(enemyCreature);
 			if(!(friendlyCreature->isAlive()))
@@ -145,13 +141,15 @@ void BattleCore::update()
 				friendlyCreature = entity1->creatureList.back();
 			}
 			playerTurn = false;
-
 			updateInfoText();
 			sf::sleep(sf::milliseconds(500));
 		}
-		
 	}
-	else 
+}
+
+void BattleCore::update()
+{
+	if (!playerTurn)
 	{
 		enemyCreature->attack(friendlyCreature);
 		if(!(enemyCreature->isAlive()))

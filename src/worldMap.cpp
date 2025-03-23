@@ -11,6 +11,8 @@
 #include "worldMap.h"
 #include "util.h"
 #include "person.h"
+#include "context.h"
+extern globalContext context;
 
 template <class T, class A, class Predicate>
 void erase_if(std::vector<T, A>& c, Predicate pred) {
@@ -170,6 +172,7 @@ void worldMap::doTasks(int time)
 		}
 		time-=nextTaskLength;
         removeDead();
+        context.scene->renderFrame();
 	}
 }
 
@@ -210,7 +213,7 @@ void mapMode::generateVertexArray()
 
 void worldMap::updateTileRender(int j, int i)
 {
-	mode->triangles[6*(horizontalSize*i+j)].color=mode->triangles[6*(horizontalSize*i+j)+1].color=mode->triangles[6*(horizontalSize*i+j)+2].color=mode->triangles[6*(horizontalSize*i+j)+3].color=mode->triangles[6*(horizontalSize*i+j)+4].color=mode->triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);	
+	mode->triangles[6*(horizontalSize*i+j)].color=mode->triangles[6*(horizontalSize*i+j)+1].color=mode->triangles[6*(horizontalSize*i+j)+2].color=mode->triangles[6*(horizontalSize*i+j)+3].color=mode->triangles[6*(horizontalSize*i+j)+4].color=mode->triangles[6*(horizontalSize*i+j)+5].color = mode->getTileColor(j,i,*this);
 }
 
 void worldMap::removeDead()

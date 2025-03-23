@@ -43,7 +43,6 @@ bool person::doTasks(int Time)
 			printf((name + " did a task that took ").c_str());
 			printf("%d units of time\n", Time);
 			sf::sleep(sf::milliseconds(250));
-			context.scene->renderFrame();
         }
         else
         {
@@ -55,7 +54,10 @@ bool person::doTasks(int Time)
     {
         tasks.front()->timeToComplete -= Time;
     }
-	
+	while (const std::optional<sf::Event> event = context.window->pollEvent())
+	{
+		context.scene->handleEvent(event.value());            
+	}     
 	return didTask;
 }
 
