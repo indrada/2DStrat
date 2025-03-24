@@ -63,9 +63,13 @@ bool person::doTasks(int Time)
 
 void person::addPerson()
 {
+	printf("Addperson1");
     attachedMap->tileAt(xPos, yPos)->personHere = this;
+	printf("Addperson2");
     attachedMap->updateRectangle(xPos, yPos);
+	printf("Addperson3");
 	attachedMap->allPersons.push_back(this);
+	printf("Addperson4");
 }
 
 //for testing

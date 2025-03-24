@@ -29,6 +29,7 @@ tile* worldMapScene::getTileAtMousePosition(worldMap map, sf::Vector2f size)
 
 std::string worldMapScene::getTileString(worldMap map, tile * currentTile)
 {
+	if(currentTile == NULL || currentTile == nullptr) return "";
     std::string retval = "Elevation: " + std::to_string(currentTile->elevation);
     retval += "\nWater Depth: " + std::to_string(currentTile->waterDepth());
     if (map.resourceNames.size() > 0)
@@ -60,10 +61,6 @@ std::string worldMapScene::getSelectedPersonString(person * selectedPerson)
 	return "Selected Person:\nName: " + selectedPerson->name + "\nHealth: " + std::to_string(selectedPerson->attributes->health)+ "\nMana: " + std::to_string(selectedPerson->attributes->mana)+ "\nStamina: " + std::to_string(selectedPerson->attributes->stamina)+ "\nFood: " + std::to_string(selectedPerson->attributes->food);
 }
 
-std::pair<person*, person*> worldMapScene::getBattleOponents()
-{
-	return std::pair<person*, person*>(newPerson, oneEnemy);
-}
 
 void worldMapScene::endTurn(worldMap *map)
 {
@@ -84,8 +81,11 @@ void worldMapScene::handleEvent(sf::Event event)
 	{
 		if (event.getIf< sf::Event::MouseButtonPressed>()->button == sf::Mouse::Button::Left)
 		{
-			selectedTile = getTileAtMousePosition(*map, size);
-			selectedPerson = selectedTile->personHere;
+			if(getTileAtMousePosition(*map, size)!=NULL)
+			{
+				selectedTile = getTileAtMousePosition(*map, size);
+				selectedPerson = selectedTile->personHere;
+			}
 			if (selectedPerson == nullptr)
 			{
 				printf("Selected Tile at %d, %d\n", selectedTile->xPos, selectedTile->yPos);
@@ -128,7 +128,6 @@ void worldMapScene::handleEvent(sf::Event event)
 
 void worldMapScene::renderFrame()
 {
-	
 	hoveredTile = getTileAtMousePosition(*map, size);
 	infoString = getInfoString(*map,hoveredTile);
 	infoOverlay->setString(infoString);
@@ -145,33 +144,30 @@ void worldMapScene::renderFrame()
 	window->clear();
 }
 
-worldMapScene::worldMapScene(sf::RenderWindow * window)
+worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHeight, int numPersons)
 {	
-	printf("Here0");
     srand(time(0));	
 	this->window = window;
     mapMode* defaultMapMode = new defaultMap();
-    map = new worldMap(window, 100, 120, defaultMapMode, 10.0f);
+    map = new worldMap(window, mapWidth, mapHeight, defaultMapMode, 10.0f);
     rain(*map, 0.5f);
     Resource iron("iron", 1.0f);
     iron.registerResource(map);
 
 	// also made if as member for easier testing
-    newPerson= new person(5, 5, map);
-    newPerson->addPerson();
-	newPerson->addCreature();
-	newPerson->addCreature();
-
-	person * person2 = new person(10, 10, map, "Jane Doe");
-	person2->addPerson();
-	person2->addCreature();
-	printf("Here2");
+    person * newPerson;
+	for(int i = 0; i < numPersons && i < mapWidth && i < mapHeight; i++)
+	{
+		newPerson = new person(i, i, map);
+		newPerson->addPerson();
+		newPerson->addCreature();
+	}
 	mapMode * resourceMapMode = new resourceMap(map,0);
-	printf("Here3");
 
 
 	//enemies
 	// changed one of them as members of class for battle scene tests
+	person * oneEnemy;
 	oneEnemy = new person(20, 20, map, "Bad Person One", false);
 	oneEnemy->addPerson();
 	oneEnemy->addCreature();
@@ -195,7 +191,7 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
     infoOverlay->setScale({0.25f,0.25f});
     infoString = "";
     infoOverlay->setString(infoString);
-	
+
     selectedTileOverlay = new sf::Text(*font);
     selectedTileOverlay->setCharacterSize(120);
     selectedTileOverlay->setFillColor(sf::Color::White);
@@ -216,7 +212,7 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
     selectedPersonOverlay->setPosition({0.57f*size.x,0.67f*size.y});
     selectedPersonOverlay->setScale({0.25f,0.25f});
     selectedPersonString = "";
-    selectedPersonOverlay->setString(selectedPersonString);	
+    selectedPersonOverlay->setString(selectedPersonString);
 	
 	buttonPanel = new ButtonPanel({size.x-100,0.0f});
 	buttonPanel->addButton(new MapButton("ore.png", window, map,resourceMapMode));
@@ -226,7 +222,6 @@ worldMapScene::worldMapScene(sf::RenderWindow * window)
     selectedPerson = nullptr;
     taskToAdd=nullptr;
 	endingTurn = false;
-	printf("Here4");
 	map->removeDead();
 }
     
@@ -259,4 +254,30 @@ void BattleScene::renderFrame()
 void BattleScene::updateScene()
 {
 	m_BattleCore->update();
+}
+
+menuScene::menuScene(sf::RenderWindow * window)
+{
+	this->window = window;
+	buttonPanel = new ButtonPanel({250.0f,250.0f});
+	buttonPanel->addButton(new StartGameButton("play.png",window));
+}
+
+void menuScene::renderFrame()
+{
+	buttonPanel->renderButtons();
+	window->display();
+	window->clear();
+}
+
+void menuScene::handleEvent(sf::Event event)
+{
+	if (const auto* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>())
+	{
+		if (mouseButtonPressed->button == sf::Mouse::Button::Left)
+		{
+			buttonPanel->processButtons(mouseButtonPressed->position);
+		}
+	}
+
 }

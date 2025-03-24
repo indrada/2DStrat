@@ -38,5 +38,11 @@ class MapButton : virtual public Button
 		void process() override;
 };
 
+class StartGameButton : virtual public Button
+{
+	public:
+		StartGameButton(std::string fileName, sf::RenderWindow * window);
+		void process() override;
+};
 
 #endif

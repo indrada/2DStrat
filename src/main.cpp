@@ -17,27 +17,25 @@
 struct globalContext context;
 int main()
 {
-    // it's not ideal solution but for testing is okey
 
     
 	sf::RenderWindow * window = new sf::RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Testing", sf::State::Fullscreen);
     window->setFramerateLimit(144);	
     window->setKeyRepeatEnabled(false);
     //change when commit
-
-    Scene * scene = new worldMapScene(window);
-    //just change this to test world stuff
-    context.scene = scene;
     context.window = window;
 
+    Scene * scene = new menuScene(window);
+
+    context.scene = scene;
     while (window->isOpen())
     {
 
         while (const std::optional<sf::Event> event = window->pollEvent())
 		{
-            context.scene->handleEvent(event.value());            
+            context.scene->handleEvent(event.value());
 		}        
-        context.scene->renderFrame();           
+        context.scene->renderFrame();
     }
 }
 
