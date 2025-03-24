@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System/Vector2.hpp>
+#include "context.h"
+
+extern globalContext context;
 
 ButtonPanel::ButtonPanel()
 {
@@ -66,4 +69,14 @@ MapButton::MapButton(std::string fileName, sf::RenderWindow * window, worldMap *
 void MapButton::process()
 {
 	map->updateMapMode(mode);
+}
+
+void StartGameButton::process()
+{
+	context.scene = new worldMapScene(context.window,100,100,2);
+}
+
+StartGameButton::StartGameButton(std::string fileName, sf::RenderWindow * window) : Button(fileName, window)
+{
+	this->window = window;
 }

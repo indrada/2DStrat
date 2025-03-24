@@ -32,6 +32,7 @@ set(ICONS
     "${CMAKE_SOURCE_DIR}/Assets/Icons/no-image.png"
     "${CMAKE_SOURCE_DIR}/Assets/Icons/ore.png"
     "${CMAKE_SOURCE_DIR}/Assets/Icons/shovel.png"
+    "${CMAKE_SOURCE_DIR}/Assets/Icons/play.png"
 
 )
 

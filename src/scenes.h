@@ -38,8 +38,6 @@ class worldMapScene : virtual public Scene
 
 		person* selectedPerson;
 
-		person* newPerson;
-		person* oneEnemy;
 
 		moveTask * taskToAdd;
 		ButtonPanel * buttonPanel;
@@ -48,7 +46,7 @@ class worldMapScene : virtual public Scene
 		sf::RenderWindow * window;
 		sf::Vector2f size;
 
-		worldMapScene(sf::RenderWindow * window);
+		worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHeight, int numPersons);
 
 		void handleEvent(sf::Event event);
 		void renderFrame();
@@ -81,6 +79,19 @@ public:
 
 	void renderFrame();
 	void updateScene();
+};
+
+class menuScene : public Scene
+{
+
+private:
+	ButtonPanel * buttonPanel;
+public:
+	menuScene(sf::RenderWindow * window);
+	void handleEvent(sf::Event);
+	void renderFrame();
+
+	sf::RenderWindow * window;
 };
 
 
