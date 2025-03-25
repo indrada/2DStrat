@@ -5,7 +5,7 @@
 #include "tile.h"
 #include "person.h"
 #include "resource.h"
-#include "buttons.h"
+#include "gui.h"
 #include "battle.h"
 
 #include <ctime>
@@ -40,7 +40,7 @@ class worldMapScene : virtual public Scene
 
 
 		moveTask * taskToAdd;
-		ButtonPanel * buttonPanel;
+		gui::ButtonPanel * buttonPanel;
 		bool endingTurn;
 		worldMap * map;
 		sf::RenderWindow * window;
@@ -85,7 +85,7 @@ class menuScene : public Scene
 {
 
 private:
-	ButtonPanel * buttonPanel;
+	gui::ButtonPanel * buttonPanel;
 public:
 	menuScene(sf::RenderWindow * window);
 	void handleEvent(sf::Event);

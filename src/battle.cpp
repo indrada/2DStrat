@@ -4,12 +4,12 @@ extern struct globalContext context;
 #include "context.h"
 void BattleCore::initBaseScene()
 {
-	
+
 	//change it to player and enemy sprites then
 	playerHero = std::make_shared<sf::RectangleShape>();
 	playerHero->setSize(sf::Vector2f{ (m_window->getSize().x / 1920.f) * 200.f , (m_window->getSize().y / 1080.f) * 100.f });
 	playerHero->setFillColor(sf::Color::Green);
-	playerHero->setPosition(sf::Vector2f{ m_window->getSize().x * 0.2f, m_window->getSize().y * 0.8f});
+	playerHero->setPosition(sf::Vector2f{ m_window->getSize().x * 0.2f, m_window->getSize().y * 0.8f });
 
 	enemyHero = std::make_shared<sf::RectangleShape>();
 	enemyHero->setSize(sf::Vector2f{ (m_window->getSize().x / 1920.f) * 200.f , (m_window->getSize().y / 1080.f) * 100.f });
@@ -19,22 +19,32 @@ void BattleCore::initBaseScene()
 	battleHUD.push_back(playerHero);
 	battleHUD.push_back(enemyHero);
 
-	
+
 	//player control panel
 	playerInfoPanel = std::make_shared<sf::RectangleShape>();
 	playerInfoPanel->setSize(sf::Vector2f{ (m_window->getSize().x / 1920.f) * 700.f , (m_window->getSize().y / 1080.f) * 300.f });
 	playerInfoPanel->setFillColor(sf::Color{ 128,128,128,50 });
 	playerInfoPanel->setPosition(sf::Vector2f{ m_window->getSize().x * 0.6f, m_window->getSize().y * 0.6f });
 
-	playerHpRect = std::make_shared<sf::RectangleShape>();
-	playerHpRect->setSize(sf::Vector2f{ playerInfoPanel->getSize().x, 15.f });
-	playerHpRect->setPosition(sf::Vector2f{ playerInfoPanel->getPosition().x, playerInfoPanel->getPosition().y + playerInfoPanel->getPosition().y * 0.2f });
-	playerHpRect->setFillColor(sf::Color::Red);
-	maxHpRectXSize = playerHpRect->getSize().x;
+	// hp bar
+	playerHpBar = std::make_shared<gui::ProgressBar<float>>(sf::Vector2f{ playerInfoPanel->getPosition().x,
+		playerInfoPanel->getPosition().y + playerInfoPanel->getSize().y * 0.45f },
+		sf::Vector2f{ playerInfoPanel->getSize().x, 15.f });
+	playerHpBar->setRange(0, friendlyCreature->getComponent<CStats>().maxHp);
+	playerHpBar->changeValue(friendlyCreature->getComponent<CStats>().m_hp);
+
+	// mana bar
+	playerManaBar = std::make_shared<gui::ProgressBar<float>>(sf::Vector2f{ playerInfoPanel->getPosition().x,
+		playerInfoPanel->getPosition().y + playerInfoPanel->getSize().y * 0.75f },
+		sf::Vector2f{ playerInfoPanel->getSize().x, 15.f });
+	playerManaBar->setRange(0, friendlyCreature->getComponent<CStats>().maxMana);
+	playerManaBar->changeValue(friendlyCreature->getComponent<CStats>().m_mana);
+	playerManaBar->setInlineColor(sf::Color::Blue);
+
 
 	playerInfoText->setPosition(playerInfoPanel->getGlobalBounds().position);
-	
-	battleHUD.push_back(playerHpRect);
+
+
 	battleHUD.push_back(playerInfoPanel);
 
 
@@ -43,6 +53,21 @@ void BattleCore::initBaseScene()
 	enemyInfoPanel->setSize(sf::Vector2f{ (m_window->getSize().x / 1920.f) * 700.f , (m_window->getSize().y / 1080.f) * 300.f });
 	enemyInfoPanel->setFillColor(sf::Color{ 128,128,128,50 });
 	enemyInfoPanel->setPosition(sf::Vector2f{ m_window->getSize().x * 0.05f, m_window->getSize().y * 0.05f });
+
+	// hp bar
+	enemyHpBar = std::make_shared<gui::ProgressBar<float>>(sf::Vector2f{ enemyInfoPanel->getPosition().x,
+		enemyInfoPanel->getPosition().y + enemyInfoPanel->getSize().y * 0.45f },
+		sf::Vector2f{ enemyInfoPanel->getSize().x, 15.f });
+	enemyHpBar->setRange(0, enemyCreature->getComponent<CStats>().maxHp);
+	enemyHpBar->changeValue(enemyCreature->getComponent<CStats>().m_hp);
+
+	// mana bar
+	enemyManaBar = std::make_shared<gui::ProgressBar<float>>(sf::Vector2f{ enemyInfoPanel->getPosition().x,
+		enemyInfoPanel->getPosition().y + playerInfoPanel->getSize().y * 0.75f },
+		sf::Vector2f{ playerInfoPanel->getSize().x, 15.f });
+	enemyManaBar->setRange(0, enemyCreature->getComponent<CStats>().maxMana);
+	enemyManaBar->changeValue(enemyCreature->getComponent<CStats>().m_mana);
+	enemyManaBar->setInlineColor(sf::Color::Blue);
 
 	enemyInfoText->setPosition(enemyInfoPanel->getGlobalBounds().position);
 
@@ -90,10 +115,17 @@ void BattleCore::updateInfoText()
 
 }
 
+
 void BattleCore::render()
 {
 
 	m_window->clear();
+
+	playerHpBar->draw(m_window);
+	enemyHpBar->draw(m_window);
+
+	playerManaBar->draw(m_window);
+	enemyManaBar->draw(m_window);
 
 	for (const auto& element : battleHUD)
 	{
@@ -115,21 +147,24 @@ void BattleCore::handleEvents(sf::Event evt)
 	{
 		m_window->close();
 	}
-	if(const auto* keyPressed = evt.getIf<sf::Event::KeyPressed>())
+	if (const auto* keyPressed = evt.getIf<sf::Event::KeyPressed>())
 	{
-		if(keyPressed->code == sf::Keyboard::Key::Enter)
+		if (keyPressed->code == sf::Keyboard::Key::Enter)
 		{
 			friendlyCreature->attack(enemyCreature);
-			if(!(friendlyCreature->isAlive()))
-			{				
+			if (!(friendlyCreature->isAlive()))
+			{
 				entity1->creatureList.pop_back();
-				if(entity1->creatureList.empty())
+				if (entity1->creatureList.empty())
 				{
 					context.inBattle = false;
 					return;
 				}
 				friendlyCreature = entity1->creatureList.back();
 			}
+
+			enemyHpBar->changeValue(enemyCreature->getComponent<CStats>().m_hp);
+
 			playerTurn = false;
 			updateInfoText();
 		}
@@ -141,12 +176,12 @@ void BattleCore::update()
 	if (!playerTurn)
 	{
 		enemyCreature->attack(friendlyCreature);
-		if(!(enemyCreature->isAlive()))
-		{				
+		if (!(enemyCreature->isAlive()))
+		{
 			printf("You did it!\n");
-			printf("%d\n",entity2->creatureList.size());
+			printf("%d\n", entity2->creatureList.size());
 			entity2->creatureList.pop_back();
-			if(entity2->creatureList.empty())
+			if (entity2->creatureList.empty())
 			{
 				context.inBattle = false;
 				return;
@@ -155,6 +190,7 @@ void BattleCore::update()
 		}
 		playerTurn = true;
 
+		playerHpBar->changeValue(friendlyCreature->getComponent<CStats>().m_hp);
 		updateInfoText();
 	}
 
@@ -180,22 +216,22 @@ BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person
 
 }
 
-bool initBattle(person * player, person * enemy)
+bool initBattle(person* player, person* enemy)
 {
-	if(!player->isAlive()) return enemy->isAlive();
+	if (!player->isAlive()) return enemy->isAlive();
 	printf("Here1111 A");
-	if(!enemy->isAlive()) return false;
+	if (!enemy->isAlive()) return false;
 	context.inBattle = true;
-	BattleCore battle(context.window,player,enemy);
-	BattleScene scene(context.window,player,enemy);
+	BattleCore battle(context.window, player, enemy);
+	BattleScene scene(context.window, player, enemy);
 	while (context.inBattle && context.window->isOpen())
-    {
+	{
 
-        while (const std::optional<sf::Event> event = context.window->pollEvent())
+		while (const std::optional<sf::Event> event = context.window->pollEvent())
 		{
-            scene.handleEvent(event.value());            
-		}        
-        scene.renderFrame();           
-    }
+			scene.handleEvent(event.value());
+		}
+		scene.renderFrame();
+	}
 	return enemy->isAlive();
 }
