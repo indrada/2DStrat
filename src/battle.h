@@ -40,12 +40,15 @@ private:
 	std::shared_ptr<Creature> friendlyCreature;
 	std::shared_ptr<Creature> enemyCreature;
 
-	bool playerTurn;
+	bool isPlayerTurn;
 
 	void initBaseScene();
 	void initText();
 
 	void updateInfoText();
+	
+	void playerTurn();
+	void enemyTurn();
 
 	// create some creature choose mechanincs
 

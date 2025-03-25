@@ -168,13 +168,13 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 	//enemies
 	// changed one of them as members of class for battle scene tests
 	person * oneEnemy;
-	oneEnemy = new person(20, 20, map, "Bad Person One", false);
+	oneEnemy = new person(5, 5, map, "Bad Person One", false);
 	oneEnemy->addPerson();
 	oneEnemy->addCreature();
 	oneEnemy->addCreature();
 	printf("\n%d",oneEnemy);
 
-	person *twoEnemy = new person(20, 30, map, "Bad Person Two", false);
+	person *twoEnemy = new person(6, 6, map, "Bad Person Two", false);
 	twoEnemy->addPerson();
 	twoEnemy->addCreature();
 	defaultMapMode->generateVertexArray();

@@ -121,13 +121,18 @@ namespace gui
 
 		sf::RectangleShape backgroundRect;
 
+		int currentIndex;
+
 
 	public:
 
 		ActionsMenu(sf::Vector2f pos, sf::Vector2f size);
 
 		void addAction(std::string action);
+		void changeIndex(int val);
 
+		std::string getCurrentAction() const;
+		
 		void draw(sf::RenderWindow* window);
 
 	};

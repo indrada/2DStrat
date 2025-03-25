@@ -95,6 +95,7 @@ gui::ActionsMenu::ActionsMenu(sf::Vector2f pos, sf::Vector2f size)
 	backgroundRect.setPosition(pos);
 	backgroundRect.setFillColor(sf::Color{ 128,128,128,50 });
 
+	currentIndex = 0;
 }
 
 void gui::ActionsMenu::draw(sf::RenderWindow* window)
@@ -111,10 +112,8 @@ void gui::ActionsMenu::draw(sf::RenderWindow* window)
 void gui::ActionsMenu::addAction(std::string action)
 {
 	sf::Text temp(*menuFont);
-	std::string totalString{ std::to_string((textActions.size() + 1)) + ") "};
-	totalString += action;
-	temp.setString(totalString);
-	temp.setCharacterSize(24);
+	temp.setString(action);
+	temp.setCharacterSize(52);
 
 	textActions.push_back(temp);
 
@@ -128,5 +127,39 @@ void gui::ActionsMenu::addAction(std::string action)
 		index++;
 	}
 
+	if (textActions.size() == 1)
+	{
+		std::string temp{ textActions[currentIndex].getString() };
+		temp = ">" + temp;
+		textActions[currentIndex].setString(temp);
+		textActions[currentIndex].setFillColor(sf::Color::Yellow);
+	}
 
+}
+
+void gui::ActionsMenu::changeIndex(int val)
+{
+	if (currentIndex == (textActions.size() - 1) && val > 0) { return; }
+	if (currentIndex == 0 && val < 0) { return; }
+
+	// get sttring without > char
+	std::string temp = textActions[currentIndex].getString().toAnsiString().substr(1,
+		textActions[currentIndex].getString().getSize() - 1);
+
+	textActions[currentIndex].setString(temp);
+	textActions[currentIndex].setFillColor(sf::Color::White);
+	currentIndex += val;
+
+	temp = textActions[currentIndex].getString().toAnsiString();
+	temp = ">" + temp;
+
+	textActions[currentIndex].setString(temp);
+	textActions[currentIndex].setFillColor(sf::Color::Yellow);
+
+}
+
+std::string gui::ActionsMenu::getCurrentAction() const
+{
+	return textActions[currentIndex].getString().toAnsiString().substr(1, 
+		textActions[currentIndex].getString().getSize());
 }
