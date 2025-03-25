@@ -41,9 +41,15 @@ void BattleCore::initBaseScene()
 	playerManaBar->changeValue(friendlyCreature->getComponent<CStats>().m_mana);
 	playerManaBar->setInlineColor(sf::Color::Blue);
 
-
+	//Creature info text
 	playerInfoText->setPosition(playerInfoPanel->getGlobalBounds().position);
 
+	// Player actions menu
+	playerActionMenu = std::make_shared<gui::ActionsMenu>(sf::Vector2f{playerInfoPanel->getGlobalBounds().position.x - 300,
+		playerInfoPanel->getGlobalBounds().position.y}, sf::Vector2f{300, 400});
+	playerActionMenu->addAction("Attack");
+	playerActionMenu->addAction("Abilities");
+	playerActionMenu->addAction("Defence");
 
 	battleHUD.push_back(playerInfoPanel);
 
@@ -136,6 +142,8 @@ void BattleCore::render()
 	{
 		m_window->draw(*text);
 	}
+
+	playerActionMenu->draw(m_window);
 
 	m_window->display();
 

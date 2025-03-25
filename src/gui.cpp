@@ -6,15 +6,10 @@
 
 extern globalContext context;
 
-gui::ButtonPanel::ButtonPanel()
-{
+//ButtonPanel
+gui::ButtonPanel::ButtonPanel() {}
 
-}
-
-gui::ButtonPanel::ButtonPanel(sf::Vector2<float> position) : position(position)
-{
-
-}
+gui::ButtonPanel::ButtonPanel(sf::Vector2<float> position) : position(position) {}
 
 void gui::ButtonPanel::processButtons(sf::Vector2i mouse_pos)
 {
@@ -47,6 +42,7 @@ void gui::ButtonPanel::addButton(Button* button)
 }
 
 
+//Button
 gui::Button::Button(std::string fileName, sf::RenderWindow* window)
 {
 	this->window = window;
@@ -59,6 +55,8 @@ gui::Button::Button(std::string fileName, sf::RenderWindow* window)
 	sprite = new sf::Sprite(*texture);
 }
 
+
+//MapButton
 gui::MapButton::MapButton(std::string fileName, sf::RenderWindow* window, worldMap* map, mapMode* mode) : Button(fileName, window)
 {
 	this->map = map;
@@ -71,6 +69,8 @@ void gui::MapButton::process()
 	map->updateMapMode(mode);
 }
 
+
+//StartGameButton
 void gui::StartGameButton::process()
 {
 	context.scene = new worldMapScene(context.window, 100, 100, 2);
@@ -79,4 +79,54 @@ void gui::StartGameButton::process()
 gui::StartGameButton::StartGameButton(std::string fileName, sf::RenderWindow* window) : Button(fileName, window)
 {
 	this->window = window;
+}
+
+
+//ActionsMenu
+gui::ActionsMenu::ActionsMenu(sf::Vector2f pos, sf::Vector2f size)
+{
+	menuFont = std::make_unique<sf::Font>("Assets/Fonts/BigShouldersStencil.ttf");
+	if (!menuFont)
+	{
+		std::cout << "ERROR::LOADFROMFILE::ActionsMenu::menuFont\n";
+	}
+
+	backgroundRect.setSize(size);
+	backgroundRect.setPosition(pos);
+	backgroundRect.setFillColor(sf::Color{ 128,128,128,50 });
+
+}
+
+void gui::ActionsMenu::draw(sf::RenderWindow* window)
+{
+	window->draw(backgroundRect);
+
+	for (const auto& text : textActions)
+	{
+		window->draw(text);
+	}
+
+}
+
+void gui::ActionsMenu::addAction(std::string action)
+{
+	sf::Text temp(*menuFont);
+	std::string totalString{ std::to_string((textActions.size() + 1)) + ") "};
+	totalString += action;
+	temp.setString(totalString);
+	temp.setCharacterSize(24);
+
+	textActions.push_back(temp);
+
+	int index = 1;
+	for (auto& action : textActions)
+	{
+		action.setPosition(sf::Vector2f{ backgroundRect.getPosition().x + 0.05f * backgroundRect.getPosition().x,
+			backgroundRect.getPosition().y + (index - 1) *
+			(backgroundRect.getGlobalBounds().size.y / textActions.size()) });
+
+		index++;
+	}
+
+
 }
