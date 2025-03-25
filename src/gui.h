@@ -65,6 +65,7 @@ namespace gui
 		{
 			maxNumber = static_cast<T>(100);
 			minNumber = 0;
+			currentValue = 0;
 			maxSizeX = barSize.x;
 
 			outlineRect.setPosition(pos);
@@ -108,6 +109,30 @@ namespace gui
 		void setOutlineColor(sf::Color color) { outlineRect.setOutlineColor(color); }
 
 	};
+
+	
+	class ActionsMenu
+	{
+		
+	private:
+
+		std::unique_ptr<sf::Font> menuFont;
+		std::vector<sf::Text> textActions;
+
+		sf::RectangleShape backgroundRect;
+
+
+	public:
+
+		ActionsMenu(sf::Vector2f pos, sf::Vector2f size);
+
+		void addAction(std::string action);
+
+		void draw(sf::RenderWindow* window);
+
+	};
+
+
 
 }
 

@@ -16,6 +16,7 @@ private:
 	std::shared_ptr<sf::RectangleShape> playerInfoPanel;
 	std::shared_ptr<gui::ProgressBar<float>> playerHpBar;
 	std::shared_ptr<gui::ProgressBar<float>> playerManaBar;
+	std::shared_ptr<gui::ActionsMenu> playerActionMenu;
 
 	float maxHpRectXSize;
 
