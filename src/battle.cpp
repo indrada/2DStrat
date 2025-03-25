@@ -126,27 +126,23 @@ void BattleCore::updateInfoText()
 
 void BattleCore::playerTurn()
 {
-	friendlyCreature->attack(enemyCreature);
-	if (!(friendlyCreature->isAlive()))
+	std::string currentAction = playerActionMenu->getCurrentAction();
+
+	std::cout << currentAction << '\n';
+
+	if (currentAction == "Attack")
 	{
-		entity1->creatureList.pop_back();
-		if (entity1->creatureList.empty())
-		{
-			context.inBattle = false;
-			return;
-		}
-		friendlyCreature = entity1->creatureList.back();
+		friendlyCreature->attack(enemyCreature);
+	}
+	else if (currentAction == "Ability")
+	{
+		//show abilities list and etc
+	}
+	else if (currentAction == "Defence")
+	{
+		//set defence buff to friendly creature
 	}
 
-	enemyHpBar->changeValue(enemyCreature->getComponent<CStats>().m_hp);
-
-	isPlayerTurn = false;
-	updateInfoText();
-}
-
-void BattleCore::enemyTurn()
-{
-	enemyCreature->attack(friendlyCreature);
 	if (!(enemyCreature->isAlive()))
 	{
 		printf("You did it!\n");
@@ -159,6 +155,30 @@ void BattleCore::enemyTurn()
 		}
 		enemyCreature = entity2->creatureList.back();
 	}
+	
+
+	enemyHpBar->changeValue(enemyCreature->getComponent<CStats>().m_hp);
+
+	isPlayerTurn = false;
+	updateInfoText();
+}
+
+void BattleCore::enemyTurn()
+{
+
+	enemyCreature->attack(friendlyCreature);
+
+	if (!(friendlyCreature->isAlive()))
+	{
+		entity1->creatureList.pop_back();
+		if (entity1->creatureList.empty())
+		{
+			context.inBattle = false;
+			return;
+		}
+		friendlyCreature = entity1->creatureList.back();
+	}
+
 	isPlayerTurn = true;
 
 	playerHpBar->changeValue(friendlyCreature->getComponent<CStats>().m_hp);

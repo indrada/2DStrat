@@ -112,7 +112,6 @@ void gui::ActionsMenu::draw(sf::RenderWindow* window)
 void gui::ActionsMenu::addAction(std::string action)
 {
 	sf::Text temp(*menuFont);
-	action = std::to_string((textActions.size() + 1)) + ") " + action;
 	temp.setString(action);
 	temp.setCharacterSize(52);
 
@@ -157,4 +156,10 @@ void gui::ActionsMenu::changeIndex(int val)
 	textActions[currentIndex].setString(temp);
 	textActions[currentIndex].setFillColor(sf::Color::Yellow);
 
+}
+
+std::string gui::ActionsMenu::getCurrentAction() const
+{
+	return textActions[currentIndex].getString().toAnsiString().substr(1, 
+		textActions[currentIndex].getString().getSize());
 }

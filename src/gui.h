@@ -131,6 +131,8 @@ namespace gui
 		void addAction(std::string action);
 		void changeIndex(int val);
 
+		std::string getCurrentAction() const;
+		
 		void draw(sf::RenderWindow* window);
 
 	};
