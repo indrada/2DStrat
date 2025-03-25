@@ -1,11 +1,12 @@
 #pragma once
 #include "worldMap.h"
 #include "person.h"
+#include "gui.h"
 
 #include <iostream>
 
 //returns true if player loses
-bool initBattle(person * player, person * enemy);
+bool initBattle(person* player, person* enemy);
 
 class BattleCore
 {
@@ -13,11 +14,15 @@ private:
 
 	std::shared_ptr<sf::RectangleShape> playerHero;
 	std::shared_ptr<sf::RectangleShape> playerInfoPanel;
-	std::shared_ptr<sf::RectangleShape> playerHpRect;
+	std::shared_ptr<gui::ProgressBar<float>> playerHpBar;
+	std::shared_ptr<gui::ProgressBar<float>> playerManaBar;
+
 	float maxHpRectXSize;
 
 	std::shared_ptr<sf::RectangleShape> enemyHero;
 	std::shared_ptr<sf::RectangleShape> enemyInfoPanel;
+	std::shared_ptr<gui::ProgressBar<float>> enemyHpBar;
+	std::shared_ptr<gui::ProgressBar<float>> enemyManaBar;
 
 	sf::RenderWindow* m_window;
 

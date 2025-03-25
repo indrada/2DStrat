@@ -4,7 +4,7 @@
 #include "tile.h"
 #include "person.h"
 #include "resource.h"
-#include "buttons.h"
+#include "gui.h"
 #include "battle.h"
 #include "scenes.h"
 #include <ctime>

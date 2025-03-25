@@ -4,7 +4,7 @@
 #include "person.h"
 #include "water.hpp"
 #include "resource.h"
-#include "buttons.h"
+#include "gui.h"
 #include "battle.h"
 #include "scenes.h"
 #include <ctime>
@@ -214,9 +214,9 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
     selectedPersonString = "";
     selectedPersonOverlay->setString(selectedPersonString);
 	
-	buttonPanel = new ButtonPanel({size.x-100,0.0f});
-	buttonPanel->addButton(new MapButton("ore.png", window, map,resourceMapMode));
-	buttonPanel->addButton(new MapButton("move.png", window, map,defaultMapMode));
+	buttonPanel = new gui::ButtonPanel({size.x-100,0.0f});
+	buttonPanel->addButton(new gui::MapButton("ore.png", window, map,resourceMapMode));
+	buttonPanel->addButton(new gui::MapButton("move.png", window, map,defaultMapMode));
 	hoveredTile = getTileAtMousePosition(*map, size);
     selectedTile = nullptr;
     selectedPerson = nullptr;
@@ -259,8 +259,8 @@ void BattleScene::updateScene()
 menuScene::menuScene(sf::RenderWindow * window)
 {
 	this->window = window;
-	buttonPanel = new ButtonPanel({250.0f,250.0f});
-	buttonPanel->addButton(new StartGameButton("play.png",window));
+	buttonPanel = new gui::ButtonPanel({250.0f,250.0f});
+	buttonPanel->addButton(new gui::StartGameButton("play.png",window));
 }
 
 void menuScene::renderFrame()
