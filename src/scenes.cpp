@@ -154,7 +154,7 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
     Resource iron("iron", 1.0f);
     iron.registerResource(map);
 
-	// also made if as member for easier testing
+	
     person * newPerson;
 	for(int i = 0; i < numPersons && i < mapWidth && i < mapHeight; i++)
 	{
@@ -166,12 +166,12 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 
 
 	//enemies
-	// changed one of them as members of class for battle scene tests
 	person * oneEnemy;
 	oneEnemy = new person(5, 5, map, "Bad Person One", false);
 	oneEnemy->addPerson();
 	oneEnemy->addCreature();
 	oneEnemy->addCreature();
+
 	printf("\n%d",oneEnemy);
 
 	person *twoEnemy = new person(6, 6, map, "Bad Person Two", false);

@@ -57,8 +57,6 @@ class worldMapScene : virtual public Scene
 		std::string getSelectedTileString(worldMap map, tile * currentTile);
 		std::string getSelectedPersonString(person * selectedPerson);
 
-		std::pair<person*, person*> getBattleOponents();
-
 		void endTurn(worldMap *map);
 };
 

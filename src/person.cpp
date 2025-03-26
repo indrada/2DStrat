@@ -79,6 +79,9 @@ void person::addCreature()
 	creature->addComponent<CStats>(50, 15, 25);
 	creature->addComponent<CBattleStats>(5, 5, ELEMENT::NONE);
 
+	abilities::AttackAbility temp("FireBall", 25, 25);
+	creature->addAtkAbility(temp);
+
 	creatureList.push_back(creature);
 }
 
@@ -103,11 +106,6 @@ attribute::attribute(int health, int food, int stamina, int mana)
 Vampire::Vampire(std::string name)
 	:Creature(name)
 {}
-
-void Vampire::doTurn(person * enemy, person * friendly)
-{
-	//do stuff
-}
 
 void person::setIsFriendly(bool value)
 {

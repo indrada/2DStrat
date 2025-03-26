@@ -134,9 +134,9 @@ void BattleCore::playerTurn()
 	{
 		friendlyCreature->attack(enemyCreature);
 	}
-	else if (currentAction == "Ability")
+	else if (currentAction == "Abilities")
 	{
-		//show abilities list and etc
+		friendlyCreature->getAtkAbilities().begin()->execute();
 	}
 	else if (currentAction == "Defence")
 	{
