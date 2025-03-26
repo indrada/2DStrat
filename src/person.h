@@ -3,11 +3,15 @@
 
 #include <vector>
 #include <deque>
-#include "worldMap.h"
-#include "task.h"
-#include "components.h"
+#include <vector>
 #include <tuple>
 #include <iostream>
+
+#include "task.h"
+#include "worldMap.h"
+#include "components.h"
+#include "abilities.h"
+
 
 // also CSprite, CActions and etc
 typedef std::tuple<CStats, CBattleStats> componetsTuple;
@@ -31,14 +35,15 @@ protected:
     // maybe add some tags to them
     componetsTuple components;
 
+    std::vector<abilities::AttackAbility> attackAbilities;
+
+
 public:
 
     std::string m_name;
 
     Creature(std::string name)
         :m_name(name){}
-
-    virtual void doTurn(person* enemy, person* friendly) = 0;
 
     template<typename T>
     T& getComponent()
@@ -70,6 +75,16 @@ public:
 
     }
 
+    void addAtkAbility(abilities::AttackAbility ability)
+    {
+        attackAbilities.push_back(ability);
+    }
+
+    std::vector<abilities::AttackAbility>& getAtkAbilities()
+    {
+        return attackAbilities;
+    }
+
 
     void attack(std::shared_ptr<Creature> enemy)
     {
@@ -87,6 +102,7 @@ public:
         return this->getComponent<CStats>().m_hp > 0;
     }
 
+
 };
 
 
@@ -96,8 +112,6 @@ class Vampire : public Creature
 public:
 
     Vampire(std::string);
-
-    void doTurn(person* enemy, person* friendly) override;
 
 };
 
