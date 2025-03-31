@@ -93,7 +93,9 @@ namespace gui
 
 		void changeValue(T value)
 		{
-			if (value > maxNumber || value < minNumber)
+			if (value < minNumber) { value = 0; }
+
+			if (value > maxNumber)
 			{
 				std::cout << "Value out of range\n";
 				return;
@@ -132,6 +134,7 @@ namespace gui
 		void changeIndex(int val);
 
 		std::string getCurrentAction() const;
+		int getCurrentIndex() const;
 		
 		void draw(sf::RenderWindow* window);
 

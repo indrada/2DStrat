@@ -163,3 +163,8 @@ std::string gui::ActionsMenu::getCurrentAction() const
 	return textActions[currentIndex].getString().toAnsiString().substr(1, 
 		textActions[currentIndex].getString().getSize());
 }
+
+int gui::ActionsMenu::getCurrentIndex() const
+{
+	return currentIndex;
+}
