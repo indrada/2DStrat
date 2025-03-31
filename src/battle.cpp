@@ -54,6 +54,16 @@ void BattleCore::initBaseScene()
 	playerActionMenu->addAction("Abilities");
 	playerActionMenu->addAction("Defence");
 
+	playerAbilitiesMenu = std::make_shared<gui::ActionsMenu>(
+		sf::Vector2f{ playerInfoPanel->getGlobalBounds().position.x - 300,
+		playerInfoPanel->getGlobalBounds().position.y },
+		sf::Vector2f{ 300, playerInfoPanel->getGlobalBounds().size.y });
+	for (const auto& i : friendlyCreature->attackAbilities)
+	{
+		playerAbilitiesMenu->addAction(i.m_name);
+	}
+	playerAbilitiesMenu->addAction("Back");
+
 	battleHUD.push_back(playerInfoPanel);
 
 
@@ -126,6 +136,28 @@ void BattleCore::updateInfoText()
 
 void BattleCore::playerTurn()
 {
+	if (inAbilitiesList)
+	{
+		if (playerAbilitiesMenu->getCurrentAction() == "Back")
+		{
+			inAbilitiesList = false;
+			return;
+		}
+
+		if (friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()].execute(enemyCreature))
+		{
+			playerManaBar->changeValue(friendlyCreature->getComponent<CStats>().m_mana);
+
+			inAbilitiesList = false;
+			isPlayerTurn = false;
+
+			enemyCreatureDeath();
+		}
+		return;
+
+	}
+
+
 	std::string currentAction = playerActionMenu->getCurrentAction();
 
 	std::cout << currentAction << '\n';
@@ -136,35 +168,23 @@ void BattleCore::playerTurn()
 	}
 	else if (currentAction == "Abilities")
 	{
-		friendlyCreature->getAtkAbilities().begin()->execute();
+		inAbilitiesList = true;
+		return;
 	}
 	else if (currentAction == "Defence")
 	{
 		//set defence buff to friendly creature
 	}
 
-	if (!(enemyCreature->isAlive()))
-	{
-		printf("You did it!\n");
-		printf("%d\n", entity2->creatureList.size());
-		entity2->creatureList.pop_back();
-		if (entity2->creatureList.empty())
-		{
-			context.inBattle = false;
-			return;
-		}
-		enemyCreature = entity2->creatureList.back();
-	}
+	enemyCreatureDeath();
 	
-
-	enemyHpBar->changeValue(enemyCreature->getComponent<CStats>().m_hp);
-
 	isPlayerTurn = false;
-	updateInfoText();
+
 }
 
 void BattleCore::enemyTurn()
 {
+	if (inAbilitiesList) { return; }
 
 	enemyCreature->attack(friendlyCreature);
 
@@ -181,8 +201,23 @@ void BattleCore::enemyTurn()
 
 	isPlayerTurn = true;
 
-	playerHpBar->changeValue(friendlyCreature->getComponent<CStats>().m_hp);
-	updateInfoText();
+
+}
+
+void BattleCore::enemyCreatureDeath()
+{
+	if (!(enemyCreature->isAlive()))
+	{
+		printf("You did it!\n");
+		printf("%d\n", entity2->creatureList.size());
+		entity2->creatureList.pop_back();
+		if (entity2->creatureList.empty())
+		{
+			context.inBattle = false;
+			return;
+		}
+		enemyCreature = entity2->creatureList.back();
+	}
 }
 
 
@@ -207,7 +242,15 @@ void BattleCore::render()
 		m_window->draw(*text);
 	}
 
-	playerActionMenu->draw(m_window);
+	if (inAbilitiesList)
+	{
+		playerAbilitiesMenu->draw(m_window);
+	}
+	else
+	{
+		playerActionMenu->draw(m_window);
+	}
+	
 
 	m_window->display();
 
@@ -224,14 +267,32 @@ void BattleCore::handleEvents(sf::Event evt)
 		if (keyPressed->code == sf::Keyboard::Key::Enter)
 		{
 			playerTurn();
+			updateInfoText();
+			enemyHpBar->changeValue(enemyCreature->getComponent<CStats>().m_hp);
 		}
 		else if (keyPressed->code == sf::Keyboard::Key::Down)
 		{
-			playerActionMenu->changeIndex(1);
+			if (inAbilitiesList)
+			{
+				playerAbilitiesMenu->changeIndex(1);
+			}
+			else 
+			{
+				playerActionMenu->changeIndex(1);
+			}
+			
 		}
 		else if (keyPressed->code == sf::Keyboard::Key::Up)
 		{
-			playerActionMenu->changeIndex(-1);
+			if (inAbilitiesList)
+			{
+				playerAbilitiesMenu->changeIndex(-1);
+			}
+			else
+			{
+				playerActionMenu->changeIndex(-1);
+			}
+			
 		}
 	}
 }
@@ -241,6 +302,8 @@ void BattleCore::update()
 	if (!isPlayerTurn)
 	{
 		enemyTurn();
+		updateInfoText();
+		playerHpBar->changeValue(friendlyCreature->getComponent<CStats>().m_hp);
 	}
 
 }
@@ -255,6 +318,7 @@ BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person
 	friendlyCreature = entity1->creatureList.back();
 	enemyCreature = entity2->creatureList.back();
 	isPlayerTurn = true;
+	inAbilitiesList = false;
 
 	m_window = window;
 

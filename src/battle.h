@@ -17,6 +17,7 @@ private:
 	std::shared_ptr<gui::ProgressBar<float>> playerHpBar;
 	std::shared_ptr<gui::ProgressBar<float>> playerManaBar;
 	std::shared_ptr<gui::ActionsMenu> playerActionMenu;
+	std::shared_ptr<gui::ActionsMenu> playerAbilitiesMenu;
 
 	float maxHpRectXSize;
 
@@ -41,6 +42,7 @@ private:
 	std::shared_ptr<Creature> enemyCreature;
 
 	bool isPlayerTurn;
+	bool inAbilitiesList;
 
 	void initBaseScene();
 	void initText();
@@ -50,6 +52,7 @@ private:
 	void playerTurn();
 	void enemyTurn();
 
+	void enemyCreatureDeath();
 	// create some creature choose mechanincs
 
 

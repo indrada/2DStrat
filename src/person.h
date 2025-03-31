@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <deque>
-#include <vector>
 #include <tuple>
 #include <iostream>
 
@@ -35,12 +34,13 @@ protected:
     // maybe add some tags to them
     componetsTuple components;
 
-    std::vector<abilities::AttackAbility> attackAbilities;
-
 
 public:
 
+    std::vector<AttackAbility> attackAbilities;
+
     std::string m_name;
+    
 
     Creature(std::string name)
         :m_name(name){}
@@ -75,14 +75,10 @@ public:
 
     }
 
-    void addAtkAbility(abilities::AttackAbility ability)
+
+    void addAtkAbility(AttackAbility ability)
     {
         attackAbilities.push_back(ability);
-    }
-
-    std::vector<abilities::AttackAbility>& getAtkAbilities()
-    {
-        return attackAbilities;
     }
 
 

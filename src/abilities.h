@@ -4,23 +4,38 @@
 #include <string>
 #include <iostream>
 
+class Creature;
 
-namespace abilities
+
+class AbilityCore
 {
-	class AttackAbility
-	{
 
-	private:
-		std::string m_name;
-		int m_damage, m_manaCost;
+protected:
 
-	public:
+	std::shared_ptr<Creature> m_self;
 
-		AttackAbility(std::string name = "NULL", int dmg = 0, int manaCost = 0);
+public:
 
-		void execute();
+	std::string m_name;
 
-	};
+	AbilityCore(std::shared_ptr<Creature> self, std::string name);
 
+	virtual bool execute(std::shared_ptr<Creature> creature);
 
-}
+};
+
+class AttackAbility : public AbilityCore
+{
+
+private:
+
+	int m_damage, m_manacost;
+
+public:
+
+	AttackAbility(std::shared_ptr<Creature> self, std::string name, int damage, int mcost);
+
+	bool execute(std::shared_ptr<Creature> creature);
+
+};
+
