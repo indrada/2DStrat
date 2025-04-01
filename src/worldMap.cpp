@@ -241,6 +241,7 @@ sf::Color elevationMap::getTileColor(int x, int y, worldMap toDisplay)
 
 sf::Color defaultMap::getTileColor(int x, int y, worldMap toDisplay)
 {
+    if(toDisplay.tileAt(x, y)-> structureHere!=NULL) return toDisplay.tileAt(x, y)->structureHere->color;
     if (toDisplay.tileAt(x, y)->personHere != NULL)
     {
         if (toDisplay.tileAt(x, y)->personHere->getIsFriendly())
@@ -265,4 +266,9 @@ resourceMap::resourceMap(worldMap *map, int resourceIndex)
     this->resourceIndex = resourceIndex;
     this->map = map;
     triangles = sf::VertexArray(sf::PrimitiveType::Triangles, 6 * map->verticalSize * map->horizontalSize);
+}
+
+void worldMap::addStructure(structure * toAdd, int x, int y)
+{
+    tileAt(x,y)->structureHere = toAdd;
 }

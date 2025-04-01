@@ -150,13 +150,14 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 	this->window = window;
     mapMode* defaultMapMode = new defaultMap();
     map = new worldMap(window, mapWidth, mapHeight, defaultMapMode, 10.0f);
+	map->addStructure(new mainCity(sf::Color(255,255,0)),0,0);
     rain(*map, 0.5f);
     Resource iron("iron", 1.0f);
     iron.registerResource(map);
 
 	
     person * newPerson;
-	for(int i = 0; i < numPersons && i < mapWidth && i < mapHeight; i++)
+	for(int i = 1; i < numPersons && i < mapWidth && i < mapHeight; i++)
 	{
 		newPerson = new person(i, i, map);
 		newPerson->addPerson();

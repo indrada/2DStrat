@@ -46,6 +46,7 @@ public:
     float maxResourceValue(int resourceIndex);
 	void updateAttributes();
     void removeDead();
+    void addStructure(structure * toAdd, int x, int y);
 
 };
 
