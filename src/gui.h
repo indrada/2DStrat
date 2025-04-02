@@ -136,6 +136,8 @@ namespace gui
 		std::string getCurrentAction() const;
 		int getCurrentIndex() const;
 		
+		void setBackGroundColor(sf::Color color);
+
 		void draw(sf::RenderWindow* window);
 
 	};

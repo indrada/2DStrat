@@ -168,3 +168,8 @@ int gui::ActionsMenu::getCurrentIndex() const
 {
 	return currentIndex;
 }
+
+void gui::ActionsMenu::setBackGroundColor(sf::Color color)
+{
+	backgroundRect.setFillColor(color);
+}
