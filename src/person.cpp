@@ -1,7 +1,7 @@
-#include "person.h"
-#include "task.h"
 #include <vector>
 #include "context.h"
+#include "person.h"
+#include "task.h"
 
 extern globalContext context;
 
@@ -79,8 +79,12 @@ void person::addCreature()
 	creature->addComponent<CStats>(50, 15, 25);
 	creature->addComponent<CBattleStats>(5, 5, ELEMENT::NONE);
 
-	abilities::AttackAbility temp("FireBall", 25, 25);
+	AttackAbility temp(creature, "FireBall", 50, 25);
+	AttackAbility temp2(creature, "Thunder", 25, 15);
+	AttackAbility temp3(creature, "Mega bite", 15, 10);
 	creature->addAtkAbility(temp);
+	creature->addAtkAbility(temp2);
+	creature->addAtkAbility(temp3);
 
 	creatureList.push_back(creature);
 }
