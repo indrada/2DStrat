@@ -167,17 +167,17 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 
 
 	//enemies
-	person * oneEnemy;
-	oneEnemy = new person(5, 5, map, "Bad Person One", false);
-	oneEnemy->addPerson();
-	oneEnemy->addCreature();
-	oneEnemy->addCreature();
 
-	printf("\n%d",oneEnemy);
+	// TODO:: write getters for map dimensions
+	int numEnemies = 5;
+	person* enemy;
+	for (int i = 1; i <= numEnemies && i < mapWidth && i < mapHeight; ++i) 
+	{	
+		enemy = new person(mapWidth - i, mapHeight - i, map, "enemy" + i, false);
+		enemy->addPerson();
+		enemy->addCreature();
+	}
 
-	person *twoEnemy = new person(6, 6, map, "Bad Person Two", false);
-	twoEnemy->addPerson();
-	twoEnemy->addCreature();
 	defaultMapMode->generateVertexArray();
 	resourceMapMode->generateVertexArray();	
     size = window->getView().getSize();	
