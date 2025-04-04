@@ -54,7 +54,7 @@ public:
     template<typename T>
     const T& getComponent() const
     {
-        return std::get<T>(m_components);
+        return std::get<T>(components);
     }
 
     template<typename T>

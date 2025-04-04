@@ -3,6 +3,7 @@
 #include "worldMap.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <iostream>
 
 namespace gui
 {
