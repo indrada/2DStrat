@@ -73,7 +73,8 @@ void gui::MapButton::process()
 //StartGameButton
 void gui::StartGameButton::process()
 {
-	context.scene = new worldMapScene(context.window, 100, 100, 2);
+	// using 30 instead of 100 to test enemy movement;
+	context.scene = new worldMapScene(context.window, 30, 30, 2);
 }
 
 gui::StartGameButton::StartGameButton(std::string fileName, sf::RenderWindow* window) : Button(fileName, window)
