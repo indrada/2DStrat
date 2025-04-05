@@ -136,6 +136,10 @@ class person {
         bool isAlive();
         void moveTo(int x, int y);
         void clearTasks();
+
+        //getters
+        int getXPos();
+        int getYPos();
         
     private:
         bool isFriendly;
