@@ -272,3 +272,23 @@ void worldMap::addStructure(structure * toAdd, int x, int y)
 {
     tileAt(x,y)->structureHere = toAdd;
 }
+
+void worldMap::moveEnemiesRandom()
+{
+    int xTemp, yTemp, randX, randY;
+    for (int i = 0; i < this->allPersons.size(); ++i)
+    {
+        if (this->allPersons[i]->getIsFriendly()) continue;
+
+        xTemp = this->allPersons[i]->getXPos();
+        yTemp = this->allPersons[i]->getYPos();
+
+        randX = RandomNumber(0, 20);
+        randY = RandomNumber(0, 20);
+
+        this->allPersons[i]->moveTo(
+            context.mainCityPos.x > xTemp ? (context.mainCityPos.x > xTemp + randX ? xTemp + randX : context.mainCityPos.x) : (context.mainCityPos.x < xTemp - randX ? xTemp - randX : context.mainCityPos.x),
+            context.mainCityPos.y > yTemp ? (context.mainCityPos.y > yTemp + randY ? yTemp + randY : context.mainCityPos.y) : (context.mainCityPos.y < yTemp - randY ? yTemp - randY : context.mainCityPos.y)
+        );
+    }
+}

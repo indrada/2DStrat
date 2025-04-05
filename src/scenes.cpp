@@ -14,6 +14,9 @@
 #include <inttypes.h>
 #include <SFML/Graphics/Text.hpp>
 
+#include "context.h"
+extern globalContext context;
+
 Scene::Scene()
 {
 	
@@ -65,6 +68,7 @@ std::string worldMapScene::getSelectedPersonString(person * selectedPerson)
 void worldMapScene::endTurn(worldMap *map)
 {
 	endingTurn=true;
+	map->moveEnemiesRandom();
 	map->doTasks(1000);
 	map->updateAttributes();
 	endingTurn=false;
@@ -171,7 +175,6 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 
 	//enemies
 
-	// TODO:: write getters for map dimensions
 	int numEnemies = 5;
 	person* enemy;
 	for (int i = 1; i <= numEnemies && i < mapWidth && i < mapHeight; ++i) 
