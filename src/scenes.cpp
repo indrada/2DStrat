@@ -150,7 +150,10 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 	this->window = window;
     mapMode* defaultMapMode = new defaultMap();
     map = new worldMap(window, mapWidth, mapHeight, defaultMapMode, 10.0f);
+
+	context.mainCityPos = { 0, 0};
 	map->addStructure(new mainCity(sf::Color(255,255,0)),0,0);
+
     rain(*map, 0.5f);
     Resource iron("iron", 1.0f);
     iron.registerResource(map);
