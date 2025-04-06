@@ -95,13 +95,12 @@ public:
 
     void attack(std::shared_ptr<Creature> enemy)
     {
-        int damageToTake = this->getComponent<CBattleStats>().m_damage /
-            enemy->getComponent<CBattleStats>().m_defence;
-        enemy->takeDamage(damageToTake);
+        enemy->takeDamage(this->getComponent<CBattleStats>().m_damage);
     }
     
     void takeDamage(int damage)
     {
+       
         std::cout << "Attacked with " << damage << '\n';
         this->getComponent<CStats>().m_hp -= damage;
     }
