@@ -14,6 +14,9 @@
 #include <inttypes.h>
 #include <SFML/Graphics/Text.hpp>
 
+#include "context.h"
+extern globalContext context;
+
 Scene::Scene()
 {
 	
@@ -65,6 +68,7 @@ std::string worldMapScene::getSelectedPersonString(person * selectedPerson)
 void worldMapScene::endTurn(worldMap *map)
 {
 	endingTurn=true;
+	map->moveEnemiesRandom();
 	map->doTasks(1000);
 	map->updateAttributes();
 	endingTurn=false;
@@ -150,7 +154,10 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 	this->window = window;
     mapMode* defaultMapMode = new defaultMap();
     map = new worldMap(window, mapWidth, mapHeight, defaultMapMode, 10.0f);
+
+	context.mainCityPos = { 0, 0};
 	map->addStructure(new mainCity(sf::Color(255,255,0)),0,0);
+
     rain(*map, 0.5f);
     Resource iron("iron", 1.0f);
     iron.registerResource(map);
@@ -167,17 +174,16 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 
 
 	//enemies
-	person * oneEnemy;
-	oneEnemy = new person(5, 5, map, "Bad Person One", false);
-	oneEnemy->addPerson();
-	oneEnemy->addCreature();
-	oneEnemy->addCreature();
 
-	printf("\n%d",oneEnemy);
+	int numEnemies = 5;
+	person* enemy;
+	for (int i = 1; i <= numEnemies && i < mapWidth && i < mapHeight; ++i) 
+	{	
+		enemy = new person(mapWidth - i, mapHeight - i, map, "enemy-" + std::to_string(i), false);
+		enemy->addPerson();
+		enemy->addCreature();
+	}
 
-	person *twoEnemy = new person(6, 6, map, "Bad Person Two", false);
-	twoEnemy->addPerson();
-	twoEnemy->addCreature();
 	defaultMapMode->generateVertexArray();
 	resourceMapMode->generateVertexArray();	
     size = window->getView().getSize();	

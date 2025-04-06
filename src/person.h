@@ -55,7 +55,7 @@ public:
     template<typename T>
     const T& getComponent() const
     {
-        return std::get<T>(m_components);
+        return std::get<T>(components);
     }
 
     template<typename T>
@@ -149,6 +149,10 @@ class person {
         bool isAlive();
         void moveTo(int x, int y);
         void clearTasks();
+
+        //getters
+        int getXPos();
+        int getYPos();
         
     private:
         bool isFriendly;

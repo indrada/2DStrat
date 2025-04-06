@@ -48,6 +48,9 @@ public:
     void removeDead();
     void addStructure(structure * toAdd, int x, int y);
 
+    //testing
+    void moveEnemiesRandom();
+
 };
 
 class elevationMap : virtual public mapMode

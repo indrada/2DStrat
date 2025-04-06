@@ -150,6 +150,7 @@ void person::clearTasks()
 
 void person::moveTo(int x, int y)
 {
+	std::cout << x << " " << y << std::endl;
 	while(x>dstXPos)
 	{
 		addTask(new moveTask(1,this,EAST));
@@ -170,4 +171,14 @@ void person::moveTo(int x, int y)
 		addTask(new moveTask(1,this,NORTH));
 		dstYPos--;
 	}
+}
+
+int person::getXPos()
+{
+	return this->xPos;
+}
+
+int person::getYPos()
+{
+	return this->yPos;
 }
