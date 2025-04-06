@@ -33,7 +33,7 @@ bool AttackAbility::execute(std::shared_ptr<Creature> creature)
 }
 
 Buff::Buff(std::shared_ptr<Creature> self, std::string name, int duration)
-	: m_self(self), m_name(name), m_duration(duration) 
+	: m_self(self), m_name(name), m_duration(duration)
 {
 	applyBuff();
 }
@@ -53,13 +53,11 @@ bool Buff::checkDuration()
 void Buff::applyBuff()
 {
 	std::cout << "Default buff apply\n";
-	m_self->getComponent<CBattleStats>().m_defence += 15;
 }
 
 void Buff::discardBuff()
 {
 	std::cout << "Default buff discard\n";
-	m_self->getComponent<CBattleStats>().m_defence -= 15;
 }
 
 bool Buff::operator==(const Buff& buff)
@@ -69,4 +67,20 @@ bool Buff::operator==(const Buff& buff)
 		return true;
 	}
 	return false;
+}
+
+DefenceUpBuff::DefenceUpBuff(std::shared_ptr<Creature> self, std::string name, int duration)
+	:Buff(self,name,duration) 
+{
+	m_type = BUFFTYPE::PASSIVE;
+}
+
+void DefenceUpBuff::applyBuff()
+{
+	m_self->getComponent<CBattleStats>().m_defence *= 3;
+}
+
+void DefenceUpBuff::discardBuff()
+{
+	m_self->getComponent<CBattleStats>().m_defence /= 3;
 }
