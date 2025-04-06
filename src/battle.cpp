@@ -134,6 +134,17 @@ void BattleCore::updateInfoText()
 
 }
 
+void BattleCore::updateBuffs()
+{
+	for (auto& buff : friendlyCreature->buffs)
+	{
+		if (buff.checkDuration())
+		{
+			friendlyCreature->deleteBuff(buff);
+		}
+	}
+}
+
 void BattleCore::playerTurn()
 {
 	if (inAbilitiesList)
@@ -173,7 +184,8 @@ void BattleCore::playerTurn()
 	}
 	else if (currentAction == "Defence")
 	{
-		//set defence buff to friendly creature
+		Buff defenceBuff{ friendlyCreature, "Defence Up!", 5 };
+		friendlyCreature->addBuff(defenceBuff);
 	}
 
 	enemyCreatureDeath();
@@ -304,6 +316,7 @@ void BattleCore::update()
 		enemyTurn();
 		updateInfoText();
 		playerHpBar->changeValue(friendlyCreature->getComponent<CStats>().m_hp);
+		updateBuffs();
 	}
 
 }

@@ -77,7 +77,7 @@ void person::addCreature()
 {
 	auto creature = std::make_shared<Vampire>("Vampire");
 	creature->addComponent<CStats>(50, 15, 25);
-	creature->addComponent<CBattleStats>(5, 5, ELEMENT::NONE);
+	creature->addComponent<CBattleStats>(20, 5, ELEMENT::NONE);
 
 	AttackAbility temp(creature, "FireBall", 50, 25);
 	AttackAbility temp2(creature, "Thunder", 25, 15);

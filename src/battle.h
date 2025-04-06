@@ -48,6 +48,7 @@ private:
 	void initText();
 
 	void updateInfoText();
+	void updateBuffs();
 	
 	void playerTurn();
 	void enemyTurn();

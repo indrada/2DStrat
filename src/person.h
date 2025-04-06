@@ -38,6 +38,7 @@ protected:
 public:
 
     std::vector<AttackAbility> attackAbilities;
+    std::vector<Buff> buffs;
 
     std::string m_name;
     
@@ -81,10 +82,22 @@ public:
         attackAbilities.push_back(ability);
     }
 
+    void addBuff(Buff buff)
+    {
+        buffs.push_back(buff);
+    }
+
+    void deleteBuff(Buff& buff)
+    {
+        std::remove(buffs.begin(), buffs.end(), buff);
+        buffs.pop_back();
+    }
 
     void attack(std::shared_ptr<Creature> enemy)
     {
-        enemy->takeDamage(this->getComponent<CBattleStats>().m_damage);
+        int damageToTake = this->getComponent<CBattleStats>().m_damage /
+            enemy->getComponent<CBattleStats>().m_defence;
+        enemy->takeDamage(damageToTake);
     }
     
     void takeDamage(int damage)
