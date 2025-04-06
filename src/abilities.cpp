@@ -33,7 +33,7 @@ bool AttackAbility::execute(std::shared_ptr<Creature> creature)
 }
 
 Buff::Buff(std::shared_ptr<Creature> self, std::string name, int duration)
-	: m_self(self), m_name(name), m_duration(duration), m_type(type)
+	: m_self(self), m_name(name), m_duration(duration)
 {
 	applyBuff();
 }
