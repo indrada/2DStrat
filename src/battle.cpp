@@ -184,7 +184,7 @@ void BattleCore::playerTurn()
 	}
 	else if (currentAction == "Defence")
 	{
-		Buff defenceBuff{ friendlyCreature, "Defence Up!", 5 };
+		DefenceUpBuff defenceBuff{ friendlyCreature, "Defence Up", 5 };
 		friendlyCreature->addBuff(defenceBuff);
 	}
 

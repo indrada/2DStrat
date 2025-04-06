@@ -95,12 +95,14 @@ public:
 
     void attack(std::shared_ptr<Creature> enemy)
     {
-        enemy->takeDamage(this->getComponent<CBattleStats>().m_damage);
+        // k - armor effectivness, maybe set it based on types of creatures armor
+        int k = 100;
+        int damage = this->getComponent<CBattleStats>().m_damage * (1 - (enemy->getComponent<CBattleStats>().m_defence/(enemy->getComponent<CBattleStats>().m_defence + k)));
+        enemy->takeDamage(damage);
     }
     
     void takeDamage(int damage)
     {
-       
         std::cout << "Attacked with " << damage << '\n';
         this->getComponent<CStats>().m_hp -= damage;
     }

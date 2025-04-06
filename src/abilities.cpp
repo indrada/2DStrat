@@ -78,6 +78,7 @@ DefenceUpBuff::DefenceUpBuff(std::shared_ptr<Creature> self, std::string name, i
 void DefenceUpBuff::applyBuff()
 {
 	m_self->getComponent<CBattleStats>().m_defence *= 3;
+	std::cout << "Armor up - " << m_self->getComponent<CBattleStats>().m_defence << '\n';
 }
 
 void DefenceUpBuff::discardBuff()
