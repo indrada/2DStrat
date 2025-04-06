@@ -39,13 +39,17 @@ public:
 
 };
 
+enum class BUFFTYPE {PASSIVE, ENDTURN, ATTACKING, DEFENSIVE};
+
 class Buff
 {
 
-private:
+protected:
 
 	int m_duration;
 	std::string m_name;
+
+	BUFFTYPE m_type;
 
 	std::shared_ptr<Creature> m_self;
 
@@ -61,4 +65,17 @@ public:
 	bool operator==(const Buff& buff);
 
 };
+
+// buff that triples the defence for X amount of turns
+class DefenceUpBuff : public Buff
+{
+
+public:
+	DefenceUpBuff(std::shared_ptr<Creature> self, std::string name, int duration);
+
+	void applyBuff() override;
+	void discardBuff() override;
+
+};
+
 
