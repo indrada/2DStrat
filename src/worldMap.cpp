@@ -171,7 +171,8 @@ void worldMap::doTasks(int time)
 			toDo->doTasks(nextTaskLength);			
 		}
 		time-=nextTaskLength;
-        removeDead();
+        removeDead();        
+		sf::sleep(sf::milliseconds(250));
         context.scene->renderFrame();
 	}
 }

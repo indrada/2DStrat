@@ -30,7 +30,6 @@ bool person::doTasks(int Time)
 {
 	bool didTask = false;
     if (tasks.empty()) {
-		printf((name + " had no tasks to complete\n").c_str());
 		return false;
 	}
     if (tasks.front()->timeToComplete <= Time)
@@ -40,14 +39,10 @@ bool person::doTasks(int Time)
         {
 			delete (tasks.front());
 			tasks.pop_front();
-			printf((name + " did a task that took ").c_str());
-			printf("%d units of time\n", Time);
-			sf::sleep(sf::milliseconds(250));
         }
         else
         {
             tasks.front()->timeToComplete = 1;
-			printf((name + " failed at their task, and will try again\n").c_str());
         }
     }
     else
@@ -63,13 +58,9 @@ bool person::doTasks(int Time)
 
 void person::addPerson()
 {
-	printf("Addperson1");
     attachedMap->tileAt(xPos, yPos)->personHere = this;
-	printf("Addperson2");
     attachedMap->updateRectangle(xPos, yPos);
-	printf("Addperson3");
 	attachedMap->allPersons.push_back(this);
-	printf("Addperson4");
 }
 
 //for testing
@@ -123,17 +114,6 @@ bool person::getIsFriendly()
 
 bool person::isAlive()
 {
-	printf("\nChecking aliveness");
-	
-	printf("\n%d",this);
-	if(!creatureList.empty())
-	{
-		printf("\nPerson is Alive\n");
-	}
-	else
-	{
-		printf("\nPerson is Dead\n");
-	}
 	return !creatureList.empty();
 }
 
