@@ -34,8 +34,11 @@ int main()
         while (const std::optional<sf::Event> event = window->pollEvent())
 		{
             context.scene->handleEvent(event.value());
+            printf("\nEvent Handled\n");
 		}        
+        printf("\nAll Events Handled for this Frame\n");
         context.scene->renderFrame();
+        printf("Frame Rendered");
     }
 }
 
