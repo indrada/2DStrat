@@ -185,9 +185,8 @@ void BattleCore::playerTurn()
 	else if (currentAction == "Defence")
 	{
 		DefenceUpBuff defenceBuff{ friendlyCreature, "Defence Up", 5 };
-		friendlyCreature->addBuff(defenceBuff);
+		friendlyCreature->addBuff(defenceBuff);	
 	}
-
 	enemyCreatureDeath();
 	
 	isPlayerTurn = false;

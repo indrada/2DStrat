@@ -179,7 +179,7 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 	person* enemy;
 	for (int i = 1; i <= numEnemies && i < mapWidth && i < mapHeight; ++i) 
 	{	
-		enemy = new person(mapWidth - i, mapHeight - i, map, "enemy-" + std::to_string(i), false);
+		enemy = new person(mapWidth / 2 - i, mapHeight / 2 - i, map, "enemy-" + std::to_string(i), false);
 		enemy->addPerson();
 		enemy->addCreature();
 	}

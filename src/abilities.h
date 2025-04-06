@@ -39,7 +39,7 @@ public:
 
 };
 
-enum class BUFFTYPE {PASSIVE, ENDTURN, ATTACKING, DEFENSIVE};
+enum class BUFFTYPE {PASSIVE, ENDTURN, ATTACKING, DEFENSIVE, NONE};
 
 class Buff
 {

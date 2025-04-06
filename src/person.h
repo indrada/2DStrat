@@ -97,7 +97,8 @@ public:
     {
         // k - armor effectivness, maybe set it based on types of creatures armor
         int k = 100;
-        int damage = this->getComponent<CBattleStats>().m_damage * (1 - (enemy->getComponent<CBattleStats>().m_defence/(enemy->getComponent<CBattleStats>().m_defence + k)));
+        int damage = 0;
+        damage = static_cast<int>(this->getComponent<CBattleStats>().m_damage * (1 - (enemy->getComponent<CBattleStats>().m_defence / (enemy->getComponent<CBattleStats>().m_defence + k))));
         enemy->takeDamage(damage);
     }
     
