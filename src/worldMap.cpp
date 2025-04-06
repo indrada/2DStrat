@@ -119,7 +119,7 @@ void worldMap::generateTerrain(float terrainHeight = 5.0f)
 
 tile* worldMap::tileAt(int x, int y)
 {
-    if(y >= verticalSize || x > horizontalSize || x < 0 || y < 0) return NULL;
+    if(y >= verticalSize || x >= horizontalSize || x < 0 || y < 0) return NULL;
     return mapTiles + (y * horizontalSize + x);
 }
 
