@@ -39,3 +39,26 @@ public:
 
 };
 
+class Buff
+{
+
+private:
+
+	int m_duration;
+	std::string m_name;
+
+	std::shared_ptr<Creature> m_self;
+
+public:
+
+	Buff(std::shared_ptr<Creature> self, std::string name, int duration);
+
+	bool checkDuration();
+
+	virtual void applyBuff();
+	virtual void discardBuff();
+
+	bool operator==(const Buff& buff);
+
+};
+
