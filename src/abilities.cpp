@@ -35,7 +35,7 @@ bool AttackAbility::execute(std::shared_ptr<Creature> creature)
 Buff::Buff(std::shared_ptr<Creature> self, std::string name, int duration)
 	: m_self(self), m_name(name), m_duration(duration)
 {
-	applyBuff();
+	m_type = BUFFTYPE::NONE;
 }
 
 bool Buff::checkDuration()
@@ -73,6 +73,7 @@ DefenceUpBuff::DefenceUpBuff(std::shared_ptr<Creature> self, std::string name, i
 	:Buff(self,name,duration) 
 {
 	m_type = BUFFTYPE::PASSIVE;
+	applyBuff();
 }
 
 void DefenceUpBuff::applyBuff()
