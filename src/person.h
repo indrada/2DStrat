@@ -37,8 +37,8 @@ protected:
 
 public:
 
-    std::vector<AttackAbility> attackAbilities;
-    std::vector<Buff> buffs;
+    std::vector<std::shared_ptr<AbilityCore>> attackAbilities;
+    std::vector<std::shared_ptr<Buff>> buffs;
 
     std::string m_name;
     
@@ -77,20 +77,21 @@ public:
     }
 
 
-    void addAtkAbility(AttackAbility ability)
+    void addAtkAbility(std::shared_ptr<AttackAbility> ability)
     {
         attackAbilities.push_back(ability);
     }
 
-    void addBuff(Buff buff)
+    void addBuff(std::shared_ptr<Buff> buff)
     {
         buffs.push_back(buff);
     }
 
-    void deleteBuff(Buff& buff)
+    void deleteBuff(std::shared_ptr<Buff> buff)
     {
+        buff->discardBuff();
         std::remove(buffs.begin(), buffs.end(), buff);
-        buffs.pop_back();
+        buffs.pop_back();     
     }
 
     void attack(std::shared_ptr<Creature> enemy)
@@ -98,13 +99,15 @@ public:
         // k - armor effectivness, maybe set it based on types of creatures armor
         int k = 100;
         int damage = 0;
-        damage = static_cast<int>(this->getComponent<CBattleStats>().m_damage * (1 - (enemy->getComponent<CBattleStats>().m_defence / (enemy->getComponent<CBattleStats>().m_defence + k))));
+
+        damage = static_cast<int>(this->getComponent<CBattleStats>().m_damage *
+            (1 - static_cast<float>(enemy->getComponent<CBattleStats>().m_defence) / (enemy->getComponent<CBattleStats>().m_defence + k)));
+
         enemy->takeDamage(damage);
     }
     
     void takeDamage(int damage)
     {
-        std::cout << "Attacked with " << damage << '\n';
         this->getComponent<CStats>().m_hp -= damage;
     }
 

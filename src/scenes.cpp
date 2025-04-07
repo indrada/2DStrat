@@ -174,7 +174,6 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 
 
 	//enemies
-
 	int numEnemies = 5;
 	person* enemy;
 	for (int i = 1; i <= numEnemies && i < mapWidth && i < mapHeight; ++i) 
@@ -183,6 +182,10 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 		enemy->addPerson();
 		enemy->addCreature();
 	}
+	// enemy for easier battle scene tests
+	enemy = new person(2, 0, map, "EnemyTest", false);
+	enemy->addPerson();
+	enemy->addCreature();
 
 	defaultMapMode->generateVertexArray();
 	resourceMapMode->generateVertexArray();	

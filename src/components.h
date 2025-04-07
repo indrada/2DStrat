@@ -38,6 +38,7 @@ struct CBattleStats
 public:
 
 	int m_damage, m_defence;
+	int m_savedDamage, m_savedDefence;
 
 	ELEMENT m_elemnt;
 
@@ -47,5 +48,8 @@ public:
 		:m_damage(damage), m_defence(defence), m_elemnt(elem)
 	{
 		has = true;
+
+		m_savedDamage = m_damage;
+		m_savedDefence = m_savedDefence;
 	}
 };

@@ -60,7 +60,7 @@ void BattleCore::initBaseScene()
 		sf::Vector2f{ 300, playerInfoPanel->getGlobalBounds().size.y });
 	for (const auto& i : friendlyCreature->attackAbilities)
 	{
-		playerAbilitiesMenu->addAction(i.m_name);
+		playerAbilitiesMenu->addAction(i->m_name);
 	}
 	playerAbilitiesMenu->addAction("Back");
 
@@ -138,7 +138,7 @@ void BattleCore::updateBuffs()
 {
 	for (auto& buff : friendlyCreature->buffs)
 	{
-		if (buff.checkDuration())
+		if (buff->checkDuration())
 		{
 			friendlyCreature->deleteBuff(buff);
 		}
@@ -155,7 +155,7 @@ void BattleCore::playerTurn()
 			return;
 		}
 
-		if (friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()].execute(enemyCreature))
+		if (friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->execute(enemyCreature))
 		{
 			playerManaBar->changeValue(friendlyCreature->getComponent<CStats>().m_mana);
 
@@ -184,7 +184,7 @@ void BattleCore::playerTurn()
 	}
 	else if (currentAction == "Defence")
 	{
-		DefenceUpBuff defenceBuff{ friendlyCreature, "Defence Up", 5 };
+		auto defenceBuff = std::make_shared<DefenceUpBuff>(friendlyCreature, "Defence Up", 5);
 		friendlyCreature->addBuff(defenceBuff);	
 	}
 	enemyCreatureDeath();

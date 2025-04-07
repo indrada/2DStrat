@@ -69,6 +69,18 @@ bool Buff::operator==(const Buff& buff)
 	return false;
 }
 
+bool Buff::operator==(const std::shared_ptr<Buff> buff)
+{
+	if (buff->m_name == this->m_name)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 DefenceUpBuff::DefenceUpBuff(std::shared_ptr<Creature> self, std::string name, int duration)
 	:Buff(self,name,duration) 
 {
@@ -78,11 +90,11 @@ DefenceUpBuff::DefenceUpBuff(std::shared_ptr<Creature> self, std::string name, i
 
 void DefenceUpBuff::applyBuff()
 {
+	m_self->getComponent<CBattleStats>().m_savedDefence = m_self->getComponent<CBattleStats>().m_defence;
 	m_self->getComponent<CBattleStats>().m_defence *= 3;
-	std::cout << "Armor up - " << m_self->getComponent<CBattleStats>().m_defence << '\n';
 }
 
 void DefenceUpBuff::discardBuff()
 {
-	m_self->getComponent<CBattleStats>().m_defence /= 3;
+	m_self->getComponent<CBattleStats>().m_defence = m_self->getComponent<CBattleStats>().m_savedDefence;
 }

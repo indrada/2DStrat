@@ -70,9 +70,9 @@ void person::addCreature()
 	creature->addComponent<CStats>(50, 15, 25);
 	creature->addComponent<CBattleStats>(10, 25, ELEMENT::NONE);
 
-	AttackAbility temp(creature, "FireBall", 50, 25);
-	AttackAbility temp2(creature, "Thunder", 25, 15);
-	AttackAbility temp3(creature, "Mega bite", 15, 10);
+	auto temp = std::make_shared<AttackAbility>(creature, "FireBall", 25, 25);
+	auto temp2 = std::make_shared<AttackAbility>(creature, "Thunder", 15, 10);
+	auto temp3 = std::make_shared<AttackAbility>(creature, "Kick", 5, 2);
 	creature->addAtkAbility(temp);
 	creature->addAtkAbility(temp2);
 	creature->addAtkAbility(temp3);
