@@ -62,9 +62,6 @@ public:
 	virtual void applyBuff();
 	virtual void discardBuff();
 
-	bool operator==(const Buff& buff);
-	bool operator==(const std::shared_ptr<Buff> buff);
-
 };
 
 // buff that triples the defence for X amount of turns

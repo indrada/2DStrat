@@ -60,26 +60,6 @@ void Buff::discardBuff()
 	std::cout << "Default buff discard\n";
 }
 
-bool Buff::operator==(const Buff& buff)
-{
-	if (m_name == buff.m_name)
-	{
-		return true;
-	}
-	return false;
-}
-
-bool Buff::operator==(const std::shared_ptr<Buff> buff)
-{
-	if (buff->m_name == this->m_name)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 
 DefenceUpBuff::DefenceUpBuff(std::shared_ptr<Creature> self, std::string name, int duration)
 	:Buff(self,name,duration) 
