@@ -5,6 +5,7 @@
 #include <deque>
 #include <tuple>
 #include <iostream>
+#include <algorithm>
 
 #include "task.h"
 #include "worldMap.h"
