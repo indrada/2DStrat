@@ -6,7 +6,6 @@
 
 class Creature;
 
-
 class AbilityCore
 {
 
@@ -61,6 +60,8 @@ public:
 
 	virtual void applyBuff();
 	virtual void discardBuff();
+
+	BUFFTYPE getType() const;
 
 };
 

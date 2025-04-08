@@ -60,6 +60,11 @@ void Buff::discardBuff()
 	std::cout << "Default buff discard\n";
 }
 
+BUFFTYPE Buff::getType() const
+{
+	return m_type;
+}
+
 
 DefenceUpBuff::DefenceUpBuff(std::shared_ptr<Creature> self, std::string name, int duration)
 	:Buff(self,name,duration) 

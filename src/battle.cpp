@@ -116,6 +116,23 @@ void BattleCore::initText()
 
 }
 
+void BattleCore::initTextures()
+{
+	lightTexture = std::make_shared<sf::Texture>();
+	if (!lightTexture->loadFromFile("Assets/Sprites/LightUnderCreature.png"))
+	{
+		std::cout << "ERROR::LOADFROMFILE::LightUnderCreature.png\n";
+	}
+	
+}
+
+void BattleCore::initSprites()
+{
+	lightUnderCreature = std::make_shared<sf::Sprite>(*lightTexture);
+	lightUnderCreature->setPosition(sf::Vector2f{
+		playerHero->getPosition().x / 2, playerHero->getPosition().y});
+}
+
 void BattleCore::updateInfoText()
 {
 	// player info
@@ -147,6 +164,7 @@ void BattleCore::updateBuffs()
 
 void BattleCore::playerTurn()
 {
+
 	if (inAbilitiesList)
 	{
 		if (playerAbilitiesMenu->getCurrentAction() == "Back")
@@ -170,8 +188,6 @@ void BattleCore::playerTurn()
 
 
 	std::string currentAction = playerActionMenu->getCurrentAction();
-
-	std::cout << currentAction << '\n';
 
 	if (currentAction == "Attack")
 	{
@@ -243,6 +259,8 @@ void BattleCore::render()
 	playerManaBar->draw(m_window);
 	enemyManaBar->draw(m_window);
 
+	m_window->draw(*lightUnderCreature);
+
 	for (const auto& element : battleHUD)
 	{
 		m_window->draw(*element);
@@ -261,7 +279,6 @@ void BattleCore::render()
 	{
 		playerActionMenu->draw(m_window);
 	}
-	
 
 	m_window->display();
 
@@ -336,6 +353,8 @@ BattleCore::BattleCore(sf::RenderWindow* window, person* person1, person* person
 
 	initText();
 	initBaseScene();
+	initTextures();
+	initSprites();
 
 	update();
 

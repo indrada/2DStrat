@@ -26,6 +26,9 @@ private:
 	std::shared_ptr<gui::ProgressBar<float>> enemyHpBar;
 	std::shared_ptr<gui::ProgressBar<float>> enemyManaBar;
 
+	std::shared_ptr<sf::Texture> lightTexture;
+	std::shared_ptr<sf::Sprite> lightUnderCreature;
+
 	sf::RenderWindow* m_window;
 
 	sf::Font mainFont;
@@ -46,6 +49,8 @@ private:
 
 	void initBaseScene();
 	void initText();
+	void initTextures();
+	void initSprites();
 
 	void updateInfoText();
 	void updateBuffs();
