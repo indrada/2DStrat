@@ -68,7 +68,7 @@ std::string worldMapScene::getSelectedPersonString(person * selectedPerson)
 void worldMapScene::endTurn(worldMap *map)
 {
 	endingTurn=true;
-	map->moveEnemiesRandom();
+	// map->moveEnemiesRandom();
 	map->doTasks(1000);
 	map->updateAttributes();
 	endingTurn=false;
