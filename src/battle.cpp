@@ -108,7 +108,7 @@ void BattleCore::initText()
 
 	enemyInfoText = std::make_shared<sf::Text>(mainFont);
 	enemyInfoText->setCharacterSize(36);
-
+	
 	updateInfoText();
 
 	textHUD.push_back(playerInfoText);
@@ -258,6 +258,17 @@ void BattleCore::render()
 
 	playerManaBar->draw(m_window);
 	enemyManaBar->draw(m_window);
+
+	if (isPlayerTurn)
+	{
+		lightUnderCreature->setPosition(sf::Vector2f{
+		playerHero->getPosition().x / 2, playerHero->getPosition().y});
+	}
+	else
+	{
+		lightUnderCreature->setPosition(sf::Vector2f{
+		enemyHero->getPosition().x / 2, enemyHero->getPosition().y });
+	}
 
 	m_window->draw(*lightUnderCreature);
 
