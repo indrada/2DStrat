@@ -37,9 +37,15 @@ set(ICONS
 
 )
 
+set(SPRITES
+    "${CMAKE_SOURCE_DIR}/Assets/Sprites/LightUnderCreature.png"
+
+)
+
 add_custom_command(TARGET main POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:main>/Assets/Fonts
     COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:main>/Assets/Icons
+    COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:main>/Assets/Sprites
 )
 
 foreach(FONT ${FONTS})
@@ -51,5 +57,11 @@ endforeach()
 foreach(ICON ${ICONS})
     add_custom_command(TARGET main POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${ICON} $<TARGET_FILE_DIR:main>/Assets/Icons
+    )
+endforeach()
+
+foreach(SPRITE ${SPRITES})
+    add_custom_command(TARGET main POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${SPRITE} $<TARGET_FILE_DIR:main>/Assets/Sprites
     )
 endforeach()
