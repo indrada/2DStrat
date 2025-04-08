@@ -13,7 +13,6 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <inttypes.h>
 #include <SFML/Graphics/Text.hpp>
-
 #include "context.h"
 extern globalContext context;
 
@@ -68,7 +67,6 @@ std::string worldMapScene::getSelectedPersonString(person * selectedPerson)
 void worldMapScene::endTurn(worldMap *map)
 {
 	endingTurn=true;
-	// map->moveEnemiesRandom();
 	map->doTasks(1000);
 	map->updateAttributes();
 	endingTurn=false;
@@ -76,7 +74,6 @@ void worldMapScene::endTurn(worldMap *map)
 
 void worldMapScene::handleEvent(sf::Event event)
 {
-	
 	if (event.is<sf::Event::Closed>())
 	{
 		window->close();
@@ -181,6 +178,7 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 		enemy = new person(mapWidth / 2 - i, mapHeight / 2 - i, map, "enemy-" + std::to_string(i), false);
 		enemy->addPerson();
 		enemy->addCreature();
+		enemy->moveTo(context.mainCityPos.x,context.mainCityPos.y);
 	}
 	// enemy for easier battle scene tests
 	enemy = new person(2, 0, map, "EnemyTest", false);

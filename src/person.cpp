@@ -19,6 +19,7 @@ person::person(int xPos, int yPos, worldMap * attachedMap, std::string name, boo
 	this->isFriendly = isFriendly;
 	this->dstXPos = xPos;
 	this->dstYPos = yPos;
+	if(!isFriendly) attributes->stamina=10;
 }
 
 void person::addTask(task* toAdd)
@@ -43,6 +44,7 @@ bool person::doTasks(int Time)
         else
         {
             tasks.front()->timeToComplete = 1;
+			didTask=false;
         }
     }
     else
@@ -82,7 +84,7 @@ void person::addCreature()
 
 void person::updateAttributes()
 {
-	attributes->stamina=std::min(attributes->stamina+8, 100);
+	attributes->stamina=std::min((int)(attributes->stamina+RandomNumber(0,20)), 100);
 	attributes->health=std::min(attributes->health+10, 100);
 	attributes->mana=std::min(attributes->mana+10, 100);
 	attributes->food=std::max(attributes->food-1,0);
