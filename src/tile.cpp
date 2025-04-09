@@ -2,6 +2,10 @@
 #include"tile.h"
 #include <vector>
 
+tile* locatable::getTile()
+{
+    return attachedMap->tileAt(xPos, yPos);
+}
 
 float tile::waterDepth()
 {

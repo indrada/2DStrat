@@ -290,3 +290,5 @@ void worldMap::moveEnemiesRandom()
         this->allPersons[i]->moveTo(context.mainCityPos.x,context.mainCityPos.y);
     }
 }
+
+

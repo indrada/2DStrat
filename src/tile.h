@@ -3,10 +3,20 @@
 #include "item.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
+class worldMap;
+class tile;
+
+class locatable
+{
+public:
+    int xPos;
+    int yPos;
+    worldMap* attachedMap;
+    tile* getTile();
+};
 
 class person;  // Forward declaration
-
-class structure
+class structure : locatable
 {
 public:
     sf::Color color;
@@ -23,7 +33,7 @@ class mainCity : public structure
         mainCity(sf::Color color);
 };
 
-class tile {
+class tile : locatable{
 public:
     int xPos;
     int yPos;
