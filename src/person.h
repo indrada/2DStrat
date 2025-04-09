@@ -97,7 +97,7 @@ public:
         buffs.pop_back();     
     }
 
-    void attack(std::shared_ptr<Creature> enemy)
+    int attack(std::shared_ptr<Creature> enemy)
     {
         // k - armor effectivness, maybe set it based on types of creatures armor
         int k = 100;
@@ -107,6 +107,8 @@ public:
             (1 - static_cast<float>(enemy->getComponent<CBattleStats>().m_defence) / (enemy->getComponent<CBattleStats>().m_defence + k)));
 
         enemy->takeDamage(damage);
+
+        return damage;
     }
     
     void takeDamage(int damage)
