@@ -3,7 +3,9 @@
 #define item_h
 #include <string>
 #include <vector>
+class tile;
 class person;
+class locatable;
 class item
 {
     public:
@@ -28,12 +30,12 @@ class inventory
         int weightLimit;
         int numItems;
         int currentWeight;
-        person * assignedPerson;
+        locatable * attached;
 
         inventory();
-        inventory(int itemLimit, int weightLimit, person * assignedPerson);
+        inventory(int itemLimit, int weightLimit, locatable * attached);
         void addItem(item * toAdd);
-        void dropItem(item toDrop, int count);
+        void dropItem(item toDrop, int count, tile * location);
 
 
 };

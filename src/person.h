@@ -134,10 +134,8 @@ public:
 
 };
 
-class person {
+class person : public locatable{
     public:
-        int xPos;
-        int yPos;
         int dstXPos;
         int dstYPos;
         std::deque<task*> tasks;

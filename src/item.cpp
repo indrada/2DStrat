@@ -1,5 +1,6 @@
 #include "item.h"
 #include "person.h"
+#include "tile.h"
 #include <iostream>
 bool item::operator==(const item& other)
 {
@@ -12,7 +13,7 @@ bool item::operator==(const item& other)
 
 item::item(int weight, int value, int count, std::string name) : weight(weight), value(value), count(count), name(name){}
 
-inventory::inventory(int itemLimit, int weightLimit, person * assignedPerson) : weightLimit(weightLimit), itemLimit(itemLimit), assignedPerson(assignedPerson){}
+inventory::inventory(int itemLimit, int weightLimit, locatable* attached) : itemLimit(itemLimit), weightLimit(weightLimit), attached(attached) {}
 
 void inventory::addItem(item * toAdd)
 {
@@ -35,12 +36,12 @@ void inventory::addItem(item * toAdd)
     }
     if(numItems > itemLimit)
     {
-        dropItem(*toAdd, -1);
+        dropItem(*toAdd, -1, attached->getTile());
         itemDropped = true;
     }
     if(currentWeight > weightLimit)
     {
-        dropItem(*toAdd, ((currentWeight - weightLimit) / toAdd->weight) + 1);
+        dropItem(*toAdd, ((currentWeight - weightLimit) / toAdd->weight) + 1, attached->getTile());
         itemDropped = true;
     }
     if(alreadyHadItem && !itemDropped)
@@ -49,15 +50,14 @@ void inventory::addItem(item * toAdd)
     }
 }
 
-void inventory::dropItem(item toDrop, int count)
+void inventory::dropItem(item toDrop, int count, tile * location)
 {
-    tile * currentTile = assignedPerson->attachedMap->tileAt(assignedPerson->xPos,assignedPerson->yPos);
     for(int i = 0; i < items.size(); i++)
     {
         if(toDrop == *(items[i]))
         {
             if(count==items[i]->count || count<0){
-                currentTile->itemsOnGround.push_back(items[i]);
+                location->itemsOnGround.push_back(items[i]);
                 items.erase(items.begin()+i);     
                 continue;
             }
@@ -67,11 +67,14 @@ void inventory::dropItem(item toDrop, int count)
                 item * duplicate = (item *) malloc(sizeof(item));
                 *duplicate = *(items[i]);
                 duplicate->count=count;
-                currentTile->itemsOnGround.push_back(duplicate);
+                location->itemsOnGround.push_back(duplicate);
                 continue;
             }
         }
     }
+    person* assignedPerson = location->personHere;
+    if (assignedPerson == NULL) return;
+
     printf(("\n" + assignedPerson->name + " couldn't carry " + toDrop.name + " so they dropped ").c_str());
     if(count < 0)
     {
