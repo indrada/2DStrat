@@ -87,5 +87,24 @@ void inventory::dropItem(item toDrop, int count, tile * location)
     printf(" of them\n");
 }
 
+bool inventory::hasItem(item toCheck)
+{
+    for (item* existingItem : items)
+    {
+        if (toCheck == *existingItem)
+        {
+            if (existingItem->count >= toCheck.count)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+    return false;
+}
+
 item::item() {}
 item::~item() {}

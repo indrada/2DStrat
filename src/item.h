@@ -31,6 +31,7 @@ class inventory
         int numItems;
         int currentWeight;
         locatable * attached;
+        bool hasItem(item toCheck);
 
         inventory();
         inventory(int itemLimit, int weightLimit, locatable * attached);

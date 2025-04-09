@@ -153,13 +153,11 @@ float worldMap::maxResourceValue(int resourceIndex)
 void worldMap::doTasks(int time)
 {
 	int nextTaskLength;
-    printf("\nasd123\n");
 	bool taskDone;
 	while(time>0)
 	{
 		if(allPersons.empty()) return;
 		nextTaskLength = time;
-        printf("\nabc123\n");
 		for(person * toDo : allPersons)
 		{
 			if(!((toDo->tasks).empty())&&toDo->tasks.front()->timeToComplete < nextTaskLength)
@@ -167,7 +165,6 @@ void worldMap::doTasks(int time)
 				nextTaskLength = toDo->tasks.front()->timeToComplete;
 			}
 		}
-        printf("\na123\n");
 		taskDone = false;
 		for(person * toDo : allPersons)
 		{
@@ -175,12 +172,9 @@ void worldMap::doTasks(int time)
 		}
         if(!taskDone) return;
 		time-=nextTaskLength;
-        printf("\naa123\n");
         removeDead();        
-        printf("\naaa123\n");
 		sf::sleep(sf::milliseconds(250));
         context.scene->renderFrame();
-        printf("\naab123\n");
 	}
 }
 
