@@ -174,3 +174,54 @@ void gui::ActionsMenu::setBackGroundColor(sf::Color color)
 {
 	backgroundRect.setFillColor(color);
 }
+
+
+// Texts
+gui::RealTimePrintText::RealTimePrintText(std::string text, sf::Font& font, float speed, sf::Vector2f pos)
+	:m_strText(text), m_printSpeed(speed)
+{
+	m_addLetterTime = m_animationClock.getElapsedTime();
+	m_animationClock.start();
+
+	m_currentIndex = 0;
+	m_currentStrText = m_strText[m_currentIndex];
+
+	m_text = std::make_shared<sf::Text>(font);
+	m_text->setString(m_currentStrText);
+	m_text->setPosition(pos);
+	m_text->setCharacterSize(36);
+}
+
+void gui::RealTimePrintText::setText(std::string text)
+{
+	m_strText = text;
+	m_currentIndex = 0;
+	m_currentStrText = m_strText[m_currentIndex];
+
+	m_text->setString(m_currentStrText);
+	m_addLetterTime = m_animationClock.restart();
+
+}
+
+void gui::RealTimePrintText::update()
+{
+	if (m_currentIndex == m_strText.size() - 1) { return; }
+
+	m_addLetterTime = m_animationClock.getElapsedTime();
+	if (m_addLetterTime.asSeconds() >= m_printSpeed)
+	{
+		m_currentIndex++;
+		m_currentStrText += m_strText[m_currentIndex];
+		m_text->setString(m_currentStrText);
+
+		m_addLetterTime = m_animationClock.restart();
+	}
+
+}
+
+void gui::RealTimePrintText::draw(sf::RenderWindow* window)
+{
+	update();
+
+	window->draw(*m_text);
+}

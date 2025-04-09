@@ -18,6 +18,7 @@ private:
 	std::shared_ptr<gui::ProgressBar<float>> playerManaBar;
 	std::shared_ptr<gui::ActionsMenu> playerActionMenu;
 	std::shared_ptr<gui::ActionsMenu> playerAbilitiesMenu;
+	std::shared_ptr<gui::RealTimePrintText> playerLog;
 
 	float maxHpRectXSize;
 
@@ -25,6 +26,7 @@ private:
 	std::shared_ptr<sf::RectangleShape> enemyInfoPanel;
 	std::shared_ptr<gui::ProgressBar<float>> enemyHpBar;
 	std::shared_ptr<gui::ProgressBar<float>> enemyManaBar;
+	std::shared_ptr<gui::RealTimePrintText> enemyLog;
 
 	std::shared_ptr<sf::Texture> lightTexture;
 	std::shared_ptr<sf::Sprite> lightUnderCreature;

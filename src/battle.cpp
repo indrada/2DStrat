@@ -45,6 +45,8 @@ void BattleCore::initBaseScene()
 	//Creature info text
 	playerInfoText->setPosition(playerInfoPanel->getGlobalBounds().position);
 
+	battleHUD.push_back(playerInfoPanel);
+
 	// Player actions menu
 	playerActionMenu = std::make_shared<gui::ActionsMenu>(
 		sf::Vector2f{playerInfoPanel->getGlobalBounds().position.x - 300,
@@ -64,7 +66,8 @@ void BattleCore::initBaseScene()
 	}
 	playerAbilitiesMenu->addAction("Back");
 
-	battleHUD.push_back(playerInfoPanel);
+	// Player log text
+	playerLog = std::make_shared<gui::RealTimePrintText>("Test", mainFont, 0.02f, sf::Vector2f{ playerInfoPanel->getPosition() - sf::Vector2f{0, 65.f} });
 
 
 	//enemy control panel
@@ -89,6 +92,9 @@ void BattleCore::initBaseScene()
 	enemyManaBar->setInlineColor(sf::Color::Blue);
 
 	enemyInfoText->setPosition(enemyInfoPanel->getGlobalBounds().position);
+
+	enemyLog = std::make_shared<gui::RealTimePrintText>("Test", mainFont, 0.02f, sf::Vector2f{ enemyInfoPanel->getPosition().x,
+		enemyInfoPanel->getPosition().y + enemyInfoPanel->getGlobalBounds().size.y });
 
 	battleHUD.push_back(enemyInfoPanel);
 
@@ -186,12 +192,15 @@ void BattleCore::playerTurn()
 
 	}
 
-
 	std::string currentAction = playerActionMenu->getCurrentAction();
+	std::string actionToPrint;
 
 	if (currentAction == "Attack")
 	{
-		friendlyCreature->attack(enemyCreature);
+		actionToPrint = friendlyCreature->m_name + " attacked " + enemyCreature->m_name + " with ";
+		actionToPrint += std::to_string(friendlyCreature->attack(enemyCreature)) + " damage!";
+
+		playerLog->setText(actionToPrint);
 	}
 	else if (currentAction == "Abilities")
 	{
@@ -213,7 +222,12 @@ void BattleCore::enemyTurn()
 {
 	if (inAbilitiesList) { return; }
 
-	enemyCreature->attack(friendlyCreature);
+	std::string actionToPrint;
+
+	actionToPrint = enemyCreature->m_name + " attacked " + friendlyCreature->m_name + " with ";
+	actionToPrint += std::to_string(enemyCreature->attack(friendlyCreature)) + " damage!";
+
+	enemyLog->setText(actionToPrint);
 
 	if (!(friendlyCreature->isAlive()))
 	{
@@ -290,6 +304,9 @@ void BattleCore::render()
 	{
 		playerActionMenu->draw(m_window);
 	}
+
+	playerLog->draw(m_window);
+	enemyLog->draw(m_window);
 
 	m_window->display();
 
