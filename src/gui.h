@@ -143,7 +143,34 @@ namespace gui
 
 	};
 
+	class RealTimePrintText
+	{
 
+	private:
+		std::string m_strText;
+		std::string m_currentStrText;
+
+		std::shared_ptr<sf::Text> m_text;
+
+		float m_printSpeed;
+		int m_currentIndex;
+
+
+		sf::Clock m_animationClock;
+		sf::Time m_addLetterTime;
+
+		void update();
+
+	public:
+
+		RealTimePrintText(std::string text,sf::Font& font, float speed, sf::Vector2f pos);
+
+		void setText(std::string text);
+
+		
+		void draw(sf::RenderWindow* window);
+
+	};
 
 }
 
