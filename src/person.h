@@ -139,7 +139,6 @@ class person : public locatable{
         int dstXPos;
         int dstYPos;
         std::deque<task*> tasks;
-        worldMap *attachedMap;
 		std::string name;
 		std::vector<std::shared_ptr<Creature>> creatureList;
 		attribute * attributes;
@@ -159,7 +158,7 @@ class person : public locatable{
         bool isAlive();
         void moveTo(int x, int y);
         void clearTasks();
-
+        void dig();
         //getters
         int getXPos();
         int getYPos();

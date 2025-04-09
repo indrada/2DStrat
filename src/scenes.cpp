@@ -70,7 +70,7 @@ std::string worldMapScene::getInventoryString(person* selectedPerson)
 	std::string retval = selectedPerson->name + "'s inventory:\n";
 	for (item* item : selectedPerson->assignedInventory->items)
 	{
-		retval += std::to_string(item->count) + " " + item->name;
+		retval += std::to_string(item->count) + " " + item->name + "\n";
 	}
 	return retval;
 }
@@ -130,6 +130,11 @@ void worldMapScene::handleEvent(sf::Event event)
 		}
 		if(const auto* keyPressed = event.getIf<sf::Event::KeyPressed>())
 		{
+			if (keyPressed->code == sf::Keyboard::Key::D)
+			{
+				printf("\nHere\n");
+				if (selectedPerson != NULL) selectedPerson->addTask(new digTask(1, selectedPerson));
+			}
 			if(keyPressed->code == sf::Keyboard::Key::Enter)
 			{
 				endTurn(map);

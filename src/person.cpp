@@ -170,3 +170,23 @@ void person::addItem(item * toAdd)
 {
 	assignedInventory->addItem(toAdd);
 }
+
+void person::dig()
+{
+	float maxQuantity = -1.0f;
+	int maxIndex = -1;
+	getTile();
+	printf("\nHere1\n");
+	for (int i = 0; i < attachedMap->resourceNames.size(); i++)
+	{
+		if (getTile()->resourceQuantity[i] > maxQuantity)
+		{
+			maxQuantity = getTile()->resourceQuantity[i];
+			maxIndex = i;
+			printf("\nHere2\n");
+
+		}
+	}
+	if (maxIndex >= 0) addItem(new item(1,1,((int)maxQuantity) + 1,attachedMap->resourceNames[maxIndex]));
+	printf("\nHere3\n");
+}

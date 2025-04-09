@@ -26,7 +26,7 @@ worldMap::worldMap(sf::RenderWindow* window, int horizontalSize, int verticalSiz
     this->mapTiles = (tile*)malloc(horizontalSize * verticalSize * sizeof(tile));
     for (int i = 0; i < verticalSize * horizontalSize; i++)
     {
-        new (mapTiles + i) tile(i%horizontalSize,i/horizontalSize);
+        new (mapTiles + i) tile(i%horizontalSize,i/horizontalSize, this);
     }
     this->horizontalSize = horizontalSize;
     this->verticalSize = verticalSize;

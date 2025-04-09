@@ -23,6 +23,18 @@ moveTask::moveTask(int timeToComplete, person* assignedPerson, direction directi
 
 }
 
+digTask::digTask(int timeToComplete, person* assignedPerson)
+{
+    this->timeToComplete = timeToComplete;
+    this->assignedPerson = assignedPerson;
+}
+
+int digTask::doTask()
+{
+    assignedPerson->dig();
+    return 1;
+}
+
 
 
 //returns 1 if task is to be removed

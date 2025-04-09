@@ -35,6 +35,14 @@ class moveTask : virtual public task
 
 };
 
+class digTask : virtual public task
+{
+public:
+    digTask();
+    digTask(int timeToComplete, person* assignedPerson);
+    int doTask();
+};
+
 
 
 #endif

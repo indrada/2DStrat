@@ -16,7 +16,7 @@ public:
 };
 
 class person;  // Forward declaration
-class structure : locatable
+class structure : public locatable
 {
 public:
     sf::Color color;
@@ -33,10 +33,8 @@ class mainCity : public structure
         mainCity(sf::Color color);
 };
 
-class tile : locatable{
+class tile : public locatable{
 public:
-    int xPos;
-    int yPos;
     float elevation;
     float waterLevel;
     person* personHere;
@@ -44,8 +42,8 @@ public:
     std::vector<float> resourceQuantity;
     std::vector<item *> itemsOnGround;
     tile();
-    tile(int x, int y);
-    tile(int x, int y, float elevation, float waterLevel, person* personHere);
+    tile(int x, int y, worldMap * attachedMap);
+    tile(int x, int y, worldMap* attachedMap, float elevation, float waterLevel, person* personHere);
     float waterDepth();
 };
 

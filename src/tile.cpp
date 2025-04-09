@@ -16,8 +16,9 @@ tile::tile(){
 
 }
 
-tile::tile(int x, int y)
+tile::tile(int x, int y, worldMap * attachedMap)
 {
+    this->attachedMap = attachedMap;
     float elevation = 0.0f;
     float waterLevel = 0.0f;
     person* personHere = NULL;
@@ -29,8 +30,9 @@ tile::tile(int x, int y)
     this->structureHere=NULL;
 }
 
-tile::tile(int x, int y, float elevation = 0.0f, float waterLevel = 0.0f, person* personHere = NULL)
+tile::tile(int x, int y, worldMap * attachedMap, float elevation = 0.0f, float waterLevel = 0.0f, person* personHere = NULL)
 {
+    this->attachedMap = attachedMap;
     xPos = x;
     yPos = y;
     this->elevation = elevation;
