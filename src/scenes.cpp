@@ -5,6 +5,7 @@
 #include "water.hpp"
 #include "resource.h"
 #include "gui.h"
+#include "item.h"
 #include "battle.h"
 #include "scenes.h"
 #include <ctime>
@@ -63,6 +64,16 @@ std::string worldMapScene::getSelectedPersonString(person * selectedPerson)
 	return "Selected Person:\nName: " + selectedPerson->name + "\nHealth: " + std::to_string(selectedPerson->attributes->health)+ "\nMana: " + std::to_string(selectedPerson->attributes->mana)+ "\nStamina: " + std::to_string(selectedPerson->attributes->stamina)+ "\nFood: " + std::to_string(selectedPerson->attributes->food);
 }
 
+std::string worldMapScene::getInventoryString(person* selectedPerson) 
+{
+	if (selectedPerson == nullptr) return (std::string)"No Person Selected";
+	std::string retval = selectedPerson->name + "'s inventory:\n";
+	for (item* item : selectedPerson->assignedInventory->items)
+	{
+		retval += std::to_string(item->count) + " " + item->name;
+	}
+	return retval;
+}
 
 void worldMapScene::endTurn(worldMap *map)
 {
@@ -136,10 +147,13 @@ void worldMapScene::renderFrame()
 	selectedTileOverlay->setString(selectedTileString);
 	selectedPersonString = getSelectedPersonString(selectedPerson);
 	selectedPersonOverlay->setString(selectedPersonString);
+	inventoryString = getInventoryString(selectedPerson);
+	inventoryOverlay->setString(inventoryString);
 	window->draw(*infoOverlay);
 	window->draw(*selectedTileOverlay);
 	window->draw(*selectedPersonOverlay);
 	window->draw(map->mode->triangles);
+	window->draw(*inventoryOverlay);
 	buttonPanel->renderButtons();
 	window->display();
 	window->clear();
@@ -161,11 +175,12 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
 
 	
     person * newPerson;
-	for(int i = 1; i < numPersons && i < mapWidth && i < mapHeight; i++)
+	for(int i = 1; i <= numPersons && i < mapWidth && i < mapHeight; i++)
 	{
 		newPerson = new person(i, i, map);
 		newPerson->addPerson();
 		newPerson->addCreature();
+		newPerson->addItem(new item(1, 1, 1, "pickaxe"));
 	}
 	mapMode * resourceMapMode = new resourceMap(map,0);
 
@@ -221,6 +236,19 @@ worldMapScene::worldMapScene(sf::RenderWindow * window, int mapWidth, int mapHei
     selectedPersonOverlay->setScale({0.25f,0.25f});
     selectedPersonString = "";
     selectedPersonOverlay->setString(selectedPersonString);
+
+
+	inventoryOverlay = new sf::Text(*font);
+	inventoryOverlay->setCharacterSize(120);
+	inventoryOverlay->setFillColor(sf::Color::White);
+	inventoryOverlay->setOutlineColor(sf::Color::Black);
+	inventoryOverlay->setOutlineThickness(3);
+	inventoryOverlay->setStyle(sf::Text::Bold);
+	inventoryOverlay->setPosition({ 0.785f * size.x,0.67f * size.y });
+	inventoryOverlay->setScale({ 0.25f,0.25f });
+	inventoryString = "";
+	inventoryOverlay->setString(selectedPersonString);
+	
 	
 	buttonPanel = new gui::ButtonPanel({size.x-100,0.0f});
 	buttonPanel->addButton(new gui::MapButton("ore.png", window, map,resourceMapMode));

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PERSON_H
 #define PERSON_H
 
@@ -11,6 +12,7 @@
 #include "worldMap.h"
 #include "components.h"
 #include "abilities.h"
+#include "item.h"
 
 
 // also CSprite, CActions and etc
@@ -137,14 +139,16 @@ class person {
         int dstXPos;
         int dstYPos;
         std::deque<task*> tasks;
-        worldMap* attachedMap;
+        worldMap *attachedMap;
 		std::string name;
 		std::vector<std::shared_ptr<Creature>> creatureList;
 		attribute * attributes;
+        inventory * assignedInventory;
         
         person();
         person(int xPos, int yPos, worldMap* attachedMap,std::string name = "John Doe", bool isFriendly = true);
 
+        void addItem(item * toAdd);
         void addTask(task *toAdd);
         bool doTasks(int Time);
         void addPerson();
@@ -164,6 +168,6 @@ class person {
         bool isFriendly;
         
         
-    };
+};
 
 #endif

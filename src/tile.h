@@ -1,5 +1,6 @@
 #ifndef TILE_H
 #define TILE_H
+#include "item.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -31,7 +32,7 @@ public:
     person* personHere;
     structure * structureHere;
     std::vector<float> resourceQuantity;
-
+    std::vector<item *> itemsOnGround;
     tile();
     tile(int x, int y);
     tile(int x, int y, float elevation, float waterLevel, person* personHere);

@@ -29,10 +29,12 @@ class worldMapScene : virtual public Scene
 		std::string selectedPersonString;
 		std::string selectedTileString;
 		std::string infoString;
+		std::string inventoryString;
 		sf::Font *font;
 		sf::Text *infoOverlay;
 		sf::Text *selectedPersonOverlay;
 		sf::Text *selectedTileOverlay;
+		sf::Text *inventoryOverlay;
 		tile * hoveredTile;
 		tile * selectedTile;
 
@@ -56,6 +58,7 @@ class worldMapScene : virtual public Scene
 		std::string getInfoString(worldMap map, tile * currentTile);
 		std::string getSelectedTileString(worldMap map, tile * currentTile);
 		std::string getSelectedPersonString(person * selectedPerson);
+		std::string getInventoryString(person* selectedPerson);
 
 		void endTurn(worldMap *map);
 };

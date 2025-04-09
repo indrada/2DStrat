@@ -19,6 +19,7 @@ person::person(int xPos, int yPos, worldMap * attachedMap, std::string name, boo
 	this->isFriendly = isFriendly;
 	this->dstXPos = xPos;
 	this->dstYPos = yPos;
+	this->assignedInventory = new inventory(30, 100, this);
 	if(!isFriendly) attributes->stamina=10;
 }
 
@@ -163,4 +164,9 @@ int person::getXPos()
 int person::getYPos()
 {
 	return this->yPos;
+}
+
+void person::addItem(item * toAdd)
+{
+	assignedInventory->addItem(toAdd);
 }
