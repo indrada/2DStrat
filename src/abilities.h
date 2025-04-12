@@ -61,6 +61,8 @@ public:
 	virtual void applyBuff();
 	virtual void discardBuff();
 
+	std::string getName() const;
+
 	BUFFTYPE getType() const;
 
 };

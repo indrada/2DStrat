@@ -209,6 +209,15 @@ void BattleCore::playerTurn()
 	}
 	else if (currentAction == "Defence")
 	{
+		for (auto& defBuff : friendlyCreature->buffs)
+		{
+			if (defBuff->getName() == "Defence Up")
+			{
+				std::cout << "Deleted buff because of double usage\n";
+				friendlyCreature->deleteBuff(defBuff);
+			}
+		}
+
 		auto defenceBuff = std::make_shared<DefenceUpBuff>(friendlyCreature, "Defence Up", 5);
 		friendlyCreature->addBuff(defenceBuff);	
 	}

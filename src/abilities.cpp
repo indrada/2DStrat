@@ -60,6 +60,11 @@ void Buff::discardBuff()
 	std::cout << "Default buff discard\n";
 }
 
+std::string Buff::getName() const
+{
+	return m_name;
+}
+
 BUFFTYPE Buff::getType() const
 {
 	return m_type;
