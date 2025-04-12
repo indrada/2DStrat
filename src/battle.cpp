@@ -171,6 +171,8 @@ void BattleCore::updateBuffs()
 void BattleCore::playerTurn()
 {
 
+	std::string actionToPrint;
+
 	if (inAbilitiesList)
 	{
 		if (playerAbilitiesMenu->getCurrentAction() == "Back")
@@ -181,6 +183,9 @@ void BattleCore::playerTurn()
 
 		if (friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->execute(enemyCreature))
 		{
+			actionToPrint = friendlyCreature->m_name + " used " + friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->m_name;
+			playerLog->setText(actionToPrint);
+
 			playerManaBar->changeValue(friendlyCreature->getComponent<CStats>().m_mana);
 
 			inAbilitiesList = false;
@@ -188,12 +193,17 @@ void BattleCore::playerTurn()
 
 			enemyCreatureDeath();
 		}
+		else
+		{
+			actionToPrint = "Not enought mana!";
+			playerLog->setText(actionToPrint);
+		}
+
 		return;
 
 	}
 
 	std::string currentAction = playerActionMenu->getCurrentAction();
-	std::string actionToPrint;
 
 	if (currentAction == "Attack")
 	{
@@ -213,7 +223,6 @@ void BattleCore::playerTurn()
 		{
 			if (defBuff->getName() == "Defence Up")
 			{
-				std::cout << "Deleted buff because of double usage\n";
 				friendlyCreature->deleteBuff(defBuff);
 			}
 		}
