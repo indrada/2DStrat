@@ -172,6 +172,33 @@ namespace gui
 
 	};
 
+	class FadePanel
+	{
+
+	private:
+
+		sf::RectangleShape m_background;
+
+		float m_fadeTime;
+		bool m_isShown;
+		int m_maxTransparency;
+
+
+		sf::Clock m_clock;
+		sf::Time m_currentTime;
+
+		virtual void update();
+
+	public:
+
+		FadePanel(sf::Vector2f pos, sf::Vector2f size, float animationTime, sf::Color color = sf::Color{169,169,169,0});
+
+		virtual void draw(sf::RenderWindow* window);
+
+		void setMaxTransparency(int maxT);
+
+	};
+
 }
 
 

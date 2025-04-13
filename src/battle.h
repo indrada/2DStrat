@@ -20,6 +20,8 @@ private:
 	std::shared_ptr<gui::ActionsMenu> playerAbilitiesMenu;
 	std::shared_ptr<gui::RealTimePrintText> playerLog;
 
+	std::shared_ptr<gui::FadePanel> infoPanel;
+
 	float maxHpRectXSize;
 
 	std::shared_ptr<sf::RectangleShape> enemyHero;
