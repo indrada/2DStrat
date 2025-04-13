@@ -225,3 +225,53 @@ void gui::RealTimePrintText::draw(sf::RenderWindow* window)
 
 	window->draw(*m_text);
 }
+
+void gui::FadePanel::update()
+{
+	if (m_currentTime.asSeconds() >= m_fadeTime)
+	{
+		return;
+	}
+
+	sf::Color currentColor = m_background.getFillColor();
+	m_currentTime = m_clock.getElapsedTime();
+
+	float percent = m_currentTime.asSeconds() / m_fadeTime;
+	currentColor.a = m_maxTransparency * percent;
+
+	m_background.setFillColor(currentColor);
+
+}
+
+gui::FadePanel::FadePanel(sf::Vector2f pos, sf::Vector2f size, float animationTime, sf::Color color)
+	:m_fadeTime(animationTime)
+{
+	m_maxTransparency = 255;
+	color.a = 0;
+	m_isShown = true;
+
+	m_background.setSize(size);
+	m_background.setPosition(pos);
+	m_background.setFillColor(color);
+
+	m_currentTime = m_clock.restart();
+
+}
+
+void gui::FadePanel::draw(sf::RenderWindow* window)
+{
+	update();
+
+	window->draw(m_background);
+}
+
+void gui::FadePanel::setMaxTransparency(int maxT)
+{
+	if (maxT > 255)
+	{
+		//throw exception here
+		m_maxTransparency = 255;
+		return;
+	}
+	m_maxTransparency = maxT;
+}

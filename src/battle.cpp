@@ -45,6 +45,9 @@ void BattleCore::initBaseScene()
 	//Creature info text
 	playerInfoText->setPosition(playerInfoPanel->getGlobalBounds().position);
 
+	infoPanel = std::make_shared<gui::FadePanel>(sf::Vector2f{ 0.f, 0.f }, sf::Vector2f{ 500.f, 700.f }, 0.25f);
+	infoPanel->setMaxTransparency(180);
+
 	battleHUD.push_back(playerInfoPanel);
 
 	// Player actions menu
@@ -325,6 +328,8 @@ void BattleCore::render()
 
 	playerLog->draw(m_window);
 	enemyLog->draw(m_window);
+
+	infoPanel->draw(m_window);
 
 	m_window->display();
 
