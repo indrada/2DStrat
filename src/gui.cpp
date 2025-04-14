@@ -170,6 +170,11 @@ int gui::ActionsMenu::getCurrentIndex() const
 	return currentIndex;
 }
 
+sf::Vector2f gui::ActionsMenu::getPosition() const
+{
+	return backgroundRect.getPosition();
+}
+
 void gui::ActionsMenu::setBackGroundColor(sf::Color color)
 {
 	backgroundRect.setFillColor(color);
@@ -230,14 +235,33 @@ void gui::FadePanel::update()
 {
 	if (m_currentTime.asSeconds() >= m_fadeTime)
 	{
+		m_clock.stop();
 		return;
 	}
 
 	sf::Color currentColor = m_background.getFillColor();
 	m_currentTime = m_clock.getElapsedTime();
 
+	
 	float percent = m_currentTime.asSeconds() / m_fadeTime;
-	currentColor.a = m_maxTransparency * percent;
+
+	if (m_isShown)
+	{
+		currentColor.a = m_maxTransparency * percent;
+		std::cout << m_maxTransparency * percent << '\n';
+	}
+	else
+	{
+		currentColor.a = m_maxTransparency - m_maxTransparency * percent;
+		if ((m_maxTransparency - m_maxTransparency * percent) < 0)
+		{
+			currentColor.a = 0;
+		}
+		std::cout << m_maxTransparency - m_maxTransparency * percent << '\n';
+	}
+	
+
+	
 
 	m_background.setFillColor(currentColor);
 
@@ -263,6 +287,14 @@ void gui::FadePanel::draw(sf::RenderWindow* window)
 	update();
 
 	window->draw(m_background);
+}
+
+void gui::FadePanel::fadeBack()
+{
+	m_isShown = !m_isShown;
+	m_currentTime = sf::Time::Zero;
+	m_clock.restart();
+	update();
 }
 
 void gui::FadePanel::setMaxTransparency(int maxT)

@@ -136,6 +136,8 @@ namespace gui
 
 		std::string getCurrentAction() const;
 		int getCurrentIndex() const;
+		sf::Vector2f getPosition() const;
+		
 		
 		void setBackGroundColor(sf::Color color);
 
@@ -194,6 +196,7 @@ namespace gui
 		FadePanel(sf::Vector2f pos, sf::Vector2f size, float animationTime, sf::Color color = sf::Color{169,169,169,0});
 
 		virtual void draw(sf::RenderWindow* window);
+		void fadeBack();
 
 		void setMaxTransparency(int maxT);
 

@@ -45,8 +45,6 @@ void BattleCore::initBaseScene()
 	//Creature info text
 	playerInfoText->setPosition(playerInfoPanel->getGlobalBounds().position);
 
-	infoPanel = std::make_shared<gui::FadePanel>(sf::Vector2f{ 0.f, 0.f }, sf::Vector2f{ 500.f, 700.f }, 0.25f);
-	infoPanel->setMaxTransparency(180);
 
 	battleHUD.push_back(playerInfoPanel);
 
@@ -68,6 +66,13 @@ void BattleCore::initBaseScene()
 		playerAbilitiesMenu->addAction(i->m_name);
 	}
 	playerAbilitiesMenu->addAction("Back");
+
+	infoPanel = std::make_shared<gui::FadePanel>(sf::Vector2f{ playerActionMenu->getPosition().x - 200.f,
+		playerActionMenu->getPosition().y},
+		sf::Vector2f{ 200.f, playerInfoPanel->getGlobalBounds().size.y},
+		0.5f, sf::Color{128,128,128,0});
+
+	infoPanel->setMaxTransparency(50);
 
 	// Player log text
 	playerLog = std::make_shared<gui::RealTimePrintText>("Test", mainFont, 0.02f, sf::Vector2f{ playerInfoPanel->getPosition() - sf::Vector2f{0, 65.f} });
@@ -232,6 +237,9 @@ void BattleCore::playerTurn()
 
 		auto defenceBuff = std::make_shared<DefenceUpBuff>(friendlyCreature, "Defence Up", 5);
 		friendlyCreature->addBuff(defenceBuff);	
+
+		actionToPrint = friendlyCreature->m_name + " used " + defenceBuff->getName();
+		playerLog->setText(actionToPrint);
 	}
 	enemyCreatureDeath();
 	
@@ -372,6 +380,10 @@ void BattleCore::handleEvents(sf::Event evt)
 				playerActionMenu->changeIndex(-1);
 			}
 			
+		}
+		else if (keyPressed->code == sf::Keyboard::Key::Q)
+		{
+			infoPanel->fadeBack();
 		}
 	}
 }
