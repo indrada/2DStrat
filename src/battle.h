@@ -20,7 +20,7 @@ private:
 	std::shared_ptr<gui::ActionsMenu> playerAbilitiesMenu;
 	std::shared_ptr<gui::RealTimePrintText> playerLog;
 
-	std::shared_ptr<gui::FadePanel> infoPanel;
+	std::shared_ptr<gui::AbilityInfoPanel> abilityInfoPanel;
 
 	float maxHpRectXSize;
 
