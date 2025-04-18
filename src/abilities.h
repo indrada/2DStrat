@@ -13,13 +13,17 @@ protected:
 
 	std::shared_ptr<Creature> m_self;
 
+	std::string m_baseDescription;
+
 public:
 
-	std::string m_name;
+	std::string m_name, m_description;
 
 	AbilityCore(std::shared_ptr<Creature> self, std::string name);
 
 	virtual bool execute(std::shared_ptr<Creature> creature);
+
+	std::string getFullDescription() const;
 
 };
 
