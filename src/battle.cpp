@@ -67,12 +67,12 @@ void BattleCore::initBaseScene()
 	}
 	playerAbilitiesMenu->addAction("Back");
 
-	infoPanel = std::make_shared<gui::FadePanel>(sf::Vector2f{ playerActionMenu->getPosition().x - 200.f,
+	abilityInfoPanel = std::make_shared<gui::AbilityInfoPanel>(sf::Vector2f{ playerActionMenu->getPosition().x - 200.f,
 		playerActionMenu->getPosition().y},
 		sf::Vector2f{ 200.f, playerInfoPanel->getGlobalBounds().size.y},
-		0.5f, sf::Color{128,128,128,0});
+		0.5f, mainFont, sf::Color{128,128,128,0});
 
-	infoPanel->setMaxTransparency(50);
+	abilityInfoPanel->setMaxTransparency(50);
 
 	// Player log text
 	playerLog = std::make_shared<gui::RealTimePrintText>("Test", mainFont, 0.02f, sf::Vector2f{ playerInfoPanel->getPosition() - sf::Vector2f{0, 65.f} });
@@ -328,6 +328,8 @@ void BattleCore::render()
 	if (inAbilitiesList)
 	{
 		playerAbilitiesMenu->draw(m_window);
+
+		abilityInfoPanel->draw(m_window);
 	}
 	else
 	{
@@ -337,7 +339,7 @@ void BattleCore::render()
 	playerLog->draw(m_window);
 	enemyLog->draw(m_window);
 
-	infoPanel->draw(m_window);
+	
 
 	m_window->display();
 
@@ -362,6 +364,11 @@ void BattleCore::handleEvents(sf::Event evt)
 			if (inAbilitiesList)
 			{
 				playerAbilitiesMenu->changeIndex(1);
+				if (playerAbilitiesMenu->getCurrentIndex() < friendlyCreature->attackAbilities.size())
+				{
+					abilityInfoPanel->setTitle(friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->m_name);
+					abilityInfoPanel->setDescription(friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->getFullDescription());
+				}
 			}
 			else 
 			{
@@ -374,16 +381,31 @@ void BattleCore::handleEvents(sf::Event evt)
 			if (inAbilitiesList)
 			{
 				playerAbilitiesMenu->changeIndex(-1);
+
+				abilityInfoPanel->setTitle(friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->m_name);
+				abilityInfoPanel->setDescription(friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->getFullDescription());
 			}
 			else
 			{
 				playerActionMenu->changeIndex(-1);
 			}
 			
+			
 		}
-		else if (keyPressed->code == sf::Keyboard::Key::Q)
+		else if (keyPressed->code == sf::Keyboard::Key::Q && inAbilitiesList)
 		{
-			infoPanel->fadeBack();
+
+			if (playerAbilitiesMenu->getCurrentIndex() >= friendlyCreature->attackAbilities.size())
+			{
+				return;
+			}
+			else
+			{
+				abilityInfoPanel->setTitle(friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->m_name);
+				abilityInfoPanel->setDescription(friendlyCreature->attackAbilities[playerAbilitiesMenu->getCurrentIndex()]->getFullDescription());
+				abilityInfoPanel->fadeBack();
+			}
+			
 		}
 	}
 }

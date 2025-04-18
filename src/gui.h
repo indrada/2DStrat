@@ -177,7 +177,7 @@ namespace gui
 	class FadePanel
 	{
 
-	private:
+	protected:
 
 		sf::RectangleShape m_background;
 
@@ -201,6 +201,24 @@ namespace gui
 		void setMaxTransparency(int maxT);
 
 	};
+
+	class AbilityInfoPanel : public FadePanel
+	{
+
+	protected:
+
+		std::shared_ptr<sf::Text> m_title, m_description;
+
+	public:
+		AbilityInfoPanel(sf::Vector2f pos, sf::Vector2f size, float animationTime, sf::Font& textFont, sf::Color color = sf::Color{ 169,169,169,0 });
+
+		void draw(sf::RenderWindow* window) override;
+
+		void setTitle(std::string title);
+		void setDescription(std::string descr);
+
+	};
+
 
 }
 

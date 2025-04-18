@@ -74,8 +74,11 @@ void person::addCreature()
 	creature->addComponent<CBattleStats>(10, 25, ELEMENT::NONE);
 
 	auto temp = std::make_shared<AttackAbility>(creature, "FireBall", 25, 25);
+	temp->m_description = "Throw fireball\n";
 	auto temp2 = std::make_shared<AttackAbility>(creature, "Thunder", 15, 10);
+	temp2->m_description = "Summon thunder\n";
 	auto temp3 = std::make_shared<AttackAbility>(creature, "Kick", 5, 2);
+	temp3->m_description = "Magic kick!\n";
 	creature->addAtkAbility(temp);
 	creature->addAtkAbility(temp2);
 	creature->addAtkAbility(temp3);
