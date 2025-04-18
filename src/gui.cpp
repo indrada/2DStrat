@@ -272,7 +272,7 @@ gui::FadePanel::FadePanel(sf::Vector2f pos, sf::Vector2f size, float animationTi
 {
 	m_maxTransparency = 255;
 	color.a = 0;
-	m_isShown = true;
+	m_isShown = false;
 
 	m_background.setSize(size);
 	m_background.setPosition(pos);
@@ -306,4 +306,39 @@ void gui::FadePanel::setMaxTransparency(int maxT)
 		return;
 	}
 	m_maxTransparency = maxT;
+}
+
+
+gui::AbilityInfoPanel::AbilityInfoPanel(sf::Vector2f pos, sf::Vector2f size, float animationTime, sf::Font& textFont, sf::Color color)
+	:FadePanel(pos, size, animationTime, color)
+{
+	m_title = std::make_shared<sf::Text>(textFont, "Title");
+	m_description = std::make_shared<sf::Text>(textFont, "Description");
+
+	m_title->setPosition(pos);
+	m_description->setPosition(sf::Vector2f{ pos.x, pos.y + m_description->getCharacterSize() });
+
+}
+
+// Ability panel
+void gui::AbilityInfoPanel::draw(sf::RenderWindow* window)
+{
+	FadePanel::draw(window);
+
+	if (m_isShown)
+	{
+		window->draw(*m_title);
+		window->draw(*m_description);
+	}
+	
+}
+
+void gui::AbilityInfoPanel::setTitle(std::string title)
+{
+	m_title->setString(title);
+}
+
+void gui::AbilityInfoPanel::setDescription(std::string descr)
+{
+	m_description->setString(descr);
 }
