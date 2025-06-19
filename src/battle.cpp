@@ -30,14 +30,14 @@ void BattleCore::initBaseScene()
 	// hp bar
 	playerHpBar = std::make_shared<gui::ProgressBar<float>>(sf::Vector2f{ playerInfoPanel->getPosition().x,
 		playerInfoPanel->getPosition().y + playerInfoPanel->getSize().y * 0.45f },
-		sf::Vector2f{ playerInfoPanel->getSize().x, 15.f });
+		sf::Vector2f{ playerInfoPanel->getSize().x - 5.f, 15.f });
 	playerHpBar->setRange(0, friendlyCreature->getComponent<CStats>().maxHp);
 	playerHpBar->changeValue(friendlyCreature->getComponent<CStats>().m_hp);
 
 	// mana bar
 	playerManaBar = std::make_shared<gui::ProgressBar<float>>(sf::Vector2f{ playerInfoPanel->getPosition().x,
 		playerInfoPanel->getPosition().y + playerInfoPanel->getSize().y * 0.75f },
-		sf::Vector2f{ playerInfoPanel->getSize().x, 15.f });
+		sf::Vector2f{ playerInfoPanel->getSize().x - 5.f, 15.f });
 	playerManaBar->setRange(0, friendlyCreature->getComponent<CStats>().maxMana);
 	playerManaBar->changeValue(friendlyCreature->getComponent<CStats>().m_mana);
 	playerManaBar->setInlineColor(sf::Color::Blue);
@@ -87,14 +87,14 @@ void BattleCore::initBaseScene()
 	// hp bar
 	enemyHpBar = std::make_shared<gui::ProgressBar<float>>(sf::Vector2f{ enemyInfoPanel->getPosition().x,
 		enemyInfoPanel->getPosition().y + enemyInfoPanel->getSize().y * 0.45f },
-		sf::Vector2f{ enemyInfoPanel->getSize().x, 15.f });
+		sf::Vector2f{ enemyInfoPanel->getSize().x - 5.f, 15.f });
 	enemyHpBar->setRange(0, enemyCreature->getComponent<CStats>().maxHp);
 	enemyHpBar->changeValue(enemyCreature->getComponent<CStats>().m_hp);
 
 	// mana bar
 	enemyManaBar = std::make_shared<gui::ProgressBar<float>>(sf::Vector2f{ enemyInfoPanel->getPosition().x,
 		enemyInfoPanel->getPosition().y + playerInfoPanel->getSize().y * 0.75f },
-		sf::Vector2f{ playerInfoPanel->getSize().x, 15.f });
+		sf::Vector2f{ playerInfoPanel->getSize().x - 5.f, 15.f });
 	enemyManaBar->setRange(0, enemyCreature->getComponent<CStats>().maxMana);
 	enemyManaBar->changeValue(enemyCreature->getComponent<CStats>().m_mana);
 	enemyManaBar->setInlineColor(sf::Color::Blue);
@@ -105,7 +105,6 @@ void BattleCore::initBaseScene()
 		enemyInfoPanel->getPosition().y + enemyInfoPanel->getGlobalBounds().size.y });
 
 	battleHUD.push_back(enemyInfoPanel);
-
 
 }
 
